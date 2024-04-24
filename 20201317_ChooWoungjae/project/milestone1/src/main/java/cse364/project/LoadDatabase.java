@@ -20,9 +20,6 @@ class LoadDatabase {
     CommandLineRunner initDatabase(EmployeeRepository repository, MovieRepository movieRepository, UserRepository userRepository) {
 
         return args -> {
-            log.info("Preloading " + repository.save(new Employee("Bilbo Baggins", "burglar")));   // Load Employee Data
-            log.info("Preloading " + repository.save(new Employee("Frodo Baggins", "thief")));
-
             List<List<String>> MovieData = readFile.readDAT("/root/project/milestone1/data/movies.dat");   // Load Movie Data
             int sz = MovieData.size();
             for(int i = 0 ; i < sz ; i ++) {
