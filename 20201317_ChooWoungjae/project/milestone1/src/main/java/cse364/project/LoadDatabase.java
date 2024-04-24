@@ -39,22 +39,7 @@ class LoadDatabase {
                 userRepository.save(NewUser);
             }
 
-            List<List<String>> RatingData = readFile.readDAT("/root/project/milestone1/data/ratings.dat");   // Load Rating Data
-            sz = RatingData.size();
-            for(int i = 0 ; i < sz ; i ++){
-                Long UserID = Long.parseLong(RatingData.get(i).get(0));
-                Long MovieID = Long.parseLong(RatingData.get(i).get(1));
-                Long Rate = Long.parseLong(RatingData.get(i).get(2));
-                Rating NewRating = new Rating(UserID, MovieID, Rate);
-
-                Movie NewMovie = movieRepository.findById(MovieID).get();
-                NewMovie.addRatingList(NewRating);
-                NewMovie.plusSumOfRating(Rate);
-                NewMovie.plusNumOfRating(1L);
-
-                movieRepository.save(NewMovie);
-
-            }
+            //레이팅 파싱해서 저장하는것 해야함
         };
     }
 }

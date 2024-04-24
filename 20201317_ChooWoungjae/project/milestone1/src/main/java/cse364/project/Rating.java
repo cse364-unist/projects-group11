@@ -9,7 +9,7 @@ import java.util.List;
 @Document(collection = "ratings")
 public class Rating {
 
-    private @Id Long user_id;
+    private Long user_id;
     private Long movie_id;
     private Long rate;
     Rating() {};

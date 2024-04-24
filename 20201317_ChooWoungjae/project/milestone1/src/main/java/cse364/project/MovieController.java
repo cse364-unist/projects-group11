@@ -21,27 +21,10 @@ class MovieController {
         this.repository = repository;
     }
 
-
-    // Aggregate root
-    // tag::get-aggregate-root[]
     @GetMapping("/movies")
-    List<AllMovies> all() {
-
-        List<AllMovies> ANS = new ArrayList<>();
-
+    List<Movie> all() {
         List<Movie> movies = repository.findAll();
-        int sz = movies.size();
-        for(int i = 0 ; i < sz ; i ++){
-            Movie nowMovie = movies.get(i);
-            Long nowMovieID = nowMovie.getMovie_id();
-            String nowMovieTitle = nowMovie.getTitle();
-            String nowMovieGenres = nowMovie.getGenres();
-            AllMovies newAllMovies = new AllMovies(nowMovieID, nowMovieTitle, nowMovieGenres);
-
-            ANS.add(newAllMovies);
-        }
-
-        return ANS;
+        return movies;
     }
 
     @PostMapping("/movies")
@@ -81,8 +64,8 @@ class MovieController {
         }
     }
 
-    @DeleteMapping("/Movies/{id}")
-    void deleteEmployee(@PathVariable Long id) {
+    @DeleteMapping("/movies/{id}")
+    void deleteMovie(@PathVariable Long id) {
 
         Optional<Movie> optional = repository.findById(id);
         if(optional.isPresent()){
