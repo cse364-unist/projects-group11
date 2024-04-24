@@ -30,5 +30,11 @@ link has movie barcode, message, ticket
 ```
 ### output
 ```
-
+{
+  "winner": 1,
+  "reason": [
+    {"avg_rating", "num_male_over_3": "10/15", "num_female_over_3": "20/30", "num_1_over_3": "10/15", "num_25_over_3": "12/25", "num_35_over_3": "12/25", "num_35_over_50": "12/25"},
+    {...}
+  ]
+}
 ```
