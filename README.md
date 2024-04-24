@@ -1,13 +1,34 @@
-/recommendations
 
-input : [ {"gender": "M|F", "age": "1~24|25~34|35~49|50~65", "genre": "18개", "occupation": "21개"}, ... ]
-output: [ list of movies ]
+## /recommendations
 
-/gifts/
+### input 
+```
+[ {"gender": "M|F", "age": "1~24|25~34|35~49|50~65", "genre": "18개", "occupation": "21개"}, ... ]
+```
+### output
+```
+[ list of movies ]
+```
 
-input: {"message": "str", "movie_id": int}
-output: {"link": "str"} - movie barcode, message, ticket
+## /gifts/
 
-/comparisons/
+### input
+```
+{"message": "str", "movie_id": int}
+```
+### output
+```
+{"link": "str"}
+```
+link has movie barcode, message, ticket
 
-input: {"movie_ids": [1, 2]}
+## /comparisons/
+
+### input
+```
+{"movie_ids": [1, 2]}
+```
+### output
+```
+
+```
