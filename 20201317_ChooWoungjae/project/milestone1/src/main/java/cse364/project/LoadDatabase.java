@@ -54,15 +54,6 @@ class LoadDatabase {
 
                 movieRepository.save(NewMovie);
 
-                /*Optional<Movie> optional = movieRepository.findById(MovieID);
-                if(optional.isPresent()){
-                    Movie NewMovie = optional.get();
-                    NewMovie.addRatingList(NewRating);
-                    NewMovie.plusSumOfRating(Rate);
-                    NewMovie.plusNumOfRating(1L);
-                } else{
-                    throw new CannotFoundException("Movie_ID", MovieID);
-                }*/
             }
         };
     }
