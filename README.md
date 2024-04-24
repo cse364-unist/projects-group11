@@ -9,6 +9,8 @@
 ```
 [ list of movies ]
 ```
+### limitation
+최대 5개 제한
 
 ## /gifts/
 
@@ -20,6 +22,7 @@
 ```
 {"link": "str"}
 ```
+
 link has movie barcode, message, ticket
 
 ## /comparisons/
@@ -38,3 +41,5 @@ link has movie barcode, message, ticket
   ]
 }
 ```
+### limitation
+2개 영화 id 인풋
