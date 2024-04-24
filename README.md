@@ -1,9 +1,9 @@
 
 ## /recommendations
 
-### input 
+### input
 ```
-[ {"gender": "M|F", "age": "1~24|25~34|35~49|50~65", "genre": "18개", "occupation": "21개"}, ... ]
+[ {"gender": "M|F", "age": "1~24|25~34|35~49|50~65", "dislike_genre": "18개 장르 중 하나", "occupation": "21개 직업 중 하나"}, ... ]
 ```
 ### output
 ```
