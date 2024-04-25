@@ -25,18 +25,21 @@ class RatingController {
     Rating newRating(@RequestBody Rating newRating) {
 
         // 필요하면 다시 코드짜야함
+        return null;
     }
 
     @GetMapping("/ratings/{id}")
     List<Movie> all(@PathVariable Long id) {
 
         //선재의 방식 사용
+        return null;
     }
 
     @PutMapping("/ratings")
     Rating replaceRating(@RequestBody Rating newRating) {
 
         // 선재의 방식 사용
+        return null;
     }
 
 }
