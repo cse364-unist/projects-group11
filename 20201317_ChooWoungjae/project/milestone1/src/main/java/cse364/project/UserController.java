@@ -14,31 +14,21 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 class UserController {
 
-    private final UserRepository repository;
+    private final UserRepository userRepository;
 
-    UserController(UserRepository repository) {
-        this.repository = repository;
+    UserController(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     @GetMapping("/users")
     List<User> all() {
-        return repository.findAll();
+        return userRepository.findAll();
     }
     // end::get-aggregate-root[]
 
     @PostMapping("/users")
     User newUser(@RequestBody User newUser) {
-
-        Long id = newUser.getUser_id();
-        if(id < 1){
-            throw new NotInRangeException("User_ID");
-        }
-        Optional<User> optional = repository.findById(id);
-        if(optional.isPresent()){
-            throw new AlreadyExistException("User");
-        } else {
-            return repository.save(newUser);
-        }
+        return userRepository.save(newUser);
     }
 
     // Single item
@@ -46,18 +36,18 @@ class UserController {
     @GetMapping("/users/{id}")
     User one(@PathVariable Long id) {
 
-        return repository.findById(id)
+        return userRepository.findById(id)
                 .orElseThrow(() -> new CannotFoundException("User", id));
     }
 
     @PutMapping("/users/{id}")
     User replaceUser(@RequestBody User newUser, @PathVariable Long id) {
 
-        Optional<User> optional = repository.findById(id);
+        Optional<User> optional = userRepository.findById(id);
         if(optional.isPresent()){
-            Long NewUserID = newUser.getUser_id();
+            Long NewUserID = newUser.getUserId();
             if(NewUserID.equals(id)) {
-                return repository.save(newUser);
+                return userRepository.save(newUser);
             } else{
                 throw new CannotChangeIDException("User");
             }
@@ -69,9 +59,9 @@ class UserController {
     @DeleteMapping("/users/{id}")
     void deleteUser(@PathVariable Long id) {
 
-        Optional<User> optional = repository.findById(id);
+        Optional<User> optional = userRepository.findById(id);
         if(optional.isPresent()){
-            repository.deleteById(id);
+            userRepository.deleteById(id);
         } else{
             throw new CannotFoundException("User", id);
         }

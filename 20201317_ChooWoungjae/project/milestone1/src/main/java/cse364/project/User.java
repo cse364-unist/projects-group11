@@ -21,16 +21,16 @@ public class User {
         this.zip_code = Zip_code;
     }
 
-    public Long getUser_id() { return this.user_id; }
+    public Long getUserId() { return this.user_id; }
     public String getGender() { return this.gender; }
     public int getAge() { return this.age; }
     public String getOccupation() { return this.occupation; }
-    public String getZip_code() { return this.zip_code; }
+    public String getZipCode() { return this.zip_code; }
 
-    public void setUser_id(Long User_id) { this.user_id = User_id; }
+    public void setUserId(Long User_id) { this.user_id = User_id; }
     public void setGender(String Gender) { this.gender = Gender; }
     public void setAge(int Age) { this.age = Age; }
     public void setOccupation(String Occupation) { this.occupation = Occupation; }
-    public void setZip_code(String Zip_code) { this.zip_code = Zip_code; }
+    public void setZipCode(String Zip_code) { this.zip_code = Zip_code; }
 
 }
