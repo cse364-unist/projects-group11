@@ -4,11 +4,6 @@ import java.io.*;
 import java.util.*;
 
 public class ReadFile {
-    /*public static void main(String[] args){
-        ReadDatabase RDB = new ReadDatabase();
-        RDB.readCSV();
-    }*/
-
     public List<List<String>> readDAT(String path){
         List<List<String>> csvList = new ArrayList<List<String>>();
         File file = new File(path);
