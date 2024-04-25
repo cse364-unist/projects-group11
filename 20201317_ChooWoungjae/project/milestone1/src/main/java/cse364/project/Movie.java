@@ -20,10 +20,10 @@ public class Movie {
         this.genres = Genres;
     }
 
-    public Long getMovie_id() { return this.movie_id; }
+    public Long getMovieId() { return this.movie_id; }
     public String getTitle() { return this.title; }
     public String getGenres() { return this.genres; }
-    public void setMovie_id(Long Movie_id) { this.movie_id = Movie_id; }
+    public void setMovieId(Long Movie_id) { this.movie_id = Movie_id; }
     public void setTitle(String Title) { this.title = Title; }
     public void setGenres(String Genres) { this.genres = Genres; }
 

@@ -12,65 +12,64 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
+import org.springframework.data.mongodb.core.aggregation.GroupOperation;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+
+
 @RestController
 class MovieController {
 
-    private final MovieRepository repository;
+    private final MovieRepository movieRepository;
+    private final MongoTemplate mongoTemplate;
 
-    MovieController(MovieRepository repository) {
-        this.repository = repository;
+    MovieController(MovieRepository movieRepository, MongoTemplate mongoTemplate) {
+        this.movieRepository = movieRepository;
+        // this.ratingRepository = ratingRepository;
+        this.mongoTemplate = mongoTemplate;
     }
 
     @GetMapping("/movies")
     List<Movie> all() {
-        List<Movie> movies = repository.findAll();
-        return movies;
+        return movieRepository.findAll();
     }
 
     @PostMapping("/movies")
     Movie newMovie(@RequestBody Movie newMovie) {
-
-        Long id = newMovie.getMovie_id();
-        Optional<Movie> optional = repository.findById(id);
-        if(optional.isPresent()){
-            throw new AlreadyExistException("Movie");
-        } else {
-            return repository.save(newMovie);
-        }
+        return movieRepository.save(newMovie);
     }
 
     // Single item
 
     @GetMapping("/movies/{id}")
     Movie one(@PathVariable Long id) {
-
-        return repository.findById(id)
-                .orElseThrow(() -> new CannotFoundException("Movie_ID", id));
+        return movieRepository.findById(id)
+            .orElseThrow(() -> new CannotFoundException("Movie_ID", id));
     }
 
     @PutMapping("/movies/{id}")
     Movie replaceMovie(@RequestBody Movie newMovie, @PathVariable Long id) {
-
-        Optional<Movie> optional = repository.findById(id);
-        if(optional.isPresent()){
-            Long NewMovieID = newMovie.getMovie_id();
-            if(NewMovieID.equals(id)) {
-                return repository.save(newMovie);
-            } else{
-                throw new CannotChangeIDException("Movie");
-            }
-        } else{
-            throw new CannotFoundException("Movie_ID", id);
-        }
+        return movieRepository.findById(id)
+            .map(movie -> {
+                movie.setTitle(newMovie.getTitle());
+                movie.setGenres(newMovie.getGenres());
+                return movieRepository.save(movie);
+            })
+            .orElseGet(() -> {
+                newMovie.setMovieId(id);
+                return movieRepository.save(newMovie);
+            });
     }
 
     @DeleteMapping("/movies/{id}")
     void deleteMovie(@PathVariable Long id) {
-
-        Optional<Movie> optional = repository.findById(id);
+        Optional<Movie> optional = movieRepository.findById(id);
         if(optional.isPresent()){
             Movie TargetMovie = optional.get();
-            repository.delete(TargetMovie);
+            movieRepository.delete(TargetMovie);
         } else{
             throw new CannotFoundException("Movie_ID", id);
         }
