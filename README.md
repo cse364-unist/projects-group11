@@ -16,7 +16,7 @@
 
 ### input
 ```
-{"message": "str", "movie_id": int}
+{"message": "str", "movieId": int}
 ```
 ### output
 ```

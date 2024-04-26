@@ -33,8 +33,8 @@ class GiftController {
 
     @GetMapping("/gifts")
     List<Gift> all() {
-        // return giftRepository.findAll();
-        return null;
+        return giftRepository.findAll();
+        //return null;
     }
 
     @PostMapping("/gifts")
@@ -45,31 +45,33 @@ class GiftController {
 
     @GetMapping("/gifts/{giftId}")
     Gift one(@PathVariable String giftId) {
-        return giftRepository.findByGiftId(giftId);
+        return giftRepository.findById(giftId)
+            .orElseThrow(() -> new CannotFoundException("Gift_ID", giftId));
     }
 
-    // @PutMapping("/gifts/{id}")
-    // Gift replaceGift(@RequestBody Gift newGift, @PathVariable Long id) {
-    //     return giftRepository.findById(id)
-    //         .map(gift -> {
-    //             gift.setTitle(newGift.getTitle());
-    //             gift.setGenres(newGift.getGenres());
-    //             return giftRepository.save(gift);
-    //         })
-    //         .orElseGet(() -> {
-    //             newGift.setGiftId(id);
-    //             return giftRepository.save(newGift);
-    //         });
-    // }
+    @PutMapping("/gifts/{giftId}")
+    Gift replaceGift(@RequestBody Gift newGift, @PathVariable String giftId) {
+        return giftRepository.findById(giftId)
+            .map(gift -> {
+                gift.setMovieId(newGift.getMovieId());
+                gift.setMessage(newGift.getMessage());
+                return giftRepository.save(gift);
+            })
+            .orElseGet(() -> {
+                newGift.setGiftId(giftId);
+                newGift.initExpireDate();
+                return giftRepository.save(newGift);
+            });
+    }
 
-    // @DeleteMapping("/gifts/{id}")
-    // void deleteGift(@PathVariable Long id) {
-    //     Optional<Gift> optional = giftRepository.findById(id);
-    //     if(optional.isPresent()){
-    //         Gift TargetGift = optional.get();
-    //         giftRepository.delete(TargetGift);
-    //     } else{
-    //         throw new CannotFoundException("Gift_ID", id);
-    //     }
-    // }
+    @DeleteMapping("/gifts/{giftId}")
+    void deleteGift(@PathVariable String giftId) {
+        Optional<Gift> optional = giftRepository.findById(giftId);
+        if(optional.isPresent()){
+            Gift TargetGift = optional.get();
+            giftRepository.delete(TargetGift);
+        } else{
+            throw new CannotFoundException("Gift_ID", giftId);
+        }
+    }
 }

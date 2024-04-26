@@ -16,7 +16,7 @@ import java.time.format.DateTimeFormatter;
 @Document(collection = "gifts")
 public class Gift {
 
-    private String gift_id;
+    private @Id String gift_id;
     private String message;
     private Long movie_id;
     private String expire_date;
@@ -24,6 +24,8 @@ public class Gift {
     Gift(String Message, Long Movie_id){
         this.message = Message;
         this.movie_id = Movie_id;
+        initGiftId();
+        initExpireDate();
         // setGiftId(this.gift_id);
         // setExpireDate(this.expire_date);
     }
@@ -34,8 +36,10 @@ public class Gift {
     public String getExpireDate() { return this.expire_date; }
     public void setMessage(String Message) { this.message = Message; }
     public void setMovieId(Long Movie_id) { this.movie_id = Movie_id; }
-    public void setGiftId(String Gift_id) { this.gift_id = UUID.randomUUID().toString(); }
-    public void setExpireDate(String Expire_date) { 
+    public void setGiftId(String Gift_id) { this.gift_id = Gift_id; }
+    public void setExpireDate(String Expire_date) { this.expire_date = Expire_date; }
+    public void initGiftId() { this.gift_id = UUID.randomUUID().toString(); }
+    public void initExpireDate() {
         LocalDate today = LocalDate.now();
         LocalDate threeMonthsFromNow = today.plusMonths(3);
         LocalDateTime expireDateTime = LocalDateTime.of(threeMonthsFromNow, LocalTime.MAX);
@@ -46,8 +50,8 @@ public class Gift {
         this.expire_date = dateTimeString;
     }
     public void updateInfo() {
-        setGiftId(this.gift_id);
-        setExpireDate(this.expire_date);
+        initGiftId();
+        initExpireDate();
     }
 
 }

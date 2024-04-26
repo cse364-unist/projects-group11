@@ -7,7 +7,7 @@ public class ReadFile {
     public List<List<String>> readDAT(String path){
         List<List<String>> csvList = new ArrayList<List<String>>();
         File file = new File(path);
-        System.out.println("success resd\n");
+        System.out.println("success read\n");
         BufferedReader buffer = null;
         String line = "";
 
