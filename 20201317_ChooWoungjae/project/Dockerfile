@@ -25,34 +25,6 @@ RUN chown -R mongodb:mongodb /data/db /data/configdb
 
 # Add your stuff below:
 
-# # Create /root/project directory
-# WORKDIR /root/project
-
-# # Install vim
-# RUN apt-get update \
-#     && apt-get install -y vim \
-#     && rm -rf /var/lib/apt/lists/*
-
-# # Install java 17
-# RUN apt-get update \
-#     && apt-get install -y openjdk-17-jdk \
-#     && rm -rf /var/lib/apt/lists/*
-
-# # Install maven
-# RUN apt-get update \
-#     && apt-get install -y maven \
-#     && rm -rf /var/lib/apt/lists/*
-
-# # Install Curl
-# RUN apt-get update \
-#     && apt-get install -y curl \
-#     && rm -rf /var/lib/apt/lists/*
-
-# # Copy my 'milestone1 directory' and run.sh file under WORKDIR
-# RUN mkdir -p /milestone1
-# COPY milestone1/. /root/project/milestone1
-# COPY run.sh /root/project/
-
 ENTRYPOINT mongod --fork --logpath /var/log/mongodb/mongod.log \
     && /bin/bash
 
