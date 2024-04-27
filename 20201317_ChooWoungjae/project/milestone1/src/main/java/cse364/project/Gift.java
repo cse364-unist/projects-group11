@@ -21,13 +21,11 @@ public class Gift {
     private Long movie_id;
     private String expire_date;
     Gift() {};
-    Gift(String Message, Long Movie_id){
+    Gift(String Message, Long MovieId){
         this.message = Message;
-        this.movie_id = Movie_id;
+        this.movie_id = MovieId;
         initGiftId();
         initExpireDate();
-        // setGiftId(this.gift_id);
-        // setExpireDate(this.expire_date);
     }
 
     public String getGiftId() { return this.gift_id; }
@@ -35,7 +33,7 @@ public class Gift {
     public Long getMovieId() { return this.movie_id; }
     public String getExpireDate() { return this.expire_date; }
     public void setMessage(String Message) { this.message = Message; }
-    public void setMovieId(Long Movie_id) { this.movie_id = Movie_id; }
+    public void setMovieId(Long MovieId) { this.movie_id = MovieId; }
     public void setGiftId(String Gift_id) { this.gift_id = Gift_id; }
     public void setExpireDate(String Expire_date) { this.expire_date = Expire_date; }
     public void initGiftId() { this.gift_id = UUID.randomUUID().toString(); }
