@@ -1,4 +1,4 @@
-package com.example.movie;
+package cse364.project;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;

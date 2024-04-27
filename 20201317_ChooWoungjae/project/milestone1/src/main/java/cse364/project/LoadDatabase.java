@@ -1,12 +1,15 @@
 package cse364.project;
 
+import org.hibernate.Length;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.lang3.tuple.Pair;
 import java.util.Optional;
 
 @Configuration
@@ -17,7 +20,7 @@ class LoadDatabase {
     private static final ReadFile readFile = new ReadFile();
 
     @Bean
-    CommandLineRunner initDatabase( MovieRepository movieRepository, UserRepository userRepository, GiftRepository giftRepository) {
+    CommandLineRunner initDatabase( MovieRepository movieRepository, UserRepository userRepository, RatingRepository ratingRepository, GiftRepository giftRepository, CosineSimilarityRepository cosineSimilarityRepository) {
 
         return args -> {
             List<List<String>> MovieData = readFile.readDAT("/root/project/milestone1/data/movies.dat");   // Load Movie Data
@@ -39,7 +42,37 @@ class LoadDatabase {
                 userRepository.save(NewUser);
             }
 
-            //레이팅 파싱해서 저장하는것 해야함
+            List<List<String>> RatingData = readFile.readDAT("/root/project/milestone1/data/ratings.dat");   // Load Rating Data
+            sz = RatingData.size();
+            for(int i = 0 ; i < sz ; i ++){
+                Long userId = Long.parseLong(RatingData.get(i).get(0));
+                Long movieId = Long.parseLong(RatingData.get(i).get(1));
+                Long rating = Long.parseLong(RatingData.get(i).get(2));
+                Rating newRating = new Rating(userId, movieId, rating);
+
+                ratingRepository.save(newRating);
+            }
+
+            List<List<Double>> AverageOfRating = new ArrayList<>(); // interval's average data store here
+                                                                        // I don't know how to insert the average (Why no korean?)
+            sz = MovieData.size();
+            for(int i = 0 ; i < 14 ; i ++) {
+                Integer leftTarget = Integer.valueOf(i);
+                for (int j = i + 1; j < 14; j++) {
+                    Double DotProduct = 0.0;
+                    Double LengthOfI = 0.0;
+                    Double LengthOfJ = 0.0;
+                    for (int k = 0; k < sz; k++) {
+                        DotProduct += AverageOfRating.get(i).get(k) * AverageOfRating.get(j).get(k);
+                        LengthOfI += AverageOfRating.get(i).get(k) * AverageOfRating.get(i).get(k);
+                        LengthOfJ += AverageOfRating.get(j).get(k) * AverageOfRating.get(j).get(k);
+                    }
+                    LengthOfI = Math.sqrt(LengthOfI);
+                    LengthOfJ = Math.sqrt(LengthOfJ);
+                    CosineSimilarity newCosineSimilarity = new CosineSimilarity(Pair.of(Integer.valueOf(i), Integer.valueOf(j)), (DotProduct / (LengthOfI * LengthOfJ)));
+                    cosineSimilarityRepository.save(newCosineSimilarity);
+                }
+            }
         };
     }
 }
