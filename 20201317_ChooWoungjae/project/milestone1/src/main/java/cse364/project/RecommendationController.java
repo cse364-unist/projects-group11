@@ -60,10 +60,10 @@ class RecommendationController {
                     break;
                 }
                 if(i < j){
-                    nowSimilarity = similarityRepository.findByGenderAndAge(Pair.of(i, interval)).get().getSimilarity();
+                    nowSimilarity = similarityRepository.findByTarget(Pair.of(i, interval)).get().getSimilarity();
                 }
                 else{
-                    nowSimilarity = similarityRepository.findByGenderAndAge(Pair.of(interval, i)).get().getSimilarity();
+                    nowSimilarity = similarityRepository.findByTarget(Pair.of(interval, i)).get().getSimilarity();
                 }
                 similarity += nowSimilarity * (double)num;
                 numOfPeople += num;
