@@ -25,9 +25,9 @@
 ### test
 ```
 $ curl -X POST http://localhost:8080/gifts -H 'Content-type:application/json' -d '{"message": "영화 선물", "movieId": 5}'
-{"message":"안녕!\n영화 같이 볼래?","movieId":5,"giftId":"b541e319-272f-4c84-bb68-717328806deb","expireDate":"2024-07-27 23:59:59"}
+{"message":"영화 선물","movieId":5,"giftId":"b541e319-272f-4c84-bb68-717328806deb","expireDate":"2024-07-27 23:59:59"}
 $ curl -X GET http://localhost:8080/gifts/b541e319-272f-4c84-bb68-717328806deb
-{"message":"안녕!\n영화 같이 볼래?","movieId":5,"giftId":"b541e319-272f-4c84-bb68-717328806deb","expireDate":"2024-07-27 23:59:59"}
+{"message":"영화 선물","movieId":5,"giftId":"b541e319-272f-4c84-bb68-717328806deb","expireDate":"2024-07-27 23:59:59"}
 ```
 
 link has movie barcode, message, ticket
