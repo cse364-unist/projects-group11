@@ -51,9 +51,9 @@ public class MovieServiceImpl implements MovieService {
                     int age = user.getAge();
     
                     if (gender != null) {
-                        if (gender == "M") {
+                        if (gender.equals("M")) {
                             numMaleOver3++;
-                        } else if (gender == "F") {
+                        } else if (gender.equals("F")) {
                             numFemaleOver3++;
                         }
                     }

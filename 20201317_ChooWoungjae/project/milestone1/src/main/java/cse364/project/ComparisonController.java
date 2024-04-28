@@ -20,26 +20,27 @@ public class ComparisonController {
         this.userRepository = userRepository;
         this.movieService = movieService;
     }
+
     @PostMapping("/comparisons")
     public Movie compareMovies(@RequestParam("id1") Long id1, @RequestParam("id2") Long id2) {
         long current_year = 2024;
         Movie movie1, movie2;
 
         Optional<Movie> optional1 = movieRepository.findById(id1);
-        if(optional1.isPresent()){
+        if (optional1.isPresent()) {
             movie1 = optional1.get();
         } else {
             throw new CannotFoundException("movie", id1);
         }
 
         Optional<Movie> optional2 = movieRepository.findById(id2);
-        if(optional2.isPresent()){
+        if (optional2.isPresent()) {
             movie2 = optional2.get();
         } else {
             throw new CannotFoundException("movie", id2);
         }
         
-        /** Check how much the movie is outdated. */
+        // Check how much the movie is outdated.
         String title1 = movie1.getTitle();
         int lastOpenBracketIndex1 = title1.lastIndexOf('(');
         int closeBracketIndex1 = title1.indexOf(')', lastOpenBracketIndex1);
@@ -52,8 +53,7 @@ public class ComparisonController {
             } catch (NumberFormatException e) {
                 throw new CannotFoundException("Released year", id1);
             }
-        }
-        else {
+        } else {
             throw new CannotFoundException("Released year", id1);
         }
 
@@ -69,8 +69,7 @@ public class ComparisonController {
             } catch (NumberFormatException e) {
                 throw new CannotFoundException("Released year", id2);
             }
-        }
-        else {
+        } else {
             throw new CannotFoundException("Released year", id2);
         }
         
@@ -78,7 +77,7 @@ public class ComparisonController {
         double weightOutdated1 = 1 + 1 / howmuchOutdated1;
         double weightOutdated2 = 1 + 1 / howmuchOutdated2;
 
-        /** Check how much prefered evenly according to gender, age */
+        // Check how much prefered evenly according to gender, age
         List<Long> numList_over_3_1 = movieService.getMovieStats(id1);
         long num_male_1 = numList_over_3_1.get(0);
         long num_female_1 = numList_over_3_1.get(1);
@@ -99,8 +98,8 @@ public class ComparisonController {
         long sum_of_rating_2 = numList_over_3_2.get(6);
         long num_of_rating_2 = numList_over_3_2.get(7);
         
-        double avgrating1 = sum_of_rating_1 / (num_of_rating_1+1);
-        double avgrating2 = sum_of_rating_2 / (num_of_rating_2+1);
+        double avgrating1 = (double) sum_of_rating_1 / (double) (num_of_rating_1 + 1);
+        double avgrating2 = (double) sum_of_rating_2 / (double) (num_of_rating_2 + 1);
 
         long num_male = 0;
         long num_female = 0;
@@ -115,32 +114,35 @@ public class ComparisonController {
             int age = user.getAge();
 
             if (gender != null) {
-                if (gender == "M") {
+                if (gender.equals("M")) {
                     num_male++;
-                } else if (gender == "F") {
+                } else if (gender.equals("F")) {
                     num_female++;
+                } else {
+                    // user post 때만 예외처리 잘하면 여기서 오류날 일은 없을 거 같긴 함
+                    System.out.println("errorcase for gender: " + gender);
                 }
             }
 
             if (age >= 50) {
                 num_50++;
-            }
-            else if (age >= 35) {
+            } else if (age >= 35) {
                 num_35++;
-            }
-            else if (age >= 25) {
+            } else if (age >= 25) {
                 num_25++;
-            }
-            else if (age >= 1) {
+            } else if (age >= 1) {
                 num_1++;
+            } else {
+                // user post 때만 예외처리 잘하면 여기서 오류날 일은 없을 거 같긴 함
+                System.out.println("errorcase for age");
             }
         }
 
-        double ratio_male_1 = (double)num_male_1 / (double)num_male;
-        double ratio_female_1 = (double)num_female_1 / (double)num_female;
+        double ratio_male_1 = (double) num_male_1 / (double) num_male;
+        double ratio_female_1 = (double) num_female_1 / (double) num_female;
         double howmuchGender1 = Math.abs(ratio_male_1 - ratio_female_1);
-        double ratio_male_2 = (double)num_male_2 / (double)num_male;
-        double ratio_female_2 = (double)num_female_2 / (double)num_female;
+        double ratio_male_2 = (double) num_male_2 / (double) num_male;
+        double ratio_female_2 = (double) num_female_2 / (double) num_female;
         double howmuchGender2 = Math.abs(ratio_male_2 - ratio_female_2);
 
         double weightGender1 = 1 + 1 / (howmuchGender1 + 1);
@@ -149,26 +151,26 @@ public class ComparisonController {
 
         double mean_multiple_4 = num_1 + num_25 + num_35 + num_50;
         double mean = mean_multiple_4 / 4;
-        double var = ((num_1 - mean) * (num_1_1 - mean) +
-                    (num_25 - mean) * (num_25_1 - mean) +
-                    (num_35 - mean) * (num_35_1 - mean) +
-                    (num_50 - mean) * (num_50 - mean)) / 4;
-        double std = Math.sqrt(var);        
+        double var = (Math.pow(num_1 - mean, 2) +
+                Math.pow(num_25 - mean, 2) +
+                Math.pow(num_35 - mean, 2) +
+                Math.pow(num_50 - mean, 2)) / 4;
+        double std = Math.sqrt(var);
 
         double mean_multiple_4_1 = num_1_1 + num_25_1 + num_35_1 + num_50_1;
         double mean_1 = mean_multiple_4_1 / 4;
-        double var_1 = ((num_1_1 - mean_1) * (num_1_1 - mean_1) +
-                    (num_25_1 - mean_1) * (num_25_1 - mean_1) +
-                    (num_35_1 - mean_1) * (num_35_1 - mean_1) +
-                    (num_50_1 - mean_1) * (num_50 - mean_1)) / 4;
+        double var_1 = (Math.pow(num_1_1 - mean_1, 2) +
+                Math.pow(num_25_1 - mean_1, 2) +
+                Math.pow(num_35_1 - mean_1, 2) +
+                Math.pow(num_50_1 - mean_1, 2)) / 4;
         double std_1 = Math.sqrt(var_1);
 
         double mean_multiple_4_2 = num_1_2 + num_25_2 + num_35_2 + num_50_2;
         double mean_2 = mean_multiple_4_2 / 4;
-        double var_2 = ((num_1_2 - mean_2) * (num_1_2 - mean_2) +
-                    (num_25_2 - mean_2) * (num_25_2 - mean_2) +
-                    (num_35_2 - mean_2) * (num_35_2 - mean_2) +
-                    (num_50_2 - mean_2) * (num_50 - mean_2)) / 4;
+        double var_2 = (Math.pow(num_1_2 - mean_2, 2) +
+                Math.pow(num_25_2 - mean_2, 2) +
+                Math.pow(num_35_2 - mean_2, 2) +
+                Math.pow(num_50_2 - mean_2, 2)) / 4;
         double std_2 = Math.sqrt(var_2);
     
 

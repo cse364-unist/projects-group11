@@ -8,6 +8,5 @@ import java.util.Optional;
 import org.apache.commons.lang3.tuple.Pair;
 
 public interface CosineSimilarityRepository extends MongoRepository<CosineSimilarity, String> {
-    //Optional<CosineSimilarity> findByGenderAndAge(Pair<Integer, Integer> target);
     Optional<CosineSimilarity> findByTarget(Pair<Integer, Integer> target);
 }
