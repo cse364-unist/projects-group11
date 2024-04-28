@@ -9,25 +9,25 @@ import java.util.List;
 
 
 public class MovieRatingByDemographic {
-    private String movieId;
+    private Long movieId;
     private String gender;
     private Integer age;
     private Double avgRating;
 
     MovieRatingByDemographic() {};
-    MovieRatingByDemographic(String MovieId, String Gender, Integer Age, Double AvgRating){
+    MovieRatingByDemographic(Long MovieId, String Gender, Integer Age, Double AvgRating){
         this.movieId = MovieId;
         this.gender = Gender;
         this.age = Age;
         this.avgRating = AvgRating;
     }
 
-    public String getMovieId() { return this.movieId; }
+    public Long getMovieId() { return this.movieId; }
     public String getGender() { return this.gender; }
     public Integer getAge() { return this.age; }
     public Double getAvgRating() { return this.avgRating; }
 
-    public void setMovieId(String MovieId) { this.movieId = MovieId; }
+    public void setMovieId(Long MovieId) { this.movieId = MovieId; }
     public void setGender(String Gender) { this.gender = Gender; }
     public void setAge(Integer Age) { this.age = Age; }
     public void setAvgRating(Double AvgRating) { this.avgRating = AvgRating; }

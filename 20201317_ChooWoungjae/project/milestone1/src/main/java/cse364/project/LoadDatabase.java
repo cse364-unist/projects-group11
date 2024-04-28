@@ -7,10 +7,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+
 import org.apache.commons.lang3.tuple.Pair;
-import java.util.Optional;
 
 @Configuration
 class LoadDatabase {
@@ -64,18 +63,41 @@ class LoadDatabase {
 
             List<MovieRatingByDemographic> AverageOfRating = ratingRepository.getAverageRatingsByMovieIdGenderAndAge();
 
+            Comparator<MovieRatingByDemographic> comparator = new Comparator<MovieRatingByDemographic>() {
+                @Override
+                public int compare(MovieRatingByDemographic a, MovieRatingByDemographic b){
+                    if(a.getGender().equals(b.getGender())){
+                        if(a.getAge().equals(b.getAge())){
+                            Long ans = a.getMovieId() - b.getMovieId();
+                            return ans.intValue();
+                        }
+                        else{
+                            return a.getAge() - b.getAge();
+                        }
+                    }
+                    else{
+                        if(a.getGender().equals("F")){
+                            return 1;
+                        }
+                        else{
+                            return -1;
+                        }
+                    }
+                }
+            };
+
+            Collections.sort(AverageOfRating, comparator);
+
             sz = MovieData.size();
             for(int i = 0 ; i < 14 ; i ++) {
-                Integer leftTarget = Integer.valueOf(i);
                 for (int j = i + 1; j < 14; j++) {
                     Double DotProduct = 0.0;
                     Double LengthOfI = 0.0;
                     Double LengthOfJ = 0.0;
                     for (int k = 0; k < sz; k++) {
-                        // 선재: 여기 밑에 get 이 이제 오류 뜨는데, 이건 새롭게 구현해야할 것 같다
-                        DotProduct += AverageOfRating.get(i).get(k) * AverageOfRating.get(j).get(k);
-                        LengthOfI += AverageOfRating.get(i).get(k) * AverageOfRating.get(i).get(k);
-                        LengthOfJ += AverageOfRating.get(j).get(k) * AverageOfRating.get(j).get(k);
+                        DotProduct += AverageOfRating.get(i * sz + k).getAvgRating() * AverageOfRating.get(j * sz + k).getAvgRating();
+                        LengthOfI += AverageOfRating.get(i * sz + k).getAvgRating() * AverageOfRating.get(i * sz + k).getAvgRating();
+                        LengthOfJ += AverageOfRating.get(j * sz + k).getAvgRating() * AverageOfRating.get(j * sz + k).getAvgRating();
                     }
                     LengthOfI = Math.sqrt(LengthOfI);
                     LengthOfJ = Math.sqrt(LengthOfJ);

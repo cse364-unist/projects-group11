@@ -1,8 +1,6 @@
 package cse364.project;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,9 +16,11 @@ class RecommendationController {
 
     private final SimpleUserRepository repository;
     private final CosineSimilarityRepository similarityRepository;
-    RecommendationController(SimpleUserRepository repository, CosineSimilarityRepository similarityRepository) {
+    private final RatingRepository ratingRepository;
+    RecommendationController(SimpleUserRepository repository, CosineSimilarityRepository similarityRepository, RatingRepository ratingRepository) {
         this.repository = repository;
         this.similarityRepository = similarityRepository;
+        this.ratingRepository = ratingRepository;
     }
 
 
@@ -38,10 +38,38 @@ class RecommendationController {
     }
 
     @GetMapping("/recommendations")
-    List<Pair<Double, Movie>> targetMovie() {
+    List<Pair<Double, Long>> targetMovie() {
 
         List<SimpleUser> simpleUserList = repository.findAll();
-        List<Pair<Double, Movie>> expectRatingList = new ArrayList<>();
+        List<MovieRatingByDemographic> averageOfRating = ratingRepository.getAverageRatingsByMovieIdGenderAndAge();
+
+        Comparator<MovieRatingByDemographic> comparator = new Comparator<MovieRatingByDemographic>() {
+            @Override
+            public int compare(MovieRatingByDemographic a, MovieRatingByDemographic b){
+                if(a.getMovieId().equals(b.getMovieId())){
+                    if(a.getGender().equals(b.getGender())){
+                        return a.getAge() - b.getAge();
+                    }
+                    else{
+                        if(a.getGender().equals("F")){
+                            return 1;
+                        }
+                        else{
+                            return -1;
+                        }
+                    }
+                }
+                else{
+                    Long ans = a.getMovieId() - b.getMovieId();
+                    return ans.intValue();
+                }
+            }
+        };
+
+        Collections.sort(averageOfRating, comparator);
+
+
+        List<Pair<Double, Long>> expectRatingList = new ArrayList<>();
         Double[] weight = new Double[15];
         int sz = simpleUserList.size();
         if(sz == 0){
@@ -76,8 +104,18 @@ class RecommendationController {
             }
         }
         for(int i = 0 ; i < 3952 ; i ++){
-            // I don't know how to get average of each interval of user....
+            Double estimatedScore = 0.0;
+            Double sumOfSimilarity = 0.0;
+            for(int j = 0 ; j < 14 ; j ++){
+                Double nowAvgRating = averageOfRating.get(i * 14 + j).getAvgRating();
+                if(nowAvgRating.equals(0.0)) continue;
+                estimatedScore += nowAvgRating * weight[j];
+                sumOfSimilarity += weight[j];
+            }
+            expectRatingList.add(Pair.of((estimatedScore / sumOfSimilarity), Long.valueOf(i)));
         }
+
+        Collections.sort(expectRatingList, Collections.reverseOrder());
 
         return expectRatingList;
     }
