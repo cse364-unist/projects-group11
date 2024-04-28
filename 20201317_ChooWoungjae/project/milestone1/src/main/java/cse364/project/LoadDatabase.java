@@ -72,6 +72,7 @@ class LoadDatabase {
                     Double LengthOfI = 0.0;
                     Double LengthOfJ = 0.0;
                     for (int k = 0; k < sz; k++) {
+                        // 선재: 여기 밑에 get 이 이제 오류 뜨는데, 이건 새롭게 구현해야할 것 같다
                         DotProduct += AverageOfRating.get(i).get(k) * AverageOfRating.get(j).get(k);
                         LengthOfI += AverageOfRating.get(i).get(k) * AverageOfRating.get(i).get(k);
                         LengthOfJ += AverageOfRating.get(j).get(k) * AverageOfRating.get(j).get(k);
