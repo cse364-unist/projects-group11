@@ -53,8 +53,17 @@ class LoadDatabase {
                 ratingRepository.save(newRating);
             }
 
-            List<List<Double>> AverageOfRating = new ArrayList<>(); // interval's average data store here
+            // LookupOperation lookup = LookupOperation.newLookup()
+            //     .from("roomTypes")
+            //     .localField("roomtypeId")
+            //     .foreignField("_id")
+            //     .as("roomType");
+
+            // List<List<Double>> AverageOfRating = new ArrayList<>(); // interval's average data store here
                                                                         // I don't know how to insert the average (Why no korean?)
+
+            List<MovieRatingByDemographic> AverageOfRating = ratingRepository.getAverageRatingsByMovieIdGenderAndAge();
+
             sz = MovieData.size();
             for(int i = 0 ; i < 14 ; i ++) {
                 Integer leftTarget = Integer.valueOf(i);
