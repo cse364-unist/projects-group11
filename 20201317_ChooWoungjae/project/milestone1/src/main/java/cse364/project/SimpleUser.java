@@ -10,19 +10,29 @@ public class SimpleUser {
 
     private Pair<String, Integer> genderAndAge;
     private int numOfPeople;
+    private String gender;
+    private Integer age;
     SimpleUser() {};
     SimpleUser(String Gender, int Age, int numOfPeople){
+        this.gender = Gender;
+        this.age = Age;
         this.genderAndAge = Pair.of(Gender, Age);
         this.numOfPeople = numOfPeople;
     }
 
-    public String getGender() { return this.genderAndAge.getLeft(); }
-    public int getAge() { return this.genderAndAge.getRight(); }
+    public String getGender() { return this.gender; }
+    public int getAge() { return this.age; }
     public Pair<String, Integer> getGenderAndAge() { return this.genderAndAge; }
     public int getNumOfPeople() { return this.numOfPeople; }
-    public void setGender(String Gender) { this.genderAndAge = Pair.of(Gender, genderAndAge.getRight()); }
+    public void setGender(String Gender) { 
+        this.genderAndAge = Pair.of(Gender, genderAndAge.getRight());
+        this.gender = Gender;
+    }
     public void setGenderAndAge(Pair<String, Integer> newGenderAndAge) { this.genderAndAge = newGenderAndAge; }
-    public void setAge(int Age) { this.genderAndAge = Pair.of(genderAndAge.getLeft(), Age); }
+    public void setAge(int Age) { 
+        this.genderAndAge = Pair.of(genderAndAge.getLeft(), Age);
+        this.age = Age;
+    }
     public void setNumOfPeople(int numOfPeople) { this.numOfPeople = numOfPeople; }
     public int getCorrespondingNumber() {
         int gender = 0;

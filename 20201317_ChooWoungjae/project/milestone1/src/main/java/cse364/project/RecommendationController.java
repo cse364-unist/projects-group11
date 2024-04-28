@@ -24,7 +24,7 @@ class RecommendationController {
     }
 
 
-    @PostMapping("/recommendations")
+    @PutMapping("/recommendations")
     SimpleUser changeSimpleUser(@RequestBody SimpleUser newSimpleUser) {
 
         Optional<SimpleUser> optional = repository.findByGenderAndAge(newSimpleUser.getGenderAndAge());
@@ -120,7 +120,7 @@ class RecommendationController {
         return expectRatingList;
     }
 
-    @PutMapping("/recommendations")
+    @PostMapping("/recommendations")
     SimpleUser addSimpleUser(@RequestBody SimpleUser newSimpleUser) {
 
         Optional<SimpleUser> optional = repository.findByGenderAndAge(newSimpleUser.getGenderAndAge());

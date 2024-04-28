@@ -4,13 +4,15 @@
 ### input
 ```
 [ {"gender": "M|F", "age": "1~24|25~34|35~49|50~65", "dislike_genre": "18개 장르 중 하나", "occupation": "21개 직업 중 하나"}, ... ]
+$curl -X POST http://localhost:8080/recommendations -H 'Content-type:application/json' -d '{"gender": "F", "age": 1, "numOfPeople": 1}' //시청하는 사람정보 추가
+$curl -X PUT http://localhost:8080/recommendations -H 'Content-type:application/json' -d '{"gender": "F", "age": 1, "numOfPeople": 1}' //시청하는 사람 정보 변경
+$curl -X GET http://localhost:8080/recommendations     //예측점수가 높은순으로 정렬된 영화의 List 반환
 ```
 ### output
 ```
-[ list of movies ]
+[ list of movies ] (5개에서 10개정도 추천해주면 될듯)
 ```
-### limitation
-최대 5개 제한
+
 
 ## /gifts/
 
