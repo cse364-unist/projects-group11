@@ -27,12 +27,7 @@ class RecommendationController {
     @PutMapping("/recommendations")
     SimpleUser changeSimpleUser(@RequestBody SimpleUser newSimpleUser) {
 
-        Optional<SimpleUser> optional = repository.findByGenderAndAge(newSimpleUser.getGenderAndAge());
-        if(optional.isPresent()){
-            repository.save(newSimpleUser);
-        } else{
-            throw new CannotFoundException("SimpleUser", 0L);
-        }
+        repository.save(newSimpleUser);
 
         return newSimpleUser;
     }
@@ -79,7 +74,29 @@ class RecommendationController {
             double similarity = 0.0;
             int numOfPeople = 0;
             for(int j = 0 ; j < sz ; j ++){
-                int interval = simpleUserList.get(j).getCorrespondingNumber();
+                SimpleUser nowSimpleUser = simpleUserList.get(j);
+                int interval = 0;
+                if(nowSimpleUser.getGender().equals("F")){
+                    interval = 7;
+                }
+                if(nowSimpleUser.getAge() == 18){
+                    interval += 1;
+                }
+                if(nowSimpleUser.getAge() == 25){
+                    interval += 2;
+                }
+                if(nowSimpleUser.getAge() == 35){
+                    interval += 3;
+                }
+                if(nowSimpleUser.getAge() == 45){
+                    interval += 4;
+                }
+                if(nowSimpleUser.getAge() == 50){
+                    interval += 5;
+                }
+                if(nowSimpleUser.getAge() == 56){
+                    interval += 6;
+                }
                 int num = simpleUserList.get(j).getNumOfPeople();
                 double nowSimilarity = 0.0;
                 if(i == interval){
@@ -123,12 +140,7 @@ class RecommendationController {
     @PostMapping("/recommendations")
     SimpleUser addSimpleUser(@RequestBody SimpleUser newSimpleUser) {
 
-        Optional<SimpleUser> optional = repository.findByGenderAndAge(newSimpleUser.getGenderAndAge());
-        if(optional.isPresent()){
-            throw new AlreadyExistException("SimpleUser");
-        } else{
-            repository.save(newSimpleUser);
-        }
+        repository.save(newSimpleUser);
 
         return newSimpleUser;
     }

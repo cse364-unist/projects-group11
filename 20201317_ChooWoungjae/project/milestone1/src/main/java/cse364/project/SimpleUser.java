@@ -8,56 +8,50 @@ import org.apache.commons.lang3.tuple.Pair;
 @Document(collection = "simpleUsers")
 public class SimpleUser {
 
-    private Pair<String, Integer> genderAndAge;
-    private int numOfPeople;
     private String gender;
-    private Integer age;
+    private int age;
+    private int numOfPeople;
     SimpleUser() {};
     SimpleUser(String Gender, int Age, int numOfPeople){
         this.gender = Gender;
         this.age = Age;
-        this.genderAndAge = Pair.of(Gender, Age);
         this.numOfPeople = numOfPeople;
     }
 
     public String getGender() { return this.gender; }
     public int getAge() { return this.age; }
-    public Pair<String, Integer> getGenderAndAge() { return this.genderAndAge; }
     public int getNumOfPeople() { return this.numOfPeople; }
-    public void setGender(String Gender) { 
-        this.genderAndAge = Pair.of(Gender, genderAndAge.getRight());
+    public void setGender(String Gender) {
         this.gender = Gender;
     }
-    public void setGenderAndAge(Pair<String, Integer> newGenderAndAge) { this.genderAndAge = newGenderAndAge; }
-    public void setAge(int Age) { 
-        this.genderAndAge = Pair.of(genderAndAge.getLeft(), Age);
+    public void setAge(int Age) {
         this.age = Age;
     }
     public void setNumOfPeople(int numOfPeople) { this.numOfPeople = numOfPeople; }
-    public int getCorrespondingNumber() {
-        int gender = 0;
-        if(genderAndAge.getLeft().equals("F")){
-            gender = 7;
+    /*public int getCorrespondingNumber() {
+        int genderNumber = 0;
+        if(this.gender.equals("F")){
+            genderNumber = 7;
         }
-        Integer age = genderAndAge.getRight();
+        Integer age = Integer.valueOf(this.age);
         if(age.equals(Integer.valueOf(1))){
-            return gender;
+            return genderNumber;
         }
         else if(age.equals(Integer.valueOf(18))){
-            return gender + 1;
+            return genderNumber + 1;
         }
         else if(age.equals(Integer.valueOf(25))){
-            return gender + 2;
+            return genderNumber + 2;
         }
         else if(age.equals(Integer.valueOf(35))){
-            return gender + 3;
+            return genderNumber + 3;
         }
         else if(age.equals(Integer.valueOf(45))){
-            return gender + 4;
+            return genderNumber + 4;
         }
         else if(age.equals(Integer.valueOf(50))){
-            return gender + 5;
+            return genderNumber + 5;
         }
-        else return gender + 6;
-    }
+        else return genderNumber + 6;
+    }*/
 }
