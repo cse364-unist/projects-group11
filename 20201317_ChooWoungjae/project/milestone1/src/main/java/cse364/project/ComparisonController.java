@@ -1,6 +1,7 @@
 package cse364.project;
 
 import java.lang.Math;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,8 +22,9 @@ public class ComparisonController {
         this.movieService = movieService;
     }
 
+    // Input: curl -X POST "http://localhost:8080/comparisons?id1=1&id2=2"
     @PostMapping("/comparisons")
-    public Movie compareMovies(@RequestParam("id1") Long id1, @RequestParam("id2") Long id2) {
+    public List<Long> compareMovies(@RequestParam("id1") Long id1, @RequestParam("id2") Long id2) {
         long current_year = 2024;
         Movie movie1, movie2;
 
@@ -138,6 +140,14 @@ public class ComparisonController {
             }
         }
 
+        Long num_total_user = num_male + num_female;
+
+        double howmuchPopular1 = num_of_rating_1 / num_total_user;
+        double howmuchPopular2 = num_of_rating_2 / num_total_user;
+
+        double weightPopular1 = 1 + 1 / (howmuchPopular1 + 1);
+        double weightPopular2 = 1 + 1 / (howmuchPopular2 + 1);
+
         double ratio_male_1 = (double) num_male_1 / (double) num_male;
         double ratio_female_1 = (double) num_female_1 / (double) num_female;
         double howmuchGender1 = Math.abs(ratio_male_1 - ratio_female_1);
@@ -182,12 +192,27 @@ public class ComparisonController {
         double weightAge1 = (weightMean1 + weightStd1) / 2;
         double weightAge2 = (weightMean2 + weightStd2) / 2;
 
-        double weightedRating1 = avgrating1 * weightOutdated1 * weightGender1 * weightAge1;
-        double weightedRating2 = avgrating2 * weightOutdated2 * weightGender2 * weightAge2;
+        double weightedRating1 = avgrating1 * weightOutdated1 * weightPopular1 * weightGender1 * weightAge1;
+        double weightedRating2 = avgrating2 * weightOutdated2 * weightPopular2 * weightGender2 * weightAge2;
         
 
-        Movie betterMovie = weightedRating1 > weightedRating2 ? movie1 : movie2;
+        long betterMovie = weightedRating1 > weightedRating2 ? id1 : id2;
 
-        return betterMovie;
+        List<Long> comparisonResult = new ArrayList<>();
+
+        comparisonResult.add(betterMovie);
+        comparisonResult.add((long)-1);
+        comparisonResult.addAll(numList_over_3_1);
+        comparisonResult.add((long)-1);
+        comparisonResult.addAll(numList_over_3_2);
+        comparisonResult.add((long)-1);
+        comparisonResult.add(num_male);
+        comparisonResult.add(num_female);
+        comparisonResult.add(num_1);
+        comparisonResult.add(num_25);
+        comparisonResult.add(num_35);
+        comparisonResult.add(num_50);
+        
+        return comparisonResult;
     }
 }

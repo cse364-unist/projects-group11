@@ -24,8 +24,6 @@ public class MovieServiceImpl implements MovieService {
         if (movieOptional.isEmpty()) {
             throw new CannotFoundException("movie", movieId);
         }
-        
-        System.out.println(ratingRepository.findAll().size());
 
         List<Rating> ratings = ratingRepository.findByMovieId(movieId);
 
