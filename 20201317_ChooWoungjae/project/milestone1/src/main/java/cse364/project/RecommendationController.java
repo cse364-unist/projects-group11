@@ -98,7 +98,7 @@ class RecommendationController {
                     interval += 6;
                 }
                 int num = simpleUserList.get(j).getNumOfPeople();
-                double nowSimilarity = 0.0;
+                double nowSimilarity;
                 if(i == interval){
                     similarity = num;
                     numOfPeople = 0;

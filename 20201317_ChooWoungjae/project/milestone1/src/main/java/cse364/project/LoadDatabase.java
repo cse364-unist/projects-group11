@@ -19,7 +19,7 @@ class LoadDatabase {
     private static final ReadFile readFile = new ReadFile();
 
     @Bean
-    CommandLineRunner initDatabase( MovieRepository movieRepository, UserRepository userRepository, RatingRepository ratingRepository, GiftRepository giftRepository, CosineSimilarityRepository cosineSimilarityRepository, SimpleUserRepository simpleUserRepository) {
+    CommandLineRunner initDatabase( MovieRepository movieRepository, UserRepository userRepository, RatingRepository ratingRepository, GiftRepository giftRepository, CosineSimilarityRepository cosineSimilarityRepository) {
 
         return args -> {
             List<List<String>> MovieData = readFile.readDAT("/root/project/milestone1/data/movies.dat");   // Load Movie Data

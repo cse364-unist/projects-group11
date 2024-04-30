@@ -28,7 +28,6 @@ class MovieController {
 
     MovieController(MovieRepository movieRepository, MongoTemplate mongoTemplate) {
         this.movieRepository = movieRepository;
-        // this.ratingRepository = ratingRepository;
         this.mongoTemplate = mongoTemplate;
     }
 
