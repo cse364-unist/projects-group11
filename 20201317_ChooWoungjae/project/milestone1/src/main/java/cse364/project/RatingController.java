@@ -23,11 +23,11 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 class RatingController {
 
     private final MovieRepository repository;
-    RatingController(MovieRepository repository) {
-
+    private final MongoTemplate mongoTemplate;
+    RatingController(MovieRepository repository, MongoTemplate mongoTemplate) {
         this.repository = repository;
+        this.mongoTemplate = mongoTemplate;
     }
-    MongoTemplate mongoTemplate;
     @PostMapping("/ratings")
     Rating newRating(@RequestBody Rating newRating) {
 
@@ -40,9 +40,9 @@ class RatingController {
         if (rating < 1 || rating > 5) {
             throw new NotInRangeException("rating");
         }
-        GroupOperation groupByMovieId = Aggregation.group("movieId").avg("rating").as("averageRating");
+        GroupOperation groupByMovieId = Aggregation.group("movieId").avg("rate").as("averageRating");
         Aggregation aggregation = Aggregation.newAggregation(groupByMovieId);
-        AggregationResults<AverageMovieRating> results = mongoTemplate.aggregate(aggregation, "rating", AverageMovieRating.class);
+        AggregationResults<AverageMovieRating> results = mongoTemplate.aggregate(aggregation, "ratings", AverageMovieRating.class);
         List<AverageMovieRating> ratings = results.getMappedResults();
         List<AverageMovieRating> filteredRatings = ratings.stream()
             .filter(ratingResult -> ratingResult.getAverageRating() >= rating)
@@ -52,7 +52,7 @@ class RatingController {
             .map(AverageMovieRating::getId)
             .collect(Collectors.toList());
         List<Movie> movies = mongoTemplate.find(
-            Query.query(Criteria.where("movieId").in(movieIds)),
+            Query.query(Criteria.where("movie_id").in(movieIds)),
             Movie.class
         );
         return movies;
