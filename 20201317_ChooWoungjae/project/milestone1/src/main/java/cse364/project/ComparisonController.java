@@ -122,8 +122,11 @@ public class ComparisonController {
                     num_female++;
                 } else {
                     // user post 때만 예외처리 잘하면 여기서 오류날 일은 없을 거 같긴 함
-                    System.out.println("errorcase for gender: " + gender);
+                    throw new InvalidUserException("Gender", gender);
                 }
+            } else {
+                // user post 때만 예외처리 잘하면 여기서 오류날 일은 없을 거 같긴 함
+                throw new InvalidUserException("Gender", gender);
             }
 
             if (age >= 50) {
@@ -136,7 +139,7 @@ public class ComparisonController {
                 num_1++;
             } else {
                 // user post 때만 예외처리 잘하면 여기서 오류날 일은 없을 거 같긴 함
-                System.out.println("errorcase for age");
+                throw new InvalidUserException("Age", String.valueOf(age));
             }
         }
 
