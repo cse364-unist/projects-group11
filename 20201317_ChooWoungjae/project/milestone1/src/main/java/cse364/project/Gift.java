@@ -42,7 +42,7 @@ public class Gift {
         LocalDate threeMonthsFromNow = today.plusMonths(3);
         LocalDateTime expireDateTime = LocalDateTime.of(threeMonthsFromNow, LocalTime.MAX);
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
         String dateTimeString = expireDateTime.format(formatter);
 
         this.expire_date = dateTimeString;

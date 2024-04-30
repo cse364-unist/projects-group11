@@ -19,6 +19,9 @@ import org.springframework.data.mongodb.core.aggregation.GroupOperation;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 
 @RestController
 class GiftController {
@@ -44,8 +47,21 @@ class GiftController {
 
     @GetMapping("/gifts/{giftId}")
     Gift one(@PathVariable String giftId) {
-        return giftRepository.findById(giftId)
-            .orElseThrow(() -> new CannotFoundException("Gift_ID", giftId));
+        Optional<Gift> optional = giftRepository.findById(giftId);
+        if(optional.isPresent()){
+            Gift TargetGift = optional.get();
+            LocalDateTime now = LocalDateTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+            LocalDateTime otherDateTime = LocalDateTime.parse(TargetGift.getExpireDate(), formatter);
+            if (now.isAfter(otherDateTime)) {
+                giftRepository.delete(TargetGift);
+                throw new CannotFoundException("Gift_ID", giftId);
+            } else {
+                return TargetGift;
+            }
+        } else {
+            throw new CannotFoundException("Gift_ID", giftId);
+        }
     }
 
     //밑에 주석한 이유는 gifts의 giftId 로 직접적으로 업데이트가 되면 안되고
