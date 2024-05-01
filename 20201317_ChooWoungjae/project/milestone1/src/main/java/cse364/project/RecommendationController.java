@@ -35,12 +35,12 @@ class RecommendationController {
     @GetMapping("/recommendations")
     List<Pair<Double, Long>> targetMovie() {
 
-        List<SimpleUser> simpleUserList = repository.findAll();
+        List<SimpleUser> simpleUserList = repository.findAll();            // The member of requested group
         List<MovieRatingByDemographic> averageOfRating = ratingRepository.getAverageRatingsByMovieIdGenderAndAge();
 
         Comparator<MovieRatingByDemographic> comparator = new Comparator<MovieRatingByDemographic>() {
             @Override
-            public int compare(MovieRatingByDemographic a, MovieRatingByDemographic b){
+            public int compare(MovieRatingByDemographic a, MovieRatingByDemographic b){              // define the sort algorithm of MovieRatingByDemographic
                 if(a.getMovieId().equals(b.getMovieId())){
                     if(a.getGender().equals(b.getGender())){
                         return a.getAge() - b.getAge();
@@ -64,16 +64,16 @@ class RecommendationController {
         Collections.sort(averageOfRating, comparator);
 
 
-        List<Pair<Double, Long>> expectRatingList = new ArrayList<>();
-        Double[] weight = new Double[15];
+        List<Pair<Double, Long>> expectRatingList = new ArrayList<>();           // Each movie's (predication rating, movieId) pair.
+        Double[] weight = new Double[15];                                        // Each interval's weight(calculate by similarity and group member)
         int sz = simpleUserList.size();
         if(sz == 0){
             throw new CannotFoundException("SimpleUser", 0);
         }
-        for(int i = 0 ; i < 14 ; i ++){
+        for(int i = 0 ; i < 14 ; i ++){                                           // Calculate each interval's similarity.
             double similarity = 0.0;
             int numOfPeople = 0;
-            for(int j = 0 ; j < sz ; j ++){
+            for(int j = 0 ; j < sz ; j ++){                                       // Calculate the interval with gender and age
                 SimpleUser nowSimpleUser = simpleUserList.get(j);
                 int interval = 0;
                 if(nowSimpleUser.getGender().equals("F")){
@@ -99,17 +99,17 @@ class RecommendationController {
                 }
                 int num = simpleUserList.get(j).getNumOfPeople();
                 double nowSimilarity;
-                if(i == interval){
-                    similarity = num;
-                    numOfPeople = 0;
+                if(i == interval){                                              // if this interval's member is in requested group,
+                    similarity = num;                                           // this interval's similarity is that interval's number of people
+                    numOfPeople = 0;                                            // and this value will be use to flag.
                     break;
                 }
-                if(i < j){
+                else if(i < interval){                                          // This if statement is because, there are only i < j pair in similarityRepository.
                     nowSimilarity = similarityRepository.findByTarget(Pair.of(i, interval)).get().getSimilarity();
                 }
                 else{
                     nowSimilarity = similarityRepository.findByTarget(Pair.of(interval, i)).get().getSimilarity();
-                }
+                }                                                               // after above code, the similarity of i and interval is load in nowSimilarity.
                 similarity += nowSimilarity * (double)num;
                 numOfPeople += num;
             }
@@ -118,9 +118,9 @@ class RecommendationController {
             }
             else{
                 weight[i] = Double.valueOf(similarity / (double)numOfPeople);
-            }
-        }
-        for(int i = 0 ; i < 3952 ; i ++){
+            }                                                                   // The result of calculate, if interval_i is exist in group, weight[i] = numOfPeople of interval_i
+        }                                                                       // if not exist, then weight[i] is weighted average of similarity of group.
+        for(int i = 0 ; i < 3952 ; i ++){                                       // in each loop, we predicate the rating of requested group.
             Double estimatedScore = 0.0;
             Double sumOfSimilarity = 0.0;
             for(int j = 0 ; j < 14 ; j ++){

@@ -58,12 +58,9 @@ class LoadDatabase {
             //     .foreignField("_id")
             //     .as("roomType");
 
-            // List<List<Double>> AverageOfRating = new ArrayList<>(); // interval's average data store here
-                                                                        // I don't know how to insert the average (Why no korean?)
-
             List<MovieRatingByDemographic> AverageOfRating = ratingRepository.getAverageRatingsByMovieIdGenderAndAge();
 
-            Comparator<MovieRatingByDemographic> comparator = new Comparator<MovieRatingByDemographic>() {
+            Comparator<MovieRatingByDemographic> comparator = new Comparator<MovieRatingByDemographic>() {    // define the sort algorithm of MovieRatingByDemographic
                 @Override
                 public int compare(MovieRatingByDemographic a, MovieRatingByDemographic b){
                     if(a.getGender().equals(b.getGender())){
@@ -88,7 +85,9 @@ class LoadDatabase {
 
             Collections.sort(AverageOfRating, comparator);
 
-            sz = MovieData.size();
+            sz = MovieData.size();                       // In below code, I will calculate cosineSimilarity with averageOfRating data.
+                                                         // This cosineSimilarity means that similarity of two interval(i, j)
+                                                         // The equation of similarity of two vector is "similarity = vector_i * vector_j / lengthOfVector_i * lengthOfVector_j"
             for(int i = 0 ; i < 14 ; i ++) {
                 for (int j = i + 1; j < 14; j++) {
                     Double DotProduct = 0.0;
