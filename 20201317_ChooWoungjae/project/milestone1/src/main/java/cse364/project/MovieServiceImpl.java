@@ -12,7 +12,8 @@ public class MovieServiceImpl implements MovieService {
     private final RatingRepository ratingRepository;
     private final UserRepository userRepository;
 
-    public MovieServiceImpl(MovieRepository movieRepository, RatingRepository ratingRepository, UserRepository userRepository) {
+    public MovieServiceImpl(MovieRepository movieRepository, RatingRepository ratingRepository,
+            UserRepository userRepository) {
         this.movieRepository = movieRepository;
         this.ratingRepository = ratingRepository;
         this.userRepository = userRepository;
@@ -40,34 +41,39 @@ public class MovieServiceImpl implements MovieService {
             long ratingValue = rating.getRate();
             if (ratingValue >= 3) {
                 sumOfRatings += ratingValue;
-    
+
                 Long userId = rating.getUser_id();
                 Optional<User> userOptional = userRepository.findById(userId);
                 if (userOptional.isPresent()) {
                     User user = userOptional.get();
                     String gender = user.getGender();
                     int age = user.getAge();
-    
+
                     if (gender != null) {
                         if (gender.equals("M")) {
                             numMaleOver3++;
                         } else if (gender.equals("F")) {
                             numFemaleOver3++;
+                        } else {
+                            throw new InvalidUserException("gender", gender);
                         }
+                    } else {
+                        throw new InvalidUserException("gender", gender);
                     }
-    
+
                     if (age >= 50) {
                         num50Over3++;
-                    }
-                    else if (age >= 35) {
+                    } else if (age >= 35) {
                         num35Over3++;
-                    }
-                    else if (age >= 25) {
+                    } else if (age >= 25) {
                         num25Over3++;
-                    }
-                    else if (age >= 1) {
+                    } else if (age >= 1) {
                         num1Over3++;
+                    } else {
+                        throw new InvalidUserException("age", String.valueOf(age));
                     }
+                } else {
+                    throw new InvalidUserException("userId", String.valueOf(userId));
                 }
             }
         }
