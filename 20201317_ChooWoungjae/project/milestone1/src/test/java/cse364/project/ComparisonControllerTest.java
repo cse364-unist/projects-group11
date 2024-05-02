@@ -1,7 +1,6 @@
 package cse364.project;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -43,13 +42,17 @@ public class ComparisonControllerTest {
         Movie sample1 = new Movie(Long.valueOf(1), "title (2020)", "genres");
         Movie sample2 = new Movie(Long.valueOf(2), "title", "genres");
         Movie sample3 = new Movie(Long.valueOf(3), "title (year)", "genres");
+        Movie sample4 = new Movie(Long.valueOf(4), "title (2020 ", "genres");
         when(movieRepository.findById(sample1.getMovieId())).thenReturn(Optional.of(sample1));
         when(movieRepository.findById(sample2.getMovieId())).thenReturn(Optional.of(sample2));
         when(movieRepository.findById(sample3.getMovieId())).thenReturn(Optional.of(sample3));
+        when(movieRepository.findById(sample4.getMovieId())).thenReturn(Optional.of(sample4));
         assertThrows(CannotFoundException.class, () -> comparisonController.compareMovies(sample1.getMovieId(), sample2.getMovieId()));
         assertThrows(CannotFoundException.class, () -> comparisonController.compareMovies(sample2.getMovieId(), sample1.getMovieId()));
         assertThrows(CannotFoundException.class, () -> comparisonController.compareMovies(sample3.getMovieId(), sample1.getMovieId()));
         assertThrows(CannotFoundException.class, () -> comparisonController.compareMovies(sample1.getMovieId(), sample3.getMovieId()));
+        assertThrows(CannotFoundException.class, () -> comparisonController.compareMovies(sample4.getMovieId(), sample1.getMovieId()));
+        assertThrows(CannotFoundException.class, () -> comparisonController.compareMovies(sample1.getMovieId(), sample4.getMovieId()));
     }
 
     @Test
@@ -77,6 +80,7 @@ public class ComparisonControllerTest {
 
         // test whether comparisonController.compareMovies() returns a List of Longs
         assertTrue(comparisonController.compareMovies(sample1.getMovieId(), sample2.getMovieId()) instanceof List<Long>);
+        assertTrue(comparisonController.compareMovies(sample2.getMovieId(), sample1.getMovieId()) instanceof List<Long>);
         
         // invalid user cases
         List<User> invalidUserList = List.of();
