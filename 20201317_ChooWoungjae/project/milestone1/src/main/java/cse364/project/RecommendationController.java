@@ -33,10 +33,12 @@ class RecommendationController {
     }
 
     @GetMapping("/recommendations")
-    List<Movie> targetMovie(@RequestBody List<User> userList, List<String> stringList) {
+    List<Movie> targetMovie(@RequestBody Recommendation newRecommendation) {
         // userList is the member of requested group, stringList is hate genre list.
 
         List<Movie> movieList = movieRepository.findAll();
+        List<User> userList = newRecommendation.getUserList();
+        List<String> stringList = newRecommendation.getGenreList();
 
         List<Pair<Double, Long>> predicationRatingList = new ArrayList<>();
         List<Movie> recommendation = new ArrayList<>();// Each movie's (predication rating, movieId) pair.
