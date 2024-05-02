@@ -4,6 +4,11 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,6 +26,19 @@ public class GiftControllerTest {
     GiftRepository giftRepository;
     @Mock
     MongoTemplate mongoTemplate;
+
+    @Test
+    public void testGetAll() {
+        giftController.all();
+        verify(giftRepository).findAll();
+    }
+
+    @Test
+    public void testPost() {
+        Gift sample1 = new Gift("message", Long.valueOf(1));
+        giftController.newGift(sample1);
+        verify(giftRepository).save(sample1);
+    }
     
     @Test
     public void testGet() {
@@ -38,6 +56,18 @@ public class GiftControllerTest {
 
         // test whether giftController.one() calls giftRepository.delete() when the target Gift is already expired
         Gift sample3 = new Gift("happy birthday", Long.valueOf(1));
-        // expiredate 만료된 testcase 만들어야 함
+        when(giftRepository.findById(sample3.getGiftId())).thenReturn(Optional.of(sample3));
+        LocalDate today = LocalDate.now();
+        LocalDate alreadyExpiredDate = today.minusMonths(6);
+        String dateTimeString = dateFormatter(alreadyExpiredDate);
+        sample3.setExpireDate(dateTimeString);
+        assertThrows(CannotFoundException.class, () -> giftController.one(sample3.getGiftId()));
+    }
+
+    public String dateFormatter(LocalDate date) {
+        LocalDateTime dateTime = LocalDateTime.of(date, LocalTime.MAX);
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+        String dateTimeString = dateTime.format(formatter);
+        return dateTimeString;
     }
 }
