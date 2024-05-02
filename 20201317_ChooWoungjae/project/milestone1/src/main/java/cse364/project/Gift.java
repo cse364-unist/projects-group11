@@ -24,8 +24,7 @@ public class Gift {
     Gift(String Message, Long MovieId){
         this.message = Message;
         this.movie_id = MovieId;
-        initGiftId();
-        initExpireDate();
+        updateInfo();
     }
 
     public String getGiftId() { return this.gift_id; }
