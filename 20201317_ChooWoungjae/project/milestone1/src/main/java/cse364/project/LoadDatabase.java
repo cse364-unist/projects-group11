@@ -41,22 +41,7 @@ class LoadDatabase {
                 userRepository.save(NewUser);
             }
 
-            List<List<String>> RatingData = readFile.readDAT("/root/project/milestone1/data/ratings.dat");   // Load Rating Data
-            sz = RatingData.size();
-            for(int i = 0 ; i < sz ; i ++){
-                Long userId = Long.parseLong(RatingData.get(i).get(0));
-                Long movieId = Long.parseLong(RatingData.get(i).get(1));
-                Long rating = Long.parseLong(RatingData.get(i).get(2));
-                Rating newRating = new Rating(userId, movieId, rating);
 
-                ratingRepository.save(newRating);
-
-                Movie newMovie = movieRepository.findById(movieId).get();
-                User newUser = userRepository.findById(userId).get();
-                int interval = newUser.calculateInterval();
-                newMovie.plusIntervalPairList(interval, 0, rating.intValue());
-                newMovie.plusIntervalPairList(interval, 1, 1);
-            }
 
             // LookupOperation lookup = LookupOperation.newLookup()
             //     .from("roomTypes")
@@ -70,6 +55,13 @@ class LoadDatabase {
                                                          // The equation of similarity of two vector is "similarity = vector_i * vector_j / lengthOfVector_i * lengthOfVector_j"
             Double[] vectorLength = new Double[15];
             Double[][] dotProduct = new Double[15][15];
+
+            for(int i = 0 ; i < 14 ; i ++){
+                vectorLength[i] = Double.valueOf(0.0);
+                for(int j = 0 ; j < 14 ; j ++){
+                    dotProduct[i][j] = Double.valueOf(0.0);
+                }
+            }
 
             for(int k = 0 ; k < sz ; k ++){
                 Movie nowMovie = allMovie.get(k);
@@ -90,6 +82,25 @@ class LoadDatabase {
                     cosineSimilarityRepository.save(newCosineSimilarity);
                 }
             }
+
+
+            List<List<String>> RatingData = readFile.readDAT("/root/project/milestone1/data/ratings.dat");   // Load Rating Data
+            sz = RatingData.size();
+            for(int i = 0 ; i < sz ; i ++){
+                Long userId = Long.parseLong(RatingData.get(i).get(0));
+                Long movieId = Long.parseLong(RatingData.get(i).get(1));
+                Long rating = Long.parseLong(RatingData.get(i).get(2));
+                Rating newRating = new Rating(userId, movieId, rating);
+
+                ratingRepository.save(newRating);
+
+                Movie newMovie = movieRepository.findById(movieId).get();
+                User newUser = userRepository.findById(userId).get();
+                int interval = newUser.calculateInterval();
+                newMovie.plusIntervalPairList(interval, 0, rating.intValue());
+                newMovie.plusIntervalPairList(interval, 1, 1);
+            }
+
 
             System.out.println("end parsing\n");
         };

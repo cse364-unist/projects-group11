@@ -41,8 +41,11 @@ class RecommendationController {
         List<String> stringList = newRecommendation.getGenreList();
 
         List<Pair<Double, Long>> predicationRatingList = new ArrayList<>();
-        List<Movie> recommendation = new ArrayList<>();// Each movie's (predication rating, movieId) pair.
+        List<Movie> recommendation = new ArrayList<>();                          // Each movie's (predication rating, movieId) pair.
         Double[] weight = new Double[15];                                        // Each interval's weight(calculate by similarity and group member)
+        for(int i = 0 ; i < 15 ; i ++){
+            weight[i] = Double.valueOf(0.0);
+        }
         int sz = userList.size();
         if(sz == 0){
             throw new CannotFoundException("SimpleUser", 0);

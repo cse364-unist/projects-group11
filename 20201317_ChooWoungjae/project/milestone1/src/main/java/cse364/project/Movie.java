@@ -20,7 +20,7 @@ public class Movie {
         this.movie_id = Movie_id;
         this.title = Title;
         this.genres = Genres;
-        this.intervalPairList = new int[14][2];
+        this.intervalPairList = new int[15][2];
     }
 
     public Long getMovieId() { return this.movie_id; }
