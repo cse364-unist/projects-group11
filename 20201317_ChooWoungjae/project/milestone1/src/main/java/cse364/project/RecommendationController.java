@@ -87,7 +87,7 @@ class RecommendationController {
             if(flag == 1) continue;
             for(int j = 0 ; j < 14 ; j ++){
                 if(nowMovie.getIntervalPairList(j, 0) == 0) continue;
-                Double nowAvgRating = Double.valueOf((double)nowMovie.getIntervalPairList(j, 0) / (double)nowMovie.getIntervalPairList(j, 1));
+                Double nowAvgRating = nowMovie.getAverageOfInterval(j);
                 estimatedScore += nowAvgRating * weight[j];
                 sumOfSimilarity += weight[j];
             }

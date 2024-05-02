@@ -64,52 +64,34 @@ class LoadDatabase {
             //     .foreignField("_id")
             //     .as("roomType");
 
-            List<MovieRatingByDemographic> AverageOfRating = ratingRepository.getAverageRatingsByMovieIdGenderAndAge();
-
-            Comparator<MovieRatingByDemographic> comparator = new Comparator<MovieRatingByDemographic>() {    // define the sort algorithm of MovieRatingByDemographic
-                @Override
-                public int compare(MovieRatingByDemographic a, MovieRatingByDemographic b){
-                    if(a.getGender().equals(b.getGender())){
-                        if(a.getAge().equals(b.getAge())){
-                            Long ans = a.getMovieId() - b.getMovieId();
-                            return ans.intValue();
-                        }
-                        else{
-                            return a.getAge() - b.getAge();
-                        }
-                    }
-                    else{
-                        if(a.getGender().equals("F")){
-                            return 1;
-                        }
-                        else{
-                            return -1;
-                        }
-                    }
-                }
-            };
-
-            Collections.sort(AverageOfRating, comparator);
-
-            sz = MovieData.size();                       // In below code, I will calculate cosineSimilarity with averageOfRating data.
+            List<Movie> allMovie = movieRepository.findAll();
+            sz = allMovie.size();                       // In below code, I will calculate cosineSimilarity with averageOfRating data.
                                                          // This cosineSimilarity means that similarity of two interval(i, j)
                                                          // The equation of similarity of two vector is "similarity = vector_i * vector_j / lengthOfVector_i * lengthOfVector_j"
-            for(int i = 0 ; i < 14 ; i ++) {
-                for (int j = i + 1; j < 14; j++) {
-                    Double DotProduct = 0.0;
-                    Double LengthOfI = 0.0;
-                    Double LengthOfJ = 0.0;
-                    for (int k = 0; k < sz; k++) {
-                        DotProduct += AverageOfRating.get(i * sz + k).getAvgRating() * AverageOfRating.get(j * sz + k).getAvgRating();
-                        LengthOfI += AverageOfRating.get(i * sz + k).getAvgRating() * AverageOfRating.get(i * sz + k).getAvgRating();
-                        LengthOfJ += AverageOfRating.get(j * sz + k).getAvgRating() * AverageOfRating.get(j * sz + k).getAvgRating();
+            Double[] vectorLength = new Double[15];
+            Double[][] dotProduct = new Double[15][15];
+
+            for(int k = 0 ; k < sz ; k ++){
+                Movie nowMovie = allMovie.get(k);
+                for(int i = 0 ; i < 14 ; i ++){
+                    Double nowVectorCoordinate = nowMovie.getAverageOfInterval(i);
+                    vectorLength[i] += nowVectorCoordinate * nowVectorCoordinate;
+                    for(int j = i + 1 ; j < 14 ; j ++){
+                        dotProduct[i][j] += nowMovie.getAverageOfInterval(i) * nowMovie.getAverageOfInterval(j);
                     }
-                    LengthOfI = Math.sqrt(LengthOfI);
-                    LengthOfJ = Math.sqrt(LengthOfJ);
-                    CosineSimilarity newCosineSimilarity = new CosineSimilarity(Pair.of(Integer.valueOf(i), Integer.valueOf(j)), (DotProduct / (LengthOfI * LengthOfJ)));
+                }
+            }
+            for(int i = 0 ; i < 14 ; i ++){
+                vectorLength[i] = Math.sqrt(vectorLength[i]);
+            }
+            for(int i = 0 ; i < 14 ; i ++){
+                for(int j = i + 1 ; j < 14 ; j ++){
+                    CosineSimilarity newCosineSimilarity = new CosineSimilarity(Pair.of(i, j), (dotProduct[i][j] / (vectorLength[i] * vectorLength[j])));
                     cosineSimilarityRepository.save(newCosineSimilarity);
                 }
             }
+
+            System.out.println("end parsing\n");
         };
     }
 }

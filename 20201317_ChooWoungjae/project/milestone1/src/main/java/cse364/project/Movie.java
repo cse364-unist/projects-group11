@@ -27,6 +27,12 @@ public class Movie {
     public String getTitle() { return this.title; }
     public String getGenres() { return this.genres; }
     public int getIntervalPairList(int x, int y) { return this.intervalPairList[x][y]; }
+    public Double getAverageOfInterval(int interval) {
+        if(this.intervalPairList[interval][1] == 0){
+            return Double.valueOf(0.0);
+        }
+        else return Double.valueOf((double)this.intervalPairList[interval][0] / (double)this.intervalPairList[interval][1]);
+    }
     public void setMovieId(Long Movie_id) { this.movie_id = Movie_id; }
     public void setTitle(String Title) { this.title = Title; }
     public void setGenres(String Genres) { this.genres = Genres; }
