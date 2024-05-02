@@ -50,6 +50,12 @@ class LoadDatabase {
                 Rating newRating = new Rating(userId, movieId, rating);
 
                 ratingRepository.save(newRating);
+
+                Movie newMovie = movieRepository.findById(movieId).get();
+                User newUser = userRepository.findById(userId).get();
+                int interval = newUser.calculateInterval();
+                newMovie.plusIntervalPairList(interval, 0, rating.intValue());
+                newMovie.plusIntervalPairList(interval, 1, 1);
             }
 
             // LookupOperation lookup = LookupOperation.newLookup()

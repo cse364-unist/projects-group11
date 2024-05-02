@@ -16,11 +16,11 @@ class RecommendationController {
 
     private final SimpleUserRepository repository;
     private final CosineSimilarityRepository similarityRepository;
-    private final RatingRepository ratingRepository;
-    RecommendationController(SimpleUserRepository repository, CosineSimilarityRepository similarityRepository, RatingRepository ratingRepository) {
+    private final MovieRepository movieRepository;
+    RecommendationController(SimpleUserRepository repository, CosineSimilarityRepository similarityRepository, MovieRepository movieRepository) {
         this.repository = repository;
         this.similarityRepository = similarityRepository;
-        this.ratingRepository = ratingRepository;
+        this.movieRepository = movieRepository;
     }
 
 
@@ -33,40 +33,15 @@ class RecommendationController {
     }
 
     @GetMapping("/recommendations")
-    List<Pair<Double, Long>> targetMovie() {
+    List<Movie> targetMovie(@RequestBody List<User> userList, List<String> stringList) {
+        // userList is the member of requested group, stringList is hate genre list.
 
-        List<SimpleUser> simpleUserList = repository.findAll();            // The member of requested group
-        List<MovieRatingByDemographic> averageOfRating = ratingRepository.getAverageRatingsByMovieIdGenderAndAge();
+        List<Movie> movieList = movieRepository.findAll();
 
-        Comparator<MovieRatingByDemographic> comparator = new Comparator<MovieRatingByDemographic>() {
-            @Override
-            public int compare(MovieRatingByDemographic a, MovieRatingByDemographic b){              // define the sort algorithm of MovieRatingByDemographic
-                if(a.getMovieId().equals(b.getMovieId())){
-                    if(a.getGender().equals(b.getGender())){
-                        return a.getAge() - b.getAge();
-                    }
-                    else{
-                        if(a.getGender().equals("F")){
-                            return 1;
-                        }
-                        else{
-                            return -1;
-                        }
-                    }
-                }
-                else{
-                    Long ans = a.getMovieId() - b.getMovieId();
-                    return ans.intValue();
-                }
-            }
-        };
-
-        Collections.sort(averageOfRating, comparator);
-
-
-        List<Pair<Double, Long>> expectRatingList = new ArrayList<>();           // Each movie's (predication rating, movieId) pair.
+        List<Pair<Double, Long>> predicationRatingList = new ArrayList<>();
+        List<Movie> recommendation = new ArrayList<>();// Each movie's (predication rating, movieId) pair.
         Double[] weight = new Double[15];                                        // Each interval's weight(calculate by similarity and group member)
-        int sz = simpleUserList.size();
+        int sz = userList.size();
         if(sz == 0){
             throw new CannotFoundException("SimpleUser", 0);
         }
@@ -74,34 +49,12 @@ class RecommendationController {
             double similarity = 0.0;
             int numOfPeople = 0;
             for(int j = 0 ; j < sz ; j ++){                                       // Calculate the interval with gender and age
-                SimpleUser nowSimpleUser = simpleUserList.get(j);
-                int interval = 0;
-                if(nowSimpleUser.getGender().equals("F")){
-                    interval = 7;
-                }
-                if(nowSimpleUser.getAge() == 18){
-                    interval += 1;
-                }
-                if(nowSimpleUser.getAge() == 25){
-                    interval += 2;
-                }
-                if(nowSimpleUser.getAge() == 35){
-                    interval += 3;
-                }
-                if(nowSimpleUser.getAge() == 45){
-                    interval += 4;
-                }
-                if(nowSimpleUser.getAge() == 50){
-                    interval += 5;
-                }
-                if(nowSimpleUser.getAge() == 56){
-                    interval += 6;
-                }
-                int num = simpleUserList.get(j).getNumOfPeople();
+                int interval = userList.get(j).calculateInterval();
+                int num = userList.get(j).getNumOfPeople();
                 double nowSimilarity;
                 if(i == interval){                                              // if this interval's member is in requested group,
                     similarity = num;                                           // this interval's similarity is that interval's number of people
-                    numOfPeople = 0;                                            // and this value will be use to flag.
+                    numOfPeople = 1;                                            // and this value will be use to flag.
                     break;
                 }
                 else if(i < interval){                                          // This if statement is because, there are only i < j pair in similarityRepository.
@@ -113,28 +66,47 @@ class RecommendationController {
                 similarity += nowSimilarity * (double)num;
                 numOfPeople += num;
             }
-            if(numOfPeople == 0){
-                weight[i] = Double.valueOf(similarity);
-            }
-            else{
-                weight[i] = Double.valueOf(similarity / (double)numOfPeople);
-            }                                                                   // The result of calculate, if interval_i is exist in group, weight[i] = numOfPeople of interval_i
+            weight[i] = Double.valueOf(similarity / (double)numOfPeople);    // The result of calculate, if interval_i is exist in group, weight[i] = numOfPeople of interval_i
         }                                                                       // if not exist, then weight[i] is weighted average of similarity of group.
+        sz = movieList.size();
+        int genreSize = stringList.size(), flag = 0;
         for(int i = 0 ; i < 3952 ; i ++){                                       // in each loop, we predicate the rating of requested group.
             Double estimatedScore = 0.0;
             Double sumOfSimilarity = 0.0;
+            Movie nowMovie = movieList.get(i);
+            String genre = nowMovie.getGenres();
+            for(int j = 0 ; j < genreSize ; j ++){
+                String nowGenre = stringList.get(j);
+                if(genre.contains(nowGenre)){
+                    flag = 1;
+                    break;
+                }
+            }
+            if(flag == 1) continue;
             for(int j = 0 ; j < 14 ; j ++){
-                Double nowAvgRating = averageOfRating.get(i * 14 + j).getAvgRating();
-                if(nowAvgRating.equals(0.0)) continue;
+                if(nowMovie.getIntervalPairList(j, 0) == 0) continue;
+                Double nowAvgRating = Double.valueOf((double)nowMovie.getIntervalPairList(j, 0) / (double)nowMovie.getIntervalPairList(j, 1));
                 estimatedScore += nowAvgRating * weight[j];
                 sumOfSimilarity += weight[j];
             }
-            expectRatingList.add(Pair.of((estimatedScore / sumOfSimilarity), Long.valueOf(i)));
+            predicationRatingList.add(Pair.of((estimatedScore / sumOfSimilarity), Long.valueOf(i)));
         }
 
-        Collections.sort(expectRatingList, Collections.reverseOrder());
+        int predicationRatingListSize = predicationRatingList.size();
+        if(predicationRatingListSize == 0){
+            throw new NoSatisfactoryMovieException();
+        }
 
-        return expectRatingList;
+        Collections.sort(predicationRatingList, Collections.reverseOrder());
+
+        if(predicationRatingListSize >= 5) predicationRatingListSize = 5;
+        for(int i = 0 ; i < predicationRatingListSize ; i ++){
+            int nowMovieId = predicationRatingList.get(i).getRight().intValue();
+            recommendation.add(movieList.get(nowMovieId));
+        }
+
+
+        return recommendation;
     }
 
     @PostMapping("/recommendations")

@@ -7,7 +7,7 @@ public class ReadFile {
     public List<List<String>> readDAT(String path){
         List<List<String>> csvList = new ArrayList<List<String>>();
         File file = new File(path);
-        System.out.println("success read\n");
+
         BufferedReader buffer = null;
         String line = "";
 
@@ -32,6 +32,7 @@ public class ReadFile {
                 ex.getMessage();
             }
         }
+        System.out.println("success read\n");
         return csvList;
     }
 }
