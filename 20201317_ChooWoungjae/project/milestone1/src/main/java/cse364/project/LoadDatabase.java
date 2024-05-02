@@ -41,7 +41,25 @@ class LoadDatabase {
                 userRepository.save(NewUser);
             }
 
+            List<List<String>> RatingData = readFile.readDAT("/root/project/milestone1/data/ratings.dat");   // Load Rating Data
+            List<Movie> movieList = movieRepository.findAll();
+            List<User> userList = userRepository.findAll();
+            sz = RatingData.size();
+            for(int i = 0 ; i < sz ; i ++){
+                Long userId = Long.parseLong(RatingData.get(i).get(0));
+                Long movieId = Long.parseLong(RatingData.get(i).get(1));
+                Long rating = Long.parseLong(RatingData.get(i).get(2));
+                Rating newRating = new Rating(userId, movieId, rating);
 
+                ratingRepository.save(newRating);
+
+                Movie newMovie = movieRepository.findById(movieId).get();
+                User newUser = userRepository.findById(userId).get();
+                int interval = newUser.calculateInterval();
+                newMovie.plusIntervalPairList(interval, 0, rating.intValue());
+                newMovie.plusIntervalPairList(interval, 1, 1);
+                movieRepository.save(newMovie);
+            }
 
             // LookupOperation lookup = LookupOperation.newLookup()
             //     .from("roomTypes")
@@ -84,22 +102,7 @@ class LoadDatabase {
             }
 
 
-            List<List<String>> RatingData = readFile.readDAT("/root/project/milestone1/data/ratings.dat");   // Load Rating Data
-            sz = RatingData.size();
-            for(int i = 0 ; i < sz ; i ++){
-                Long userId = Long.parseLong(RatingData.get(i).get(0));
-                Long movieId = Long.parseLong(RatingData.get(i).get(1));
-                Long rating = Long.parseLong(RatingData.get(i).get(2));
-                Rating newRating = new Rating(userId, movieId, rating);
 
-                ratingRepository.save(newRating);
-
-                Movie newMovie = movieRepository.findById(movieId).get();
-                User newUser = userRepository.findById(userId).get();
-                int interval = newUser.calculateInterval();
-                newMovie.plusIntervalPairList(interval, 0, rating.intValue());
-                newMovie.plusIntervalPairList(interval, 1, 1);
-            }
 
 
             System.out.println("end parsing\n");
