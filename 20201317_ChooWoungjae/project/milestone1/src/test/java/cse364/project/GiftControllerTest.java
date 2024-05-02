@@ -39,7 +39,7 @@ public class GiftControllerTest {
         giftController.newGift(sample1);
         verify(giftRepository).save(sample1);
     }
-    
+
     @Test
     public void testGet() {
         // test whether giftController.one() returns the target Gift correctly when the target Gift exists
@@ -47,21 +47,24 @@ public class GiftControllerTest {
         when(giftRepository.findById(sample1.getGiftId())).thenReturn(Optional.of(sample1));
         Gift result = giftController.one(sample1.getGiftId());
         assertEquals(sample1, result);
+    }
 
+    @Test
+    public void testGetException() {
         // test whether giftController.one() throws proper exception when the target Gift doesn't exist
-        Optional<Gift> sample2 = Optional.empty();
+        Optional<Gift> sample1 = Optional.empty();
         String invalidGiftId = "invalid-gift-id";
-        when(giftRepository.findById(invalidGiftId)).thenReturn(sample2);
+        when(giftRepository.findById(invalidGiftId)).thenReturn(sample1);
         assertThrows(CannotFoundException.class, () -> giftController.one(invalidGiftId));
 
         // test whether giftController.one() calls giftRepository.delete() when the target Gift is already expired
-        Gift sample3 = new Gift("happy birthday", Long.valueOf(1));
-        when(giftRepository.findById(sample3.getGiftId())).thenReturn(Optional.of(sample3));
+        Gift sample2 = new Gift("happy birthday", Long.valueOf(1));
+        when(giftRepository.findById(sample2.getGiftId())).thenReturn(Optional.of(sample2));
         LocalDate today = LocalDate.now();
         LocalDate alreadyExpiredDate = today.minusMonths(6);
         String dateTimeString = dateFormatter(alreadyExpiredDate);
-        sample3.setExpireDate(dateTimeString);
-        assertThrows(CannotFoundException.class, () -> giftController.one(sample3.getGiftId()));
+        sample2.setExpireDate(dateTimeString);
+        assertThrows(CannotFoundException.class, () -> giftController.one(sample2.getGiftId()));
     }
 
     public String dateFormatter(LocalDate date) {
