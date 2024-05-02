@@ -8,19 +8,17 @@ import org.apache.commons.lang3.tuple.Pair;
 @Document(collection = "cosineSimilarity")
 public class CosineSimilarity {
 
-    private Pair<Integer, Integer> target;
+    private @Id Integer target;
     private Double similarity;
     CosineSimilarity() {};
-    CosineSimilarity(Pair<Integer, Integer> target, Double similarity){
+    CosineSimilarity(Integer target, Double similarity){
         this.target = target;
         this.similarity = similarity;
     }
 
-    public Integer getLeftTarget() { return this.target.getLeft(); }
-    public Integer getRightTarget() { return this.target.getRight(); }
-    public Pair<Integer, Integer> getTarget() { return this.target; }
+    public Integer getTarget() { return this.target; }
     public Double getSimilarity() { return this.similarity; }
-    public void setTarget(Pair<Integer, Integer> newTarget) { this.target = newTarget; }
+    public void setTarget(Integer newTarget) { this.target = newTarget; }
     public void setSimilarity(Double newSimilarity) { this.similarity = newSimilarity; }
 
 }

@@ -7,7 +7,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.List;
 
-@Document(collection = "simpleUsers")
+@Document(collection = "recommendations")
 public class Recommendation {
 
     private List<User> userList;

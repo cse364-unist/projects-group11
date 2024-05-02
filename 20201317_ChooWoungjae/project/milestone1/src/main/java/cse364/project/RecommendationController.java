@@ -53,29 +53,27 @@ class RecommendationController {
         for(int i = 0 ; i < 14 ; i ++){                                           // Calculate each interval's similarity.
             double similarity = 0.0;
             int numOfPeople = 0;
-            for(int j = 0 ; j < sz ; j ++){                                       // Calculate the interval with gender and age
+            for(int j = 0 ; j < sz ; j ++) {                                       // Calculate the interval with gender and age
                 int interval = userList.get(j).calculateInterval();
                 int num = userList.get(j).getNumOfPeople();
                 double nowSimilarity;
-                if(i == interval){                                              // if this interval's member is in requested group,
+                if (i == interval) {                                              // if this interval's member is in requested group,
                     similarity = num;                                           // this interval's similarity is that interval's number of people
                     numOfPeople = 1;                                            // and this value will be use to flag.
                     break;
+                } else if (i < interval) {                                          // This if statement is because, there are only i < j pair in similarityRepository.
+                    nowSimilarity = similarityRepository.findById(Integer.valueOf(i * 14 + interval)).get().getSimilarity();
+                } else {
+                    nowSimilarity = similarityRepository.findById(Integer.valueOf(interval * 14 + i)).get().getSimilarity();
                 }
-                else if(i < interval){                                          // This if statement is because, there are only i < j pair in similarityRepository.
-                    nowSimilarity = similarityRepository.findByTarget(Pair.of(i, interval)).get().getSimilarity();
-                }
-                else{
-                    nowSimilarity = similarityRepository.findByTarget(Pair.of(interval, i)).get().getSimilarity();
-                }                                                               // after above code, the similarity of i and interval is load in nowSimilarity.
-                similarity += nowSimilarity * (double)num;
+                similarity += nowSimilarity * (double) num;
                 numOfPeople += num;
             }
             weight[i] = Double.valueOf(similarity / (double)numOfPeople);    // The result of calculate, if interval_i is exist in group, weight[i] = numOfPeople of interval_i
         }                                                                       // if not exist, then weight[i] is weighted average of similarity of group.
         sz = movieList.size();
         int genreSize = stringList.size(), flag = 0;
-        for(int i = 0 ; i < 3952 ; i ++){                                       // in each loop, we predicate the rating of requested group.
+        for(int i = 0 ; i < sz ; i ++){                                       // in each loop, we predicate the rating of requested group.
             Double estimatedScore = 0.0;
             Double sumOfSimilarity = 0.0;
             Movie nowMovie = movieList.get(i);

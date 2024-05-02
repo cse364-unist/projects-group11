@@ -78,7 +78,7 @@ class LoadDatabase {
             }
             for(int i = 0 ; i < 14 ; i ++){
                 for(int j = i + 1 ; j < 14 ; j ++){
-                    CosineSimilarity newCosineSimilarity = new CosineSimilarity(Pair.of(i, j), (dotProduct[i][j] / (vectorLength[i] * vectorLength[j])));
+                    CosineSimilarity newCosineSimilarity = new CosineSimilarity(Integer.valueOf(i * 14 + j), (dotProduct[i][j] / (vectorLength[i] * vectorLength[j])));
                     cosineSimilarityRepository.save(newCosineSimilarity);
                 }
             }
