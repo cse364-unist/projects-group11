@@ -47,7 +47,7 @@ public class RecommendationControllerTest {
         User userSample1 = new User(Long.valueOf(1), "M", 1, "1", "40000");
         List<User> userList = List.of(userSample1);
 
-        String genreSample1 = new String("2");
+        String genreSample1 = new String("3");
         List<String> genreList = List.of(genreSample1);
 
         Recommendation newRecommendation = new Recommendation(userList, genreList);
@@ -58,13 +58,16 @@ public class RecommendationControllerTest {
 
         Movie movieSample1 = new Movie(Long.valueOf(1), "title1 (2000)", "1");
         Movie movieSample2 = new Movie(Long.valueOf(2), "title2 (2001)", "2");
+        Movie movieSample3 = new Movie(Long.valueOf(3), "title3 (2002)", "3");
         for(int i = 0 ; i < 15 ; i ++){
-            movieSample1.setIntervalPairList(i, 0, 20);
+            movieSample1.setIntervalPairList(i, 0, 18);
             movieSample1.setIntervalPairList(i, 1, 5);
-            movieSample1.setIntervalPairList(i, 0, 30);
-            movieSample1.setIntervalPairList(i, 1, 6);
+            movieSample2.setIntervalPairList(i, 0, 30);
+            movieSample2.setIntervalPairList(i, 1, 6);
+            movieSample3.setIntervalPairList(i, 0, 28);
+            movieSample3.setIntervalPairList(i, 1, 6);
         }
-        List<Movie> movieList = List.of(movieSample1, movieSample2);
+        List<Movie> movieList = List.of(movieSample1, movieSample2, movieSample3);
         when(movieRepository.findAll()).thenReturn(movieList);
 
         assertTrue(recommendationController.targetMovie(newRecommendation) instanceof List<Movie>);
@@ -78,7 +81,7 @@ public class RecommendationControllerTest {
             movieSample1.setIntervalPairList(i, 0, 20);
             movieSample1.setIntervalPairList(i, 1, 5);
             movieSample1.setIntervalPairList(i, 0, 30);
-            movieSample1.setIntervalPairList(i, 1, 6);
+            movieSample1.setIntervalPairList(i, 1, 10);
         }
         List<Movie> movieList = List.of(movieSample1, movieSample2);
         when(movieRepository.findAll()).thenReturn(movieList);
