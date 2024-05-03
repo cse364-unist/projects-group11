@@ -98,13 +98,6 @@ class RecommendationController {
             @Override
             public int compare(Pair<Double, Long> a, Pair<Double, Long> b){
                 if(a.getLeft().isNaN()) return 1;
-                /*if(a.getLeft().doubleValue() == b.getLeft().doubleValue()){
-                    return a.getRight().intValue() - b.getRight().intValue();
-                }
-                else{
-                    Double diff = b.getLeft() - a.getLeft();
-                    return diff.compareTo(0.0);
-                }*/
                 Double diff = b.getLeft() - a.getLeft();
                 return diff.compareTo(0.0);
             }
