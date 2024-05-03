@@ -47,7 +47,8 @@ class RecommendationController {
                 int num = userList.get(j).getNumOfPeople();
                 double nowSimilarity;
                 if (i == interval) {                                              // if this interval's member is in requested group,
-                    similarity = (double)num;                                           // this interval's similarity is that interval's number of people
+                    similarity = (double)num * 10.0;                                  // this interval's similarity is that interval's number of people
+                                                                                    // data is so biased, therefore we give additional weight to the maching group.
                     numOfPeople = 1;                                            // and this value will be use to flag.
                     break;
                 } else if (i < interval) {                                          // This if statement is because, there are only i < j pair in similarityRepository.
@@ -82,11 +83,12 @@ class RecommendationController {
                 estimatedScore += nowAvgRating * weight[j];
                 sumOfSimilarity += weight[j];
             }
-            if(sumOfSimilarity.doubleValue() == 0.0){
+            int isZero = sumOfSimilarity.compareTo(0.0);
+            if(isZero <= 0){
                 predicationRatingList.add(Pair.of(Double.valueOf(0.0), Long.valueOf(i)));
             }
             else{
-                predicationRatingList.add(Pair.of((estimatedScore / sumOfSimilarity), Long.valueOf(i)));
+                predicationRatingList.add(Pair.of((estimatedScore / sumOfSimilarity), nowMovie.getMovieId()));
             }
 
         }
@@ -126,7 +128,7 @@ class RecommendationController {
             Long nowMovieId = predicationRatingList.get(i).getRight();
             recommendation.add(movieRepository.findById(nowMovieId).get());
             count ++;
-            if(count == 5){
+            if(count == 10){
                 break;
             }
         }

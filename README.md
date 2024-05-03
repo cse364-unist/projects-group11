@@ -33,7 +33,8 @@ $ curl -X PUT http://localhost:8080/ratings -H 'Content-type:application/json' -
 
 ### input
 ```
-[ 추천을 원하는 그룹의 정보 리스트 : {"gender": "M|F", "age": "1|18|25|35|45|50|56", "numOfPeople": integer}, 싫어하는 장르 리스트 : { 18개의 장르 중 하나 } ]
+[ 추천을 원하는 그룹의 정보 리스트 : {"gender": "M|F", "age": "1|18|25|35|45|50|56", "numOfPeople": integer},
+싫어하는 장르 리스트 : { 18개의 장르 중 하나 } ]
 ```
 ### output
 ```
