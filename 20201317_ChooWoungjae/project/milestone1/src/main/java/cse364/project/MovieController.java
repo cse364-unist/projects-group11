@@ -41,6 +41,16 @@ class MovieController {
         return movieRepository.save(newMovie);
     }
 
+    @PostMapping("/movies/{id}")
+    int[] getIntervalRating(@PathVariable Long id){
+        Movie nowMovie = movieRepository.findById(id).get();
+        int[] ans = new int[15];
+        for(int i = 0 ; i < 14 ; i ++){
+            ans[i] += nowMovie.getIntervalPairList(i, 1);
+        }
+        return ans;
+    }
+
     // Single item
 
     @GetMapping("/movies/{id}")

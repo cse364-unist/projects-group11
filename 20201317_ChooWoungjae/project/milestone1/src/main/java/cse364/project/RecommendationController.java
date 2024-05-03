@@ -46,36 +46,37 @@ class RecommendationController {
         for(int i = 0 ; i < 15 ; i ++){
             weight[i] = Double.valueOf(0.0);
         }
-        int sz = userList.size();
-        if(sz == 0){
+        int userListSize = userList.size();
+        if(userListSize == 0){
             throw new CannotFoundException("SimpleUser", 0);
         }
         for(int i = 0 ; i < 14 ; i ++){                                           // Calculate each interval's similarity.
             double similarity = 0.0;
             int numOfPeople = 0;
-            for(int j = 0 ; j < sz ; j ++) {                                       // Calculate the interval with gender and age
+            for(int j = 0 ; j < userListSize ; j ++) {                                       // Calculate the interval with gender and age
                 int interval = userList.get(j).calculateInterval();
                 int num = userList.get(j).getNumOfPeople();
                 double nowSimilarity;
                 if (i == interval) {                                              // if this interval's member is in requested group,
-                    similarity = num;                                           // this interval's similarity is that interval's number of people
+                    similarity = (double)num;                                           // this interval's similarity is that interval's number of people
                     numOfPeople = 1;                                            // and this value will be use to flag.
                     break;
                 } else if (i < interval) {                                          // This if statement is because, there are only i < j pair in similarityRepository.
-                    nowSimilarity = similarityRepository.findById(Integer.valueOf(i * 14 + interval)).get().getSimilarity();
+                    nowSimilarity = similarityRepository.findById(Integer.valueOf(i * 14 + interval)).get().getSimilarity().doubleValue();
                 } else {
-                    nowSimilarity = similarityRepository.findById(Integer.valueOf(interval * 14 + i)).get().getSimilarity();
+                    nowSimilarity = similarityRepository.findById(Integer.valueOf(interval * 14 + i)).get().getSimilarity().doubleValue();
                 }
                 similarity += nowSimilarity * (double) num;
                 numOfPeople += num;
             }
             weight[i] = Double.valueOf(similarity / (double)numOfPeople);    // The result of calculate, if interval_i is exist in group, weight[i] = numOfPeople of interval_i
         }                                                                       // if not exist, then weight[i] is weighted average of similarity of group.
-        sz = movieList.size();
+        int movieListSize = movieList.size();
         int genreSize = stringList.size(), flag = 0;
-        for(int i = 0 ; i < sz ; i ++){                                       // in each loop, we predicate the rating of requested group.
+        for(int i = 0 ; i < movieListSize ; i ++){                                       // in each loop, we predicate the rating of requested group.
             Double estimatedScore = 0.0;
             Double sumOfSimilarity = 0.0;
+            flag = 0;
             Movie nowMovie = movieList.get(i);
             String genre = nowMovie.getGenres();
             for(int j = 0 ; j < genreSize ; j ++){
@@ -92,7 +93,13 @@ class RecommendationController {
                 estimatedScore += nowAvgRating * weight[j];
                 sumOfSimilarity += weight[j];
             }
-            predicationRatingList.add(Pair.of((estimatedScore / sumOfSimilarity), Long.valueOf(i)));
+            if(sumOfSimilarity.doubleValue() == 0.0){
+                predicationRatingList.add(Pair.of(Double.valueOf(0.0), Long.valueOf(i)));
+            }
+            else{
+                predicationRatingList.add(Pair.of((estimatedScore / sumOfSimilarity), Long.valueOf(i)));
+            }
+
         }
 
         int predicationRatingListSize = predicationRatingList.size();
@@ -100,12 +107,38 @@ class RecommendationController {
             throw new NoSatisfactoryMovieException();
         }
 
-        Collections.sort(predicationRatingList, Collections.reverseOrder());
+        Comparator<Pair<Double, Long>> comparator = new Comparator<Pair<Double, Long>>(){
+            @Override
+            public int compare(Pair<Double, Long> a, Pair<Double, Long> b){
+                if(a.getLeft().isNaN()) return 1;
+                if(b.getLeft().isNaN()) return -1;
+                if(a.getLeft().doubleValue() == b.getLeft().doubleValue()){
+                    return a.getRight().intValue() - b.getRight().intValue();
+                }
+                else{
+                    Double diff = b.getLeft() - a.getLeft();
+                    return diff.compareTo(0.0);
+                }
+            }
+        };
 
-        if(predicationRatingListSize >= 5) predicationRatingListSize = 5;
+        //Collections.sort(predicationRatingList, comparator);
+        Collections.sort(predicationRatingList, comparator);
+
+        int count = 0;
         for(int i = 0 ; i < predicationRatingListSize ; i ++){
-            int nowMovieId = predicationRatingList.get(i).getRight().intValue();
-            recommendation.add(movieList.get(nowMovieId));
+            if(predicationRatingList.get(i).getLeft().doubleValue() >= 5){
+                continue;
+            }
+            if(predicationRatingList.get(i).getLeft().isNaN()){
+                break;
+            }
+            Long nowMovieId = predicationRatingList.get(i).getRight();
+            recommendation.add(movieRepository.findById(nowMovieId).get());
+            count ++;
+            if(count == 5){
+                break;
+            }
         }
 
 

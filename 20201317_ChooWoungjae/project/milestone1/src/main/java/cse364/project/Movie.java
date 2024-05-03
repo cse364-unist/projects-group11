@@ -21,6 +21,10 @@ public class Movie {
         this.title = Title;
         this.genres = Genres;
         this.intervalPairList = new int[15][2];
+        for(int i = 0 ; i < 15 ; i ++){
+            this.intervalPairList[i][0] = 0;
+            this.intervalPairList[i][1] = 0;
+        }
     }
 
     public Long getMovieId() { return this.movie_id; }
@@ -36,6 +40,7 @@ public class Movie {
     public void setMovieId(Long Movie_id) { this.movie_id = Movie_id; }
     public void setTitle(String Title) { this.title = Title; }
     public void setGenres(String Genres) { this.genres = Genres; }
+    public void setIntervalPairList(int x, int y, int val) { this.intervalPairList[x][y] = val; }
     public void plusIntervalPairList(int x, int y, int diff) { this.intervalPairList[x][y] += diff; }
 
 }

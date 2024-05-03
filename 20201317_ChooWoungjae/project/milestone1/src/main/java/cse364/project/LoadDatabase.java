@@ -42,8 +42,6 @@ class LoadDatabase {
             }
 
             List<List<String>> RatingData = readFile.readDAT("/root/project/milestone1/data/ratings.dat");   // Load Rating Data
-            List<Movie> movieList = movieRepository.findAll();
-            List<User> userList = userRepository.findAll();
             sz = RatingData.size();
             for(int i = 0 ; i < sz ; i ++){
                 Long userId = Long.parseLong(RatingData.get(i).get(0));
