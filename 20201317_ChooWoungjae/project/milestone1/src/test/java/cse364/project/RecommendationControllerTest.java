@@ -5,6 +5,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,10 +22,58 @@ public class RecommendationControllerTest {
     @Mock
     CosineSimilarityRepository similarityRepository;
     @Mock
-    RatingRepository ratingRepository;
+    MovieRepository movieRepository;
 
     @Test
     public void testTargetMovie() {
+        Movie movieSample1 = new Movie(Long.valueOf(1), "title1 (2000)", "1");
+        Movie movieSample2 = new Movie(Long.valueOf(2), "title2 (2001)", "2");
+        for(int i = 0 ; i < 15 ; i ++){
+            movieSample1.setIntervalPairList(i, 0, 20);
+            movieSample1.setIntervalPairList(i, 1, 5);
+            movieSample1.setIntervalPairList(i, 0, 30);
+            movieSample1.setIntervalPairList(i, 1, 6);
+        }
+        List<Movie> movieList = List.of(movieSample1, movieSample2);
+        //when(movieRepository.findById(movieSample1.getMovieId())).thenReturn(Optional.of(movieSample1));
+        //when(movieRepository.findById(movieSample2.getMovieId())).thenReturn(Optional.of(movieSample2));
+        when(movieRepository.findAll()).thenReturn(movieList);
+
+        User userSample1 = new User(Long.valueOf(1), "M", 1, "1", "40000");
+        //User userSample2 = new User(Long.valueOf(2), "F", 18, "1", "40001");
+        List<User> userList = List.of(userSample1);
+
+        String genreSample1 = new String("2");
+        List<String> genreList = List.of(genreSample1);
+
+        Recommendation newRecommendation = new Recommendation(userList, genreList);
+
+        CosineSimilarity[] similarityList = {
+            new CosineSimilarity(Integer.valueOf(0), Double.valueOf(3.3)),
+            new CosineSimilarity(Integer.valueOf(1), Double.valueOf(3.3)),
+            new CosineSimilarity(Integer.valueOf(2), Double.valueOf(3.3)),
+            new CosineSimilarity(Integer.valueOf(3), Double.valueOf(3.3)),
+            new CosineSimilarity(Integer.valueOf(4), Double.valueOf(3.3)),
+            new CosineSimilarity(Integer.valueOf(5), Double.valueOf(3.3)),
+            new CosineSimilarity(Integer.valueOf(6), Double.valueOf(3.3)),
+            new CosineSimilarity(Integer.valueOf(7), Double.valueOf(3.3)),
+            new CosineSimilarity(Integer.valueOf(8), Double.valueOf(3.3)),
+            new CosineSimilarity(Integer.valueOf(9), Double.valueOf(3.3)),
+            new CosineSimilarity(Integer.valueOf(10), Double.valueOf(3.3)),
+            new CosineSimilarity(Integer.valueOf(11), Double.valueOf(3.3)),
+            new CosineSimilarity(Integer.valueOf(12), Double.valueOf(3.3)),
+            new CosineSimilarity(Integer.valueOf(13), Double.valueOf(3.3)),
+        };
+        for (int i = 1; i < 14; i++) {
+            when(similarityRepository.findById(Integer.valueOf(0 * 14 + i))).thenReturn(Optional.of(similarityList[i]));
+        }
+        //when(newRecommendation.getUserList()).thenReturn(userList);
+        //when(newRecommendation.getGenreList()).thenReturn(genreList);
+        //when(movieRepository.findById(movieSample1.getMovieId())).thenReturn(Optional.of(movieSample1));
+        //when(movieRepository.findById(movieSample2.getMovieId())).thenReturn(Optional.of(movieSample2));
+
+        assertTrue(recommendationController.targetMovie(newRecommendation) instanceof List<Movie>);
+        //assertThrows(NoSuchElementException.class, () -> recommendationController.targetMovie(newRecommendation));
     }
     
 }
