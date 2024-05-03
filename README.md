@@ -48,7 +48,7 @@ $ curl -X GET http://localhost:8080/gifts/b541e319-272f-4c84-bb68-717328806deb
 {"message":"영화 선물","movieId":5,"giftId":"b541e319-272f-4c84-bb68-717328806deb","expireDate":"2024-07-27 23:59:59"}
 ```
 
-## /comparisons
+## /comparisons/
 
 ### input
 ```
@@ -67,14 +67,23 @@ $ curl -X GET http://localhost:8080/gifts/b541e319-272f-4c84-bb68-717328806deb
 // information of total users
 (number of male users),(number of female users),(number of age 1~24 users),(number of age 25~34 users),(number of age 35~49 users),(number of age 50~ users)]
 ```
+### implemented REST API
+```
+In this comparison feature, there are only one REST API, POST.
+We can input two IDs of movies, which can be chosen by search on frontend.
+We determined the favor of users with the 3 or higher rating.
+And we calculated the weight based on equation 1 + (1 / (1 + x)), such that x is the amount of how much outdated/popular/gender-biased/age-biased
+Then with multiplicating such weights and the original average rating, we can find the better movie from input.
+```
 ### test
 ```
 $ curl -X POST http://localhost:8080/comparisons -H 'Content-type:application/json' -d '{"id1": 1, "id2": 2}'
-```
-output:
-```
+
+// Return the list with format of above output, such that seperated with -1
+expected output:
 [1,-1,1431,569,532,761,554,153,8475,2077,-1,409,142,139,206,162,44,1986,701,-1,4331,1709,1325,2096,1743,876]
 ```
+
 
 # Runtime Information
 On average, it took 5-10 minutes to build a clean image from the Dockerfile.
