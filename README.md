@@ -1,4 +1,3 @@
-
 # milestone 2 API
 
 ## /recommendations
@@ -39,7 +38,7 @@ expect output :
 ```
 ### output
 ```
-{"message": "string", "movieId": long, "giftId": "string: uuid", "expireDate": "string, datetime"}
+{"message": "string", "movieId": long, "giftId": "string: uuid", "expireDate": "3 months after current datetime, until 11:59:59 pm"}
 ```
 ### test
 ```
@@ -76,3 +75,7 @@ output:
 ```
 [1,-1,1431,569,532,761,554,153,8475,2077,-1,409,142,139,206,162,44,1986,701,-1,4331,1709,1325,2096,1743,876]
 ```
+
+# Runtime Information
+On average, it took 5-10 minutes to build a clean image from the Dockerfile.
+Also, it took around 15-20 minutes to run the `run.sh` file, parse all the `.dat` files, and store in the database.
