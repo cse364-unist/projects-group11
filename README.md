@@ -31,7 +31,7 @@ expect output :
 [{"title":"Return with Honor (1998)","genres":"Documentary","movieId":2930},{"title":"Seven Chances (1925)","genres":"Comedy","movieId":3232},{"title":"Sanjuro (1962)","genres":"Action|Adventure","movieId":2905},{"title":"Late Bloomers (1996)","genres":"Comedy","movieId":1553},{"title":"Fever Pitch (1997)","genres":"Comedy|Romance","movieId":2962},{"title":"Wrong Trousers, The (1993)","genres":"Animation|Comedy","movieId":1148},{"title":"Close Shave, A (1995)","genres":"Animation|Comedy|Thriller","movieId":745},{"title":"Usual Suspects, The (1995)","genres":"Crime|Thriller","movieId":50},{"title":"Rear Window (1954)","genres":"Mystery|Thriller","movieId":904},{"title":"Butterfly Kiss (1995)","genres":"Thriller","movieId":696}]
 ```
 
-## /gifts/
+## /gifts
 
 ### input
 ```
@@ -49,7 +49,7 @@ $ curl -X GET http://localhost:8080/gifts/b541e319-272f-4c84-bb68-717328806deb
 {"message":"영화 선물","movieId":5,"giftId":"b541e319-272f-4c84-bb68-717328806deb","expireDate":"2024-07-27 23:59:59"}
 ```
 
-## /comparisons/
+## /comparisons
 
 ### input
 ```
