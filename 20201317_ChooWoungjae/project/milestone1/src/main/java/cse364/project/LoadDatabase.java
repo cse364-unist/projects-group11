@@ -12,7 +12,12 @@ import org.apache.commons.lang3.tuple.Pair;
 @Configuration
 class LoadDatabase {
 
-    private static final ReadFile readFile = new ReadFile();
+    private ReadFile readFile = new ReadFile();
+
+    LoadDatabase() {}
+    LoadDatabase(ReadFile readFile) {
+        this.readFile = readFile;
+    }
 
     @Bean
     CommandLineRunner initDatabase( MovieRepository movieRepository, UserRepository userRepository, RatingRepository ratingRepository, CosineSimilarityRepository cosineSimilarityRepository) {
@@ -20,6 +25,7 @@ class LoadDatabase {
         return args -> {
             List<List<String>> MovieData = readFile.readDAT("/root/project/milestone1/data/movies.dat");   // Load Movie Data
             int movieDataSize = MovieData.size();
+            System.out.println("moviedatasize: " + movieDataSize);
             for(int i = 0 ; i < movieDataSize ; i ++) {
                 Long MovieID = Long.parseLong(MovieData.get(i).get(0));
                 Movie NewMovie = new Movie(MovieID, MovieData.get(i).get(1), MovieData.get(i).get(2));

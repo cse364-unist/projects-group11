@@ -1,9 +1,13 @@
 package cse364.project;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.CommandLineRunner;
 
 import java.util.ArrayList;
@@ -13,6 +17,7 @@ import java.util.Optional;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 class LoadDatabaseTest {
 
     @Mock
@@ -24,13 +29,14 @@ class LoadDatabaseTest {
     @Mock
     private CosineSimilarityRepository cosineSimilarityRepository;
     @Mock
-    private ReadFile readFile;
+    ReadFile readFile;
 
-    private LoadDatabase loadDatabase;
+    @InjectMocks
+    LoadDatabase loadDatabase;
 
-    @BeforeEach
+    @AfterEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
+        //MockitoAnnotations.openMocks(this);
         loadDatabase = new LoadDatabase();
     }
 
