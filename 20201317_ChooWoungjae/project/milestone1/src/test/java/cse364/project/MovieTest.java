@@ -35,4 +35,15 @@ public class MovieTest {
         assertEquals(defaultMovie.getTitle(), "Titanic");
         assertEquals(defaultMovie.getGenres(), "Romance");
     }
+
+    @Test
+    public void testIntervalPastList() {
+        Movie sample = new Movie(Long.valueOf(1), "title", "genres");
+        assertTrue(sample.getIntervalPairList(0, 0) == 0);
+        assertTrue(sample.getAverageOfInterval(0) == 0);
+
+        sample.setIntervalPairList(1, 0, 15);
+        sample.plusIntervalPairList(1, 1, 3);
+        assertTrue(sample.getAverageOfInterval(1) == Double.valueOf(15) / Double.valueOf(3));
+    }
 }
