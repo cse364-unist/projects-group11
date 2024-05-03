@@ -70,7 +70,7 @@ link has movie barcode, message, ticket
 
 ### input
 ```
- $ curl -X POST "http://localhost:8080/comparisons?id1="영화ID"&id2="영화ID""
+{"id1": 1, "id2":2}
 ```
 ### output
 ```
