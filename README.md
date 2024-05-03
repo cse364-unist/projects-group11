@@ -79,5 +79,7 @@ link has movie barcode, message, ticket
 (id2 남성 레이팅>3 수),(id2 여성 레이팅>3 수),(id2 1세~24세 레이팅>3 수),(id2 25세~34세 레이팅>3수),(id2 35세~49세 레이팅>3수),(id2 50세~ 레이팅>3수),(id2 모든 레이팅 합),(id2 모든 레이팅 수 합),-1("정보간 분리용"),
 (남성 회원 수),(여성 회원 수),(1세~24세 회원 수),(25세~34세 회원 수),(35세~49세 회원 수),(50세 회원 수)]
 ```
-### limitation
-2개 영화 id 인풋
+### test
+```
+$ curl -X POST http://localhost:8080/comparisons -H 'Content-type:application/json' -d '{"id1": 1, "id2": 2}'
+```
