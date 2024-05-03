@@ -70,16 +70,26 @@ link has movie barcode, message, ticket
 
 ### input
 ```
-{"id1": 1, "id2":2}
+{"id1": (ID of the first movie), "id2": (ID of the second movie)}
 ```
 ### output
 ```
-["이긴 영화",-1("정보간 분리용"),
-(id1 남성 레이팅>3 수),(id1 여성 레이팅>3 수),(id1 1세~24세 레이팅>3 수),(id1 25세~34세 레이팅>3수),(id1 35세~49세 레이팅>3수),(id1 50세~ 레이팅>3수),(id1 모든 레이팅 합),(id1 모든 레이팅 수 합),-1("정보간 분리용"),
-(id2 남성 레이팅>3 수),(id2 여성 레이팅>3 수),(id2 1세~24세 레이팅>3 수),(id2 25세~34세 레이팅>3수),(id2 35세~49세 레이팅>3수),(id2 50세~ 레이팅>3수),(id2 모든 레이팅 합),(id2 모든 레이팅 수 합),-1("정보간 분리용"),
-(남성 회원 수),(여성 회원 수),(1세~24세 회원 수),(25세~34세 회원 수),(35세~49세 회원 수),(50세 회원 수)]
+["winner movie",
+-1(just for seperating the informations),
+// informations related to id1
+(number of male rating over 3),(number of female rating over 3),(number of age 1~24 rating over 3),(number of age 25~34 rating over 3),(number of age 1~24 rating over 3),(number of age 50~ rating over 3),(summation of all ratings),(number of all ratings),
+-1(just for seperating the informations),
+// informations related to id1
+(number of male rating over 3),(number of female rating over 3),(number of age 1~24 rating over 3),(number of age 25~34 rating over 3),(number of age 1~24 rating over 3),(number of age 50~ rating over 3),(summation of total ratings),(number of total ratings),
+-1(just for seperating the informations),
+// information of total users
+(number of male users),(number of female users),(number of age 1~24 users),(number of age 25~34 users),(number of age 35~49 users),(number of age 50~ users)]
 ```
 ### test
 ```
 $ curl -X POST http://localhost:8080/comparisons -H 'Content-type:application/json' -d '{"id1": 1, "id2": 2}'
+```
+output:
+```
+[1,-1,1431,569,532,761,554,153,8475,2077,-1,409,142,139,206,162,44,1986,701,-1,4331,1709,1325,2096,1743,876]
 ```
