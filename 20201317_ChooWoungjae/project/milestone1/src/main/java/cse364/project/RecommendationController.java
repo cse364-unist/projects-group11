@@ -37,7 +37,7 @@ class RecommendationController {
         }
         int userListSize = userList.size();
         if(userListSize == 0){
-            throw new CannotFoundException("SimpleUser", 0);
+            throw new CannotFoundException("AnyUser", 0);
         }
         for(int i = 0 ; i < 14 ; i ++){                                           // Calculate each interval's similarity.
             double similarity = 0.0;
