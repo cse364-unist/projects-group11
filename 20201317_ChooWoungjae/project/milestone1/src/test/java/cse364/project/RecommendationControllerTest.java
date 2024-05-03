@@ -19,8 +19,6 @@ public class RecommendationControllerTest {
     RecommendationController recommendationController;
 
     @Mock
-    SimpleUserRepository repository;
-    @Mock
     CosineSimilarityRepository similarityRepository;
     @Mock
     RatingRepository ratingRepository;
