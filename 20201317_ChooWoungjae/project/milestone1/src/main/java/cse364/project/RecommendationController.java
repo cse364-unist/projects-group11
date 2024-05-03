@@ -113,12 +113,11 @@ class RecommendationController {
             }
         };
 
-        //Collections.sort(predicationRatingList, comparator);
         Collections.sort(predicationRatingList, comparator);
 
         int count = 0;
         for(int i = 0 ; i < predicationRatingListSize ; i ++){
-            int isPerfect = predicationRatingList.get(i).getLeft().compareTo(4.99999);
+            int isPerfect = predicationRatingList.get(i).getLeft().compareTo(4.99999);    ///  Some movie has all 5 rating, so remove that always highScore movie.
             if(isPerfect >= 0){
                 continue;
             }

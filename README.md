@@ -38,7 +38,7 @@ $ curl -X PUT http://localhost:8080/ratings -H 'Content-type:application/json' -
 ```
 ### output
 ```
-[ 예상점수가 높은 5개의 list of movies 
+[ 예상점수가 높은 10개의 list of movies 
 모든 rating의 점수가 5점인 몇몇개의 영화는 항상 예측점수가 5점이기때문에 제외하고 출력함]
 ```
 ### test
