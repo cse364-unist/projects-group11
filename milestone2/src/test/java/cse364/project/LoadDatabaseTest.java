@@ -55,9 +55,9 @@ class LoadDatabaseTest {
         ratingData.add(List.of("2", "1", "3"));
         ratingData.add(List.of("2", "3", "4"));
 
-        when(readFile.readDAT("/root/project/milestone1/data/movies.dat")).thenReturn(movieData);
-        when(readFile.readDAT("/root/project/milestone1/data/users.dat")).thenReturn(userData);
-        when(readFile.readDAT("/root/project/milestone1/data/ratings.dat")).thenReturn(ratingData);
+        when(readFile.readDAT("/root/project/milestone2/data/movies.dat")).thenReturn(movieData);
+        when(readFile.readDAT("/root/project/milestone2/data/users.dat")).thenReturn(userData);
+        when(readFile.readDAT("/root/project/milestone2/data/ratings.dat")).thenReturn(ratingData);
 
         Movie movie1 = new Movie(1L, "Toy Story (1995)", "Animation|Children's|Comedy");
         Movie movie2 = new Movie(2L, "Jumanji (1995)", "Adventure|Children's|Fantasy");

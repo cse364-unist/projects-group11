@@ -20,7 +20,7 @@ class LoadDatabase {
     CommandLineRunner initDatabase( MovieRepository movieRepository, UserRepository userRepository, RatingRepository ratingRepository, CosineSimilarityRepository cosineSimilarityRepository) {
 
         return args -> {
-            List<List<String>> MovieData = readFile.readDAT("/root/project/milestone1/data/movies.dat");   // Load Movie Data
+            List<List<String>> MovieData = readFile.readDAT("/root/project/milestone2/data/movies.dat");   // Load Movie Data
             int movieDataSize = MovieData.size();
             for(int i = 0 ; i < movieDataSize ; i ++) {
                 Long MovieID = Long.parseLong(MovieData.get(i).get(0));
@@ -29,7 +29,7 @@ class LoadDatabase {
                 movieRepository.save(NewMovie);
             }
 
-            List<List<String>> UserData = readFile.readDAT("/root/project/milestone1/data/users.dat");   // Load User Data
+            List<List<String>> UserData = readFile.readDAT("/root/project/milestone2/data/users.dat");   // Load User Data
             int userDataSize = UserData.size();
             for(int i = 0 ; i < userDataSize ; i ++) {
                 Long UserID = Long.parseLong(UserData.get(i).get(0));
@@ -39,7 +39,7 @@ class LoadDatabase {
                 userRepository.save(NewUser);
             }
 
-            List<List<String>> RatingData = readFile.readDAT("/root/project/milestone1/data/ratings.dat");   // Load Rating Data
+            List<List<String>> RatingData = readFile.readDAT("/root/project/milestone2/data/ratings.dat");   // Load Rating Data
             int ratingDataSize = RatingData.size();
             for(int i = 0 ; i < ratingDataSize ; i ++){
                 Long userId = Long.parseLong(RatingData.get(i).get(0));
