@@ -3,7 +3,9 @@ package cse364.project;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -32,8 +34,17 @@ public class ComparisonControllerTest {
         Optional<Movie> sample2 = Optional.empty();
         when(movieRepository.findById(validMovieId)).thenReturn(Optional.of(sample1));
         when(movieRepository.findById(invalidMovieId)).thenReturn(sample2);
-        assertThrows(CannotFoundException.class, () -> comparisonController.compareMovies(invalidMovieId, validMovieId));
-        assertThrows(CannotFoundException.class, () -> comparisonController.compareMovies(validMovieId, invalidMovieId));
+        
+        Map<String, Long> requestBody1 = new HashMap<>();
+        requestBody1.put("id1", invalidMovieId);
+        requestBody1.put("id2", validMovieId);
+        
+        Map<String, Long> requestBody2 = new HashMap<>();
+        requestBody2.put("id1", validMovieId);
+        requestBody2.put("id2", invalidMovieId);
+        
+        assertThrows(CannotFoundException.class, () -> comparisonController.compareMovies(requestBody1));
+        assertThrows(CannotFoundException.class, () -> comparisonController.compareMovies(requestBody2));
     }
 
     @Test
@@ -47,12 +58,37 @@ public class ComparisonControllerTest {
         when(movieRepository.findById(sample2.getMovieId())).thenReturn(Optional.of(sample2));
         when(movieRepository.findById(sample3.getMovieId())).thenReturn(Optional.of(sample3));
         when(movieRepository.findById(sample4.getMovieId())).thenReturn(Optional.of(sample4));
-        assertThrows(CannotFoundException.class, () -> comparisonController.compareMovies(sample1.getMovieId(), sample2.getMovieId()));
-        assertThrows(CannotFoundException.class, () -> comparisonController.compareMovies(sample2.getMovieId(), sample1.getMovieId()));
-        assertThrows(CannotFoundException.class, () -> comparisonController.compareMovies(sample3.getMovieId(), sample1.getMovieId()));
-        assertThrows(CannotFoundException.class, () -> comparisonController.compareMovies(sample1.getMovieId(), sample3.getMovieId()));
-        assertThrows(CannotFoundException.class, () -> comparisonController.compareMovies(sample4.getMovieId(), sample1.getMovieId()));
-        assertThrows(CannotFoundException.class, () -> comparisonController.compareMovies(sample1.getMovieId(), sample4.getMovieId()));
+        
+        Map<String, Long> requestBody1 = new HashMap<>();
+        requestBody1.put("id1", sample1.getMovieId());
+        requestBody1.put("id2", sample2.getMovieId());
+        
+        Map<String, Long> requestBody2 = new HashMap<>();
+        requestBody2.put("id1", sample2.getMovieId());
+        requestBody2.put("id2", sample1.getMovieId());
+        
+        Map<String, Long> requestBody3 = new HashMap<>();
+        requestBody3.put("id1", sample3.getMovieId());
+        requestBody3.put("id2", sample1.getMovieId());
+        
+        Map<String, Long> requestBody4 = new HashMap<>();
+        requestBody4.put("id1", sample1.getMovieId());
+        requestBody4.put("id2", sample3.getMovieId());
+        
+        Map<String, Long> requestBody5 = new HashMap<>();
+        requestBody5.put("id1", sample4.getMovieId());
+        requestBody5.put("id2", sample1.getMovieId());
+        
+        Map<String, Long> requestBody6 = new HashMap<>();
+        requestBody6.put("id1", sample1.getMovieId());
+        requestBody6.put("id2", sample4.getMovieId());
+        
+        assertThrows(CannotFoundException.class, () -> comparisonController.compareMovies(requestBody1));
+        assertThrows(CannotFoundException.class, () -> comparisonController.compareMovies(requestBody2));
+        assertThrows(CannotFoundException.class, () -> comparisonController.compareMovies(requestBody3));
+        assertThrows(CannotFoundException.class, () -> comparisonController.compareMovies(requestBody4));
+        assertThrows(CannotFoundException.class, () -> comparisonController.compareMovies(requestBody5));
+        assertThrows(CannotFoundException.class, () -> comparisonController.compareMovies(requestBody6));
     }
 
     @Test
@@ -78,9 +114,17 @@ public class ComparisonControllerTest {
         List<User> userList = List.of(user1, user2, user3, user4);
         when(userRepository.findAll()).thenReturn(userList);
 
+        Map<String, Long> requestBody1 = new HashMap<>();
+        requestBody1.put("id1", sample1.getMovieId());
+        requestBody1.put("id2", sample2.getMovieId());
+        
+        Map<String, Long> requestBody2 = new HashMap<>();
+        requestBody2.put("id1", sample2.getMovieId());
+        requestBody2.put("id2", sample1.getMovieId());
+        
         // test whether comparisonController.compareMovies() returns a List of Longs
-        assertTrue(comparisonController.compareMovies(sample1.getMovieId(), sample2.getMovieId()) instanceof List<Long>);
-        assertTrue(comparisonController.compareMovies(sample2.getMovieId(), sample1.getMovieId()) instanceof List<Long>);
+        assertTrue(comparisonController.compareMovies(requestBody1) instanceof List<Long>);
+        assertTrue(comparisonController.compareMovies(requestBody2) instanceof List<Long>);
         
         // invalid user cases
         List<User> invalidUserList = List.of();
@@ -88,16 +132,16 @@ public class ComparisonControllerTest {
         User user5 = new User(Long.valueOf(5), "Female", 50, "5", "40004");
         invalidUserList = List.of(user5);
         when(userRepository.findAll()).thenReturn(invalidUserList);
-        assertThrows(InvalidUserException.class, () -> comparisonController.compareMovies(sample1.getMovieId(), sample2.getMovieId()));
+        assertThrows(InvalidUserException.class, () -> comparisonController.compareMovies(requestBody1));
 
         User user6 = new User(Long.valueOf(6), null, 50, "6", "40005");
         invalidUserList = List.of(user6);
         when(userRepository.findAll()).thenReturn(invalidUserList);
-        assertThrows(InvalidUserException.class, () -> comparisonController.compareMovies(sample1.getMovieId(), sample2.getMovieId()));
+        assertThrows(InvalidUserException.class, () -> comparisonController.compareMovies(requestBody1));
 
         User user7 = new User(Long.valueOf(7), "F", 0, "7", "40006");
         invalidUserList = List.of(user7);
         when(userRepository.findAll()).thenReturn(invalidUserList);
-        assertThrows(InvalidUserException.class, () -> comparisonController.compareMovies(sample1.getMovieId(), sample2.getMovieId()));
+        assertThrows(InvalidUserException.class, () -> comparisonController.compareMovies(requestBody1));
     }
 }

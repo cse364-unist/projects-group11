@@ -3,10 +3,11 @@ package cse364.project;
 import java.lang.Math;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -22,9 +23,11 @@ public class ComparisonController {
         this.movieService = movieService;
     }
 
-    // Input: curl -X POST "http://localhost:8080/comparisons?id1=1&id2=2"
     @PostMapping("/comparisons")
-    public List<Long> compareMovies(@RequestParam("id1") Long id1, @RequestParam("id2") Long id2) {
+    public List<Long> compareMovies(@RequestBody Map<String, Long> requestBody) {
+        Long id1 = requestBody.get("id1");
+        Long id2 = requestBody.get("id2");
+    
         long current_year = 2024;
         Movie movie1, movie2;
 
