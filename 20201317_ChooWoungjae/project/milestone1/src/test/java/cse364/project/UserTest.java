@@ -60,7 +60,7 @@ public class UserTest {
             new User(9999996L, "M", 35, "Student", "999999"),
             new User(9999997L, "M", 45, "Student", "999999"),
             new User(9999998L, "M", 50, "Student", "999999"),
-            new User(9999999L, "M", 56, "Student", "999999")
+            new User(9999999L, "M", 56, "Student", "999999"),
         };
         int[] interval_list = {
             8, 9, 10, 11, 12, 13, 1, 2, 3, 4, 5, 6
@@ -87,12 +87,15 @@ public class UserTest {
             new User("M", 45, 10),
             new User("M", 50, 10),
             new User("M", 56, 10),
+            new User("F", -1, 10),
         };
         int[] interval_list = {
-            8, 9, 10, 11, 12, 13, 1, 2, 3, 4, 5, 6,
+            8, 9, 10, 11, 12, 13, 1, 2, 3, 4, 5, 6
         };
-        for (int i=0; i<11; i++) {
+        for (int i=0; i<12; i++) {
             assertEquals(user_list[i].calculateInterval(), interval_list[i]);
         }
+        // System.out.println(user_list[11].calculateInterval());
+        assertThrows(InvalidUserException.class, () -> {user_list[12].calculateInterval();} );
     }
 }
