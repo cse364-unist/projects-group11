@@ -1,6 +1,7 @@
 package cse364.project;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -25,50 +26,74 @@ public class RecommendationControllerTest {
     MovieRepository movieRepository;
 
     CosineSimilarity[] similarityList = {
-        new CosineSimilarity(Integer.valueOf(0), Double.valueOf(3.3)),
-        new CosineSimilarity(Integer.valueOf(1), Double.valueOf(3.3)),
-        new CosineSimilarity(Integer.valueOf(2), Double.valueOf(3.3)),
-        new CosineSimilarity(Integer.valueOf(3), Double.valueOf(3.3)),
-        new CosineSimilarity(Integer.valueOf(4), Double.valueOf(3.3)),
-        new CosineSimilarity(Integer.valueOf(5), Double.valueOf(3.3)),
-        new CosineSimilarity(Integer.valueOf(6), Double.valueOf(3.3)),
-        new CosineSimilarity(Integer.valueOf(7), Double.valueOf(3.3)),
-        new CosineSimilarity(Integer.valueOf(8), Double.valueOf(3.3)),
-        new CosineSimilarity(Integer.valueOf(9), Double.valueOf(3.3)),
-        new CosineSimilarity(Integer.valueOf(10), Double.valueOf(3.3)),
-        new CosineSimilarity(Integer.valueOf(11), Double.valueOf(3.3)),
-        new CosineSimilarity(Integer.valueOf(12), Double.valueOf(3.3)),
-        new CosineSimilarity(Integer.valueOf(13), Double.valueOf(3.3)),
+        // necessary for user1
+        new CosineSimilarity(Integer.valueOf(0), Double.valueOf(0.8)),
+        new CosineSimilarity(Integer.valueOf(1), Double.valueOf(0.7)),
+        new CosineSimilarity(Integer.valueOf(2), Double.valueOf(0.9)),
+        new CosineSimilarity(Integer.valueOf(3), Double.valueOf(0.6)),
+        new CosineSimilarity(Integer.valueOf(4), Double.valueOf(1.0)),
+        new CosineSimilarity(Integer.valueOf(5), Double.valueOf(0.8)),
+        new CosineSimilarity(Integer.valueOf(6), Double.valueOf(0.7)),
+        new CosineSimilarity(Integer.valueOf(7), Double.valueOf(1.1)),
+        new CosineSimilarity(Integer.valueOf(8), Double.valueOf(0.9)),
+        new CosineSimilarity(Integer.valueOf(9), Double.valueOf(0.7)),
+        new CosineSimilarity(Integer.valueOf(10), Double.valueOf(0.8)),
+        new CosineSimilarity(Integer.valueOf(11), Double.valueOf(0.8)),
+        new CosineSimilarity(Integer.valueOf(12), Double.valueOf(0.6)),
+        new CosineSimilarity(Integer.valueOf(13), Double.valueOf(1.0)),
+        // necessary for user2
+        new CosineSimilarity(Integer.valueOf(21), Double.valueOf(0.7)),
+        new CosineSimilarity(Integer.valueOf(35), Double.valueOf(0.8)),
+        new CosineSimilarity(Integer.valueOf(49), Double.valueOf(0.8)),
+        new CosineSimilarity(Integer.valueOf(63), Double.valueOf(0.6)),
+        new CosineSimilarity(Integer.valueOf(77), Double.valueOf(1.0)),
+        new CosineSimilarity(Integer.valueOf(91), Double.valueOf(0.7)),
+        new CosineSimilarity(Integer.valueOf(106), Double.valueOf(0.8)),
+        new CosineSimilarity(Integer.valueOf(107), Double.valueOf(0.8)),
+        new CosineSimilarity(Integer.valueOf(108), Double.valueOf(0.8)),
+        new CosineSimilarity(Integer.valueOf(109), Double.valueOf(0.6)),
+        new CosineSimilarity(Integer.valueOf(110), Double.valueOf(1.0))
     };
 
     @Test
     public void testTargetMovie() {
         
         User userSample1 = new User(Long.valueOf(1), "M", 1, "1", "40000");
+        //User userSample2 = new User(Long.valueOf(2), "F", 1, "1", "40001");
         List<User> userList = List.of(userSample1);
 
         String genreSample1 = new String("3");
-        List<String> genreList = List.of(genreSample1);
+        String genreSample2 = new String("4");
+        List<String> genreList = List.of(genreSample1, genreSample2);
 
         Recommendation newRecommendation = new Recommendation(userList, genreList);
 
         for (int i = 1; i < 14; i++) {
-            when(similarityRepository.findById(Integer.valueOf(i))).thenReturn(Optional.of(similarityList[i]));
+            when(similarityRepository.findById(similarityList[i].getTarget())).thenReturn(Optional.of(similarityList[i]));
         }
 
-        Movie movieSample1 = new Movie(Long.valueOf(1), "title1 (2000)", "1");
-        Movie movieSample2 = new Movie(Long.valueOf(2), "title2 (2001)", "2");
-        Movie movieSample3 = new Movie(Long.valueOf(3), "title3 (2002)", "3");
-        for(int i = 0 ; i < 15 ; i ++){
-            movieSample1.setIntervalPairList(i, 0, 18);
-            movieSample1.setIntervalPairList(i, 1, 5);
-            movieSample2.setIntervalPairList(i, 0, 30);
-            movieSample2.setIntervalPairList(i, 1, 6);
-            movieSample3.setIntervalPairList(i, 0, 28);
-            movieSample3.setIntervalPairList(i, 1, 6);
+        // creating sample Movie List
+        List<Movie> movieList = List.of(
+            new Movie(Long.valueOf(1), "title1 (2000)", "1"),
+            new Movie(Long.valueOf(2), "title2 (2001)", "2"),
+            new Movie(Long.valueOf(3), "title3 (2002)", "3"),
+            new Movie(Long.valueOf(4), "title4 (2003)", "2")
+        );
+        for (int i = 0 ; i < 15 ; i ++) {
+            movieList.get(0).setIntervalPairList(i, 0, 18);
+            movieList.get(0).setIntervalPairList(i, 1, 5);
+            movieList.get(1).setIntervalPairList(i, 0, 30);
+            movieList.get(1).setIntervalPairList(i, 1, 6);
+            movieList.get(2).setIntervalPairList(i, 0, 28);
+            movieList.get(2).setIntervalPairList(i, 1, 6);
+            movieList.get(2).setIntervalPairList(i, 0, 0);
+            movieList.get(2).setIntervalPairList(i, 1, 0);
         }
-        List<Movie> movieList = List.of(movieSample1, movieSample2, movieSample3);
+        
+        //List<Movie> movieList = List.of(movieSample1, movieSample2, movieSample3);
         when(movieRepository.findAll()).thenReturn(movieList);
+        for (int i = 0; i < movieList.size(); i++)
+            lenient().when(movieRepository.findById(movieList.get(i).getMovieId())).thenReturn(Optional.of(movieList.get(i)));
 
         assertTrue(recommendationController.targetMovie(newRecommendation) instanceof List<Movie>);
     }
