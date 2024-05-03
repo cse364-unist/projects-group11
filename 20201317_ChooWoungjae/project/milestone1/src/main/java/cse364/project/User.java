@@ -40,7 +40,8 @@ public class User {
         if(this.gender.equals("F")){
             interval = 7;
         }
-        if(this.age == 18) { interval += 1;} 
+        if(this.age == 1) { interval += 0; }
+        else if(this.age == 18) { interval += 1;} 
         else if(this.age == 25) { interval += 2; }
         else if(this.age == 35) { interval += 3; }
         else if(this.age == 45) { interval += 4; }

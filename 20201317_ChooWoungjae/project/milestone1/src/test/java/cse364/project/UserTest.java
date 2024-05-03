@@ -32,11 +32,11 @@ public class UserTest {
     @DisplayName("testing User constructor")
     public void testMovieConstructor() {
         // test movie constructor
-        Long user_id = 9999987L;
+        Long user_id = 9999985L;
         User sample = new User(user_id, "F", 18, "Student", "999999");
 
         // test whether a Movie is initialized correctly when the object is created
-        assertEquals(sample.getUserId(), 9999987);
+        assertEquals(sample.getUserId(), 9999985);
         assertEquals(sample.getGender(), "F");
         assertEquals(sample.getAge(), 18);
         assertEquals(sample.getOccupation(), "Student");
@@ -49,12 +49,14 @@ public class UserTest {
     public void testUserCalculateInterval() {
         // test default constructor
         User[] user_list = {
-            new User(9999988L, "F", 18, "Student", "999999"),
-            new User(9999989L, "F", 25, "Student", "999999"),
-            new User(9999990L, "F", 35, "Student", "999999"),
-            new User(9999991L, "F", 45, "Student", "999999"),
-            new User(9999992L, "F", 50, "Student", "999999"),
-            new User(9999993L, "F", 56, "Student", "999999"),
+            new User(9999986L, "F", 1, "Student", "999999"),
+            new User(9999987L, "F", 18, "Student", "999999"),
+            new User(9999988L, "F", 25, "Student", "999999"),
+            new User(9999989L, "F", 35, "Student", "999999"),
+            new User(9999990L, "F", 45, "Student", "999999"),
+            new User(9999991L, "F", 50, "Student", "999999"),
+            new User(9999992L, "F", 56, "Student", "999999"),
+            new User(9999993L, "M", 1, "Student", "999999"),
             new User(9999994L, "M", 18, "Student", "999999"),
             new User(9999995L, "M", 25, "Student", "999999"),
             new User(9999996L, "M", 35, "Student", "999999"),
@@ -63,9 +65,9 @@ public class UserTest {
             new User(9999999L, "M", 56, "Student", "999999"),
         };
         int[] interval_list = {
-            8, 9, 10, 11, 12, 13, 1, 2, 3, 4, 5, 6
+            7, 8, 9, 10, 11, 12, 13, 0, 1, 2, 3, 4, 5, 6
         };
-        for (int i=0; i<11; i++) {
+        for (int i=0; i<14; i++) {
             assertEquals(user_list[i].calculateInterval(), interval_list[i]);
         }
     }
@@ -75,12 +77,14 @@ public class UserTest {
     public void testSimpleUserConstructorCalculateInterval() {
         // test default constructor
         User[] user_list = {
+            new User("F", 1, 10),
             new User("F", 18, 10),
             new User("F", 25, 10),
             new User("F", 35, 10),
             new User("F", 45, 10),
             new User("F", 50, 10),
             new User("F", 56, 10),
+            new User("M", 1, 10),
             new User("M", 18, 10),
             new User("M", 25, 10),
             new User("M", 35, 10),
@@ -90,12 +94,12 @@ public class UserTest {
             new User("F", -1, 10),
         };
         int[] interval_list = {
-            8, 9, 10, 11, 12, 13, 1, 2, 3, 4, 5, 6
+            7, 8, 9, 10, 11, 12, 13, 0, 1, 2, 3, 4, 5, 6
         };
-        for (int i=0; i<12; i++) {
+        for (int i=0; i<14; i++) {
             assertEquals(user_list[i].calculateInterval(), interval_list[i]);
         }
         // System.out.println(user_list[11].calculateInterval());
-        assertThrows(InvalidUserException.class, () -> {user_list[12].calculateInterval();} );
+        assertThrows(InvalidUserException.class, () -> {user_list[14].calculateInterval();} );
     }
 }
