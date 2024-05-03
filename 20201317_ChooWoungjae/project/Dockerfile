@@ -38,15 +38,12 @@ RUN apt-get update && apt-get install -y \
     vim \
     openjdk-17-jdk \
     maven \
-    curl
+    curl \
+    git
 
 ENV HOME /root/project
 # Create /root/project directory and set it as WORKDIR.
 WORKDIR ${HOME}
-
-# Add your ‘milestone1 directory’ under WORKDIR.
-# TODO: uncomment this part
-# ADD milestone1 milestone1
 
 # Add your run.sh file under WORKDIR.
 ADD run.sh run.sh
