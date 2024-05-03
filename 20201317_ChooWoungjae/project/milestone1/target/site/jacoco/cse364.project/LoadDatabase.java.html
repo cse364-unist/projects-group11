@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LoadDatabase.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">project</a> &gt; <a href="index.source.html" class="el_package">cse364.project</a> &gt; <span class="el_source">LoadDatabase.java</span></div><h1>LoadDatabase.java</h1><pre class="source lang-java linenums">package cse364.project;
+
+import org.hibernate.Length;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import java.util.*;
+
+import org.apache.commons.lang3.tuple.Pair;
+
+@Configuration
+<span class="nc" id="L13">class LoadDatabase {</span>
+
+<span class="nc" id="L15">    private static final ReadFile readFile = new ReadFile();</span>
+
+    @Bean
+    CommandLineRunner initDatabase( MovieRepository movieRepository, UserRepository userRepository, RatingRepository ratingRepository, CosineSimilarityRepository cosineSimilarityRepository) {
+
+<span class="nc" id="L20">        return args -&gt; {</span>
+<span class="nc" id="L21">            List&lt;List&lt;String&gt;&gt; MovieData = readFile.readDAT(&quot;/root/project/milestone1/data/movies.dat&quot;);   // Load Movie Data</span>
+<span class="nc" id="L22">            int movieDataSize = MovieData.size();</span>
+<span class="nc bnc" id="L23" title="All 2 branches missed.">            for(int i = 0 ; i &lt; movieDataSize ; i ++) {</span>
+<span class="nc" id="L24">                Long MovieID = Long.parseLong(MovieData.get(i).get(0));</span>
+<span class="nc" id="L25">                Movie NewMovie = new Movie(MovieID, MovieData.get(i).get(1), MovieData.get(i).get(2));</span>
+
+<span class="nc" id="L27">                movieRepository.save(NewMovie);</span>
+            }
+
+<span class="nc" id="L30">            List&lt;List&lt;String&gt;&gt; UserData = readFile.readDAT(&quot;/root/project/milestone1/data/users.dat&quot;);   // Load User Data</span>
+<span class="nc" id="L31">            int userDataSize = UserData.size();</span>
+<span class="nc bnc" id="L32" title="All 2 branches missed.">            for(int i = 0 ; i &lt; userDataSize ; i ++) {</span>
+<span class="nc" id="L33">                Long UserID = Long.parseLong(UserData.get(i).get(0));</span>
+<span class="nc" id="L34">                int UserAge = Integer.parseInt(UserData.get(i).get(2));</span>
+<span class="nc" id="L35">                User NewUser = new User(UserID, UserData.get(i).get(1), UserAge, UserData.get(i).get(3), UserData.get(i).get(4));</span>
+
+<span class="nc" id="L37">                userRepository.save(NewUser);</span>
+            }
+
+<span class="nc" id="L40">            List&lt;List&lt;String&gt;&gt; RatingData = readFile.readDAT(&quot;/root/project/milestone1/data/ratings.dat&quot;);   // Load Rating Data</span>
+<span class="nc" id="L41">            int ratingDataSize = RatingData.size();</span>
+<span class="nc bnc" id="L42" title="All 2 branches missed.">            for(int i = 0 ; i &lt; ratingDataSize ; i ++){</span>
+<span class="nc" id="L43">                Long userId = Long.parseLong(RatingData.get(i).get(0));</span>
+<span class="nc" id="L44">                Long movieId = Long.parseLong(RatingData.get(i).get(1));</span>
+<span class="nc" id="L45">                Long rating = Long.parseLong(RatingData.get(i).get(2));</span>
+<span class="nc" id="L46">                Rating newRating = new Rating(userId, movieId, rating);</span>
+
+<span class="nc" id="L48">                ratingRepository.save(newRating);</span>
+
+<span class="nc" id="L50">                Movie newMovie = movieRepository.findById(movieId).get();</span>
+<span class="nc" id="L51">                User newUser = userRepository.findById(userId).get();</span>
+<span class="nc" id="L52">                int interval = newUser.calculateInterval();</span>
+<span class="nc" id="L53">                newMovie.plusIntervalPairList(interval, 0, rating.intValue());</span>
+<span class="nc" id="L54">                newMovie.plusIntervalPairList(interval, 1, 1);</span>
+<span class="nc" id="L55">                movieRepository.save(newMovie);</span>
+            }
+
+<span class="nc" id="L58">            List&lt;Movie&gt; movieList = movieRepository.findAll();</span>
+<span class="nc" id="L59">            int movieListSize = movieList.size();                       // In below code, I will calculate cosineSimilarity with averageOfRating data.</span>
+                                                         // This cosineSimilarity means that similarity of two interval(i, j)
+                                                         // The equation of similarity of two vector is &quot;similarity = vector_i * vector_j / lengthOfVector_i * lengthOfVector_j&quot;
+<span class="nc" id="L62">            Double[] vectorLength = new Double[15];</span>
+<span class="nc" id="L63">            Double[][] dotProduct = new Double[15][15];</span>
+
+<span class="nc bnc" id="L65" title="All 2 branches missed.">            for(int i = 0 ; i &lt; 14 ; i ++){</span>
+<span class="nc" id="L66">                vectorLength[i] = Double.valueOf(0.0);</span>
+<span class="nc bnc" id="L67" title="All 2 branches missed.">                for(int j = 0 ; j &lt; 14 ; j ++){</span>
+<span class="nc" id="L68">                    dotProduct[i][j] = Double.valueOf(0.0);</span>
+                }
+            }
+
+<span class="nc bnc" id="L72" title="All 2 branches missed.">            for(int k = 0 ; k &lt; movieListSize ; k ++){</span>
+<span class="nc" id="L73">                Movie nowMovie = movieList.get(k);</span>
+<span class="nc bnc" id="L74" title="All 2 branches missed.">                for(int i = 0 ; i &lt; 14 ; i ++){</span>
+<span class="nc" id="L75">                    Double nowVectorCoordinate = nowMovie.getAverageOfInterval(i);</span>
+<span class="nc" id="L76">                    vectorLength[i] += nowVectorCoordinate * nowVectorCoordinate;</span>
+<span class="nc bnc" id="L77" title="All 2 branches missed.">                    for(int j = i + 1 ; j &lt; 14 ; j ++){</span>
+<span class="nc" id="L78">                        dotProduct[i][j] += nowMovie.getAverageOfInterval(i) * nowMovie.getAverageOfInterval(j);</span>
+                    }
+                }
+            }
+<span class="nc bnc" id="L82" title="All 2 branches missed.">            for(int i = 0 ; i &lt; 14 ; i ++){</span>
+<span class="nc" id="L83">                vectorLength[i] = Math.sqrt(vectorLength[i]);</span>
+            }
+<span class="nc bnc" id="L85" title="All 2 branches missed.">            for(int i = 0 ; i &lt; 14 ; i ++){</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">                for(int j = i + 1 ; j &lt; 14 ; j ++){</span>
+<span class="nc" id="L87">                    CosineSimilarity newCosineSimilarity = new CosineSimilarity(Integer.valueOf(i * 14 + j), (dotProduct[i][j] / (vectorLength[i] * vectorLength[j])));</span>
+<span class="nc" id="L88">                    cosineSimilarityRepository.save(newCosineSimilarity);</span>
+                }
+            }
+
+
+
+
+
+<span class="nc" id="L96">            System.out.println(&quot;end parsing\n&quot;);</span>
+<span class="nc" id="L97">        };</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

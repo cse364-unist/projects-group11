@@ -1,0 +1,21 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+project,cse364.project,User,0,135,0,16,0,37,0,23,0,15
+project,cse364.project,Movie,0,115,0,4,0,22,0,14,0,12
+project,cse364.project,ApplicationMain,8,0,0,0,3,0,2,0,2,0
+project,cse364.project,MovieServiceImpl,0,218,0,22,0,56,0,13,0,2
+project,cse364.project,InvalidUserAdvice,6,0,0,0,2,0,2,0,2,0
+project,cse364.project,ReadFile,8,59,0,4,4,19,0,4,0,2
+project,cse364.project,ComparisonController,0,774,0,30,0,144,0,17,0,2
+project,cse364.project,LoadDatabase,394,0,22,0,53,0,15,0,4,0
+project,cse364.project,NoSatisfactoryMovieAdvice,6,0,0,0,2,0,2,0,2,0
+project,cse364.project,NoSatisfactoryMovieException,4,0,0,0,2,0,1,0,1,0
+project,cse364.project,RecommendationController,329,9,36,0,68,4,19,1,1,1
+project,cse364.project,RecommendationController.new Comparator() {...},56,0,6,0,7,0,5,0,2,0
+project,cse364.project,CosineSimilarity,26,0,0,0,9,0,6,0,6,0
+project,cse364.project,CannotFoundException,0,6,0,0,0,2,0,1,0,1
+project,cse364.project,Gift,0,72,0,0,0,25,0,13,0,13
+project,cse364.project,Rating,18,18,0,0,5,7,5,3,5,3
+project,cse364.project,GiftController,0,64,0,4,0,18,0,6,0,4
+project,cse364.project,CannotFoundAdvice,6,0,0,0,2,0,2,0,2,0
+project,cse364.project,InvalidUserException,0,6,0,0,0,2,0,1,0,1
+project,cse364.project,Recommendation,26,0,0,0,9,0,6,0,6,0
