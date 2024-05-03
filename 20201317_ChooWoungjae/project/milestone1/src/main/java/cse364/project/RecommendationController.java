@@ -14,22 +14,11 @@ import org.apache.commons.lang3.tuple.Pair;
 @RestController
 class RecommendationController {
 
-    private final SimpleUserRepository repository;
     private final CosineSimilarityRepository similarityRepository;
     private final MovieRepository movieRepository;
-    RecommendationController(SimpleUserRepository repository, CosineSimilarityRepository similarityRepository, MovieRepository movieRepository) {
-        this.repository = repository;
+    RecommendationController(CosineSimilarityRepository similarityRepository, MovieRepository movieRepository) {
         this.similarityRepository = similarityRepository;
         this.movieRepository = movieRepository;
-    }
-
-
-    @PutMapping("/recommendations")
-    SimpleUser changeSimpleUser(@RequestBody SimpleUser newSimpleUser) {
-
-        repository.save(newSimpleUser);
-
-        return newSimpleUser;
     }
 
     @GetMapping("/recommendations")
@@ -144,14 +133,6 @@ class RecommendationController {
 
 
         return recommendation;
-    }
-
-    @PostMapping("/recommendations")
-    SimpleUser addSimpleUser(@RequestBody SimpleUser newSimpleUser) {
-
-        repository.save(newSimpleUser);
-
-        return newSimpleUser;
     }
 
 }
