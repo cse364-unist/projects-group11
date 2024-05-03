@@ -49,8 +49,6 @@ $ curl -X GET http://localhost:8080/gifts/b541e319-272f-4c84-bb68-717328806deb
 {"message":"영화 선물","movieId":5,"giftId":"b541e319-272f-4c84-bb68-717328806deb","expireDate":"2024-07-27 23:59:59"}
 ```
 
-link has movie barcode, message, ticket
-
 ## /comparisons/
 
 ### input
