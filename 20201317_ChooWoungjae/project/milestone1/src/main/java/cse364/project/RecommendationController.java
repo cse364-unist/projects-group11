@@ -127,7 +127,8 @@ class RecommendationController {
 
         int count = 0;
         for(int i = 0 ; i < predicationRatingListSize ; i ++){
-            if(predicationRatingList.get(i).getLeft().doubleValue() >= 5){
+            int isPerfect = predicationRatingList.get(i).getLeft().compareTo(4.99999);
+            if(isPerfect >= 0){
                 continue;
             }
             if(predicationRatingList.get(i).getLeft().isNaN()){

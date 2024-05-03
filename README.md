@@ -33,17 +33,16 @@ $ curl -X PUT http://localhost:8080/ratings -H 'Content-type:application/json' -
 
 ### input
 ```
-[ {"gender": "M|F", "age": "1~24|25~34|35~49|50~65", "dislike_genre": "18개 장르 중 하나", "occupation": "21개 직업 중 하나"}, ... ]
+[ 추천을 원하는 그룹의 정보 리스트 : {"gender": "M|F", "age": "1|18|25|35|45|50|56", "numOfPeople": integer}, 싫어하는 장르 리스트 : { 18개의 장르 중 하나 } ]
 ```
 ### output
 ```
-[ list of movies ] (5개에서 10개정도 추천해주면 될듯)
+[ 예상점수가 높은 5개의 list of movies 
+모든 rating의 점수가 5점인 몇몇개의 영화는 항상 예측점수가 5점이기때문에 제외하고 출력함]
 ```
 ### test
 ```
-$ curl -X POST http://localhost:8080/recommendations -H 'Content-type:application/json' -d '{"gender": "F", "age": 1, "numOfPeople": 1}' //시청하는 사람정보 추가
-$ curl -X PUT http://localhost:8080/recommendations -H 'Content-type:application/json' -d '{"gender": "F", "age": 1, "numOfPeople": 1}' //시청하는 사람 정보 변경
-$ curl -X GET http://localhost:8080/recommendations     //예측점수가 높은순으로 정렬된 영화의 List 반환
+$ curl -X GET http://localhost:8080/recommendations -H 'Content-type:application/json' -d '{"userList": [{"gender": "M", "age": 25, "numOfPeople": 1}], "genreList": ["Drama"]}'     //그룹이 25살 남자 한명일 때 "Drama"장르를 제외한 영화 중 예측점수가 높은순으로 5개의 영화의 List 반환
 ```
 
 ## /gifts/
