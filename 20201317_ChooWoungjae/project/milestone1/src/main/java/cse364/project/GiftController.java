@@ -1,23 +1,13 @@
 package cse364.project;
 
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Optional;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.aggregation.Aggregation;
-import org.springframework.data.mongodb.core.aggregation.AggregationResults;
-import org.springframework.data.mongodb.core.aggregation.GroupOperation;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -27,11 +17,9 @@ import java.time.format.DateTimeFormatter;
 class GiftController {
 
     private final GiftRepository giftRepository;
-    private final MongoTemplate mongoTemplate;
 
-    GiftController(GiftRepository giftRepository, MongoTemplate mongoTemplate) {
+    GiftController(GiftRepository giftRepository) {
         this.giftRepository = giftRepository;
-        this.mongoTemplate = mongoTemplate;
     }
 
     @GetMapping("/gifts")

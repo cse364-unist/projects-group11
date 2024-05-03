@@ -3,8 +3,6 @@ package cse364.project;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import java.util.Arrays;
-import java.util.List;
 
 public class UserTest {
 
@@ -99,7 +97,6 @@ public class UserTest {
         for (int i=0; i<14; i++) {
             assertEquals(user_list[i].calculateInterval(), interval_list[i]);
         }
-        // System.out.println(user_list[11].calculateInterval());
         assertThrows(InvalidUserException.class, () -> {user_list[14].calculateInterval();} );
     }
 }

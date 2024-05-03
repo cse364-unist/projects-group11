@@ -1,13 +1,10 @@
 package cse364.project;
 
-import org.hibernate.Length;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.*;
-
-import org.apache.commons.lang3.tuple.Pair;
 
 @Configuration
 class LoadDatabase {
@@ -25,7 +22,6 @@ class LoadDatabase {
         return args -> {
             List<List<String>> MovieData = readFile.readDAT("/root/project/milestone1/data/movies.dat");   // Load Movie Data
             int movieDataSize = MovieData.size();
-            System.out.println("moviedatasize: " + movieDataSize);
             for(int i = 0 ; i < movieDataSize ; i ++) {
                 Long MovieID = Long.parseLong(MovieData.get(i).get(0));
                 Movie NewMovie = new Movie(MovieID, MovieData.get(i).get(1), MovieData.get(i).get(2));

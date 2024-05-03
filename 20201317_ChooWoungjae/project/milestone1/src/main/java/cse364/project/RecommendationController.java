@@ -2,11 +2,7 @@ package cse364.project;
 
 import java.util.*;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.apache.commons.lang3.tuple.Pair;
@@ -102,14 +98,15 @@ class RecommendationController {
             @Override
             public int compare(Pair<Double, Long> a, Pair<Double, Long> b){
                 if(a.getLeft().isNaN()) return 1;
-                if(b.getLeft().isNaN()) return -1;
-                if(a.getLeft().doubleValue() == b.getLeft().doubleValue()){
+                /*if(a.getLeft().doubleValue() == b.getLeft().doubleValue()){
                     return a.getRight().intValue() - b.getRight().intValue();
                 }
                 else{
                     Double diff = b.getLeft() - a.getLeft();
                     return diff.compareTo(0.0);
-                }
+                }*/
+                Double diff = b.getLeft() - a.getLeft();
+                return diff.compareTo(0.0);
             }
         };
 

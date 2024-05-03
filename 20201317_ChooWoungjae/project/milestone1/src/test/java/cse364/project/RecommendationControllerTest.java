@@ -2,11 +2,9 @@ package cse364.project;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.lenient;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -59,7 +57,6 @@ public class RecommendationControllerTest {
     public void testTargetMovie() {
         
         User userSample1 = new User(Long.valueOf(1), "M", 1, "1", "40000");
-        //User userSample2 = new User(Long.valueOf(2), "F", 1, "1", "40001");
         List<User> userList = List.of(userSample1);
 
         String genreSample1 = new String("3");
@@ -86,11 +83,10 @@ public class RecommendationControllerTest {
             movieList.get(1).setIntervalPairList(i, 1, 6);
             movieList.get(2).setIntervalPairList(i, 0, 28);
             movieList.get(2).setIntervalPairList(i, 1, 6);
-            movieList.get(2).setIntervalPairList(i, 0, 0);
-            movieList.get(2).setIntervalPairList(i, 1, 0);
+            movieList.get(3).setIntervalPairList(i, 0, 0);
+            movieList.get(3).setIntervalPairList(i, 1, 0);
         }
         
-        //List<Movie> movieList = List.of(movieSample1, movieSample2, movieSample3);
         when(movieRepository.findAll()).thenReturn(movieList);
         for (int i = 0; i < movieList.size(); i++)
             lenient().when(movieRepository.findById(movieList.get(i).getMovieId())).thenReturn(Optional.of(movieList.get(i)));

@@ -14,7 +14,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.mongodb.core.MongoTemplate;
 
 @ExtendWith(MockitoExtension.class)
 public class GiftControllerTest {
@@ -23,8 +22,6 @@ public class GiftControllerTest {
 
     @Mock
     GiftRepository giftRepository;
-    @Mock
-    MongoTemplate mongoTemplate;
 
     @Test
     public void testGetAll() {
