@@ -54,19 +54,5 @@ EXPOSE 8080
 # Expose the default MongoDB port
 EXPOSE 27017
 
-############### NEED TO DELETE ###############
-# RUN cd milestone1 && mvn package
-# 1. add pom.xml only here
-ADD milestone1/pom.xml milestone1/pom.xml 
-# RUN cd milestone1
-# 2. start downloading dependencies
-RUN cd milestone1 && mvn verify clean --fail-never
-# 3. add all source code and start compiling
-ADD milestone1/data milestone1/data
-ADD milestone1/src milestone1/src
-
-# RUN cd milestone1 && mvn -e package
-############### NEED TO DELETE ###############
-
 # A container should execute a bash shell by default when the built image is launched.
 CMD [ "/bin/bash" ]
