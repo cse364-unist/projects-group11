@@ -1,8 +1,6 @@
 package cse364.project;
 
 import org.hibernate.Length;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,8 +11,6 @@ import org.apache.commons.lang3.tuple.Pair;
 
 @Configuration
 class LoadDatabase {
-
-    private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
 
     private static final ReadFile readFile = new ReadFile();
 
@@ -58,12 +54,6 @@ class LoadDatabase {
                 newMovie.plusIntervalPairList(interval, 1, 1);
                 movieRepository.save(newMovie);
             }
-
-            // LookupOperation lookup = LookupOperation.newLookup()
-            //     .from("roomTypes")
-            //     .localField("roomtypeId")
-            //     .foreignField("_id")
-            //     .as("roomType");
 
             List<Movie> movieList = movieRepository.findAll();
             int movieListSize = movieList.size();                       // In below code, I will calculate cosineSimilarity with averageOfRating data.
