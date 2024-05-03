@@ -41,14 +41,19 @@ expect output :
 {"message": "string", "movieId": long, "giftId": "string: uuid", "expireDate": "3 months after current datetime, until 11:59:59 pm"}
 ```
 ### test
+First post gift. Then based on the giftId (uuid) got from the output, if we request a get method, we can get the details of the gift.
 ```
 $ curl -X POST http://localhost:8080/gifts -H 'Content-type:application/json' -d '{"message": "영화 선물", "movieId": 5}'
+expected output:
 {"message":"영화 선물","movieId":5,"giftId":"b541e319-272f-4c84-bb68-717328806deb","expireDate":"2024-07-27 23:59:59"}
+
 $ curl -X GET http://localhost:8080/gifts/b541e319-272f-4c84-bb68-717328806deb
+expected output
 {"message":"영화 선물","movieId":5,"giftId":"b541e319-272f-4c84-bb68-717328806deb","expireDate":"2024-07-27 23:59:59"}
 ```
+Note that the giftId changes every time because it is a uuid generated. 
 
-## /comparisons/
+## /comparisons
 
 ### input
 ```
