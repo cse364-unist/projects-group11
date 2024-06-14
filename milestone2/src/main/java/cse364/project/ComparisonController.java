@@ -6,8 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -23,11 +24,20 @@ public class ComparisonController {
         this.movieService = movieService;
     }
 
+    // Input: curl -X GET "http://localhost:8080/comparisons/search?keyword=toy"
+    @GetMapping("/comparisons/search")
+    public List<Movie> searchMovies(@RequestParam String keyword) {
+        String regexPattern = ".*" + keyword + ".*(?=\\s\\([0-9]{4}\\))";
+        List<Movie> movies = movieRepository.findByTitleRegex(regexPattern);
+        if (movies.isEmpty()) {
+            throw new CannotFoundException("movies with keyword", keyword);
+        }
+        return movies;
+    }
+
+    // Input: curl -X POST "http://localhost:8080/comparisons?id1=1&id2=2"
     @PostMapping("/comparisons")
-    public List<Long> compareMovies(@RequestBody Map<String, Long> requestBody) {
-        Long id1 = requestBody.get("id1");
-        Long id2 = requestBody.get("id2");
-    
+    public List<Long> compareMovies(@RequestParam("id1") Long id1, @RequestParam("id2") Long id2) {
         long current_year = 2024;
         Movie movie1, movie2;
 

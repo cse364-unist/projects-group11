@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
@@ -27,9 +27,10 @@ class GiftController {
         return giftRepository.findAll();
     }
 
+    // Input: curl -X POST "http://localhost:8080/gifts?message="영화 선물"&movieId=5"
     @PostMapping("/gifts")
-    Gift newGift(@RequestBody Gift newGift) {
-        newGift.updateInfo();
+    Gift newGift(@RequestParam("message") String message, @RequestParam("movieId") Long movieId) {
+        Gift newGift = new Gift(message, movieId);
         return giftRepository.save(newGift);
     }
 

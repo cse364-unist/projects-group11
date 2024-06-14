@@ -1,6 +1,7 @@
 package cse364.project;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -31,9 +32,18 @@ public class GiftControllerTest {
 
     @Test
     public void testPost() {
-        Gift sample1 = new Gift("message", Long.valueOf(1));
-        giftController.newGift(sample1);
-        verify(giftRepository).save(sample1);
+        String message = "message";
+        Long movieId = Long.valueOf(1);
+        
+        Gift sample1 = new Gift(message, movieId);
+        
+        when(giftRepository.save(any(Gift.class))).thenReturn(sample1);
+
+        Gift result = giftController.newGift(message, movieId);
+
+        verify(giftRepository).save(any(Gift.class));
+        assertEquals(message, result.getMessage());
+        assertEquals(movieId, result.getMovieId());
     }
 
     @Test
