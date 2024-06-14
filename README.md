@@ -4,31 +4,30 @@
 
 ### How to use
 
-- "Add Person" 버튼을 누르면 아래에 정보를 입력할 수 있는 상자가 튀어나옴
-- 그 상자의 각 버튼을 누르면 눌렀다는 것을 표시하기 위해 색이 바뀜
-- 사람의 정보를 입력한 후 "Add" 버튼을 누르면 사람이 추가됨
-- 오른쪽에 있는 "-" 버튼을 누르면 그 사람이 삭제됨.
-- 그룹의 정보를 입력한 후 "Submit" 버튼을 누르면 영화를 추천해주는 페이지로 넘어감
+- Pressing "Add Person" button causes a box to pop up where you can check information at the below.
+- When each button in the box is pressed, the color changes to indicate that it has been pressed.
+- After checking a person's information, press the "Add" button to add a person.
+- Pressing "Remove" button on the right will remove that person's information.
+- After entering the group's information, press "Submit" button to go to the movie recommendation page for the group.
 
-- 추천해주는 페이지에서 화살표 버튼을 누르면 페이지가 넘어감
-- 아래에는 현재 추천을 진행한 그룹의 정보가 나오고 앞에서의 방법과 같은
-- 방법으로 그룹의 정보를 바꿔서 다시 추천을 요구할 수 있음
+- On the movie recommendation page, we recommend 10 movies with high expected ratings for the group.
 
 ## /gift
 
 ### How to Use
 
-- "Movie" 옆에 있는 "Enter Movie Title"상자를 누르면 영화 제목을 입력할 수 있다.
-- "Message" 옆에 있는 "Type message..." 상자를 누르면 메세지를 입력할 수 있다.
-- 이후 "Submit" 버튼을 누르면 앞서 입력했던 영화 제목과 메세지가 포함된 기프티콘이 생성된다.
+- Click "Enter Movie Title" box next to "Movie" to enter the title of the movie.
+- Click "Type message..." box next to "Message" to enter the message.
+- After that, pressing "Submit" button creates a gifticon containing entered movie title and message.
 
-- 생성된 기프티콘 화면에서 "Share to others!" 버튼을 누르면 다른사람에게 보낼 기프티콘 링크가 만들어지고 그 링크를 복사하게 된다.
-- 기프티콘 선물을 받은 사람이 링크를 누르고 들어오면 같은 기프티콘 화면에 도달하게 된다.
-- 이때 "Use gifticon!" 버튼을 누르면 그 기프티콘을 사용할 수 있다.
+- Pressing "Share to others!" button on the generated gifticon screen  creates a gifticon link to send to others and copies the link.
+- If the recipient of the gifticon gift presses the link and comes in, the same gifticon screen will be reached.
+- You can use the gifticon by pressing "Use gifticon!" button.
 
 ## /comparison
 
-- "Movie" 옆에 있는 "Enter Movie Title"상자를 누르면 영화 제목을 입력할 수 있다.
-- 데이터베이스 상에 있는 두 영화가 골라지면 "Submit" 버튼이 활성화되고, 누르면 영화 비교 페이지로 넘어간다."
+- Click "Enter Movie Title" box next to "Movie" to enter the title of the movie.
+- When two movies on the database are selected, the "Submit" button is activated.
+- Press "Submit" button to go to the movie comparison page.
 
-- 두 영화의 데이터를 보여줌과 동시에 왕관 보양으로 이긴 영화를 강조해준다.
+- It shows the data of the two movies and emphasizes the movies won by the crown.
