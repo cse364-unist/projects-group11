@@ -1,0 +1,33 @@
+* {
+    font-size: 1rem;
+}
+
+h1 {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    font-size: 2.5rem;
+    margin: 5rem 0;
+}
+
+button {
+    border: 1px solid lightgray;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    margin-top: 1.5rem;
+    margin-bottom: 2rem;
+    padding: 0.3rem 1rem;
+}
+
+.gift-section {
+    border: 1px solid black;
+    border-radius: 2rem;
+    width: 43%;
+    text-align: center;
+}
+
+.data {
+    border: 1px solid lightgray;
+    border-radius: 2rem;
+    margin: 1rem 1rem;
+}

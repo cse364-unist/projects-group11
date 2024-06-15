@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MISS</title>
+    <link rel="stylesheet" type="text/css" href="comparison.css">
+</head>
+
+<body>
+    <section>
+        <div>
+            <h1>Movie Comparison Result</h1>
+        </div>
+
+        <section style="width: 100%; display: flex; justify-content: center;">
+            <div class="comparison-section">
+                <div class="content-container">
+                    <div style="display: flex; justify-content: center; gap: 1rem;">
+                        <!-- first movie result -->
+                        <div style="width: 43%">
+                            <h2 id="first-movie-title"></h2>
+                            <div id="first-result" class="result-container"></div>
+                        </div>
+                        <!-- second movie result -->
+                        <div style="width: 43%">
+                            <h2 id="second-movie-title"></h2>
+                            <div id="second-result" class="result-container"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div>
+            <ul id="movie-list"></ul>
+        </div>
+
+        <div style="width: 100%; display: flex; justify-content: center;">
+            <button id="back-button">Back</button>
+        </div>
+    </section>
+
+    <!-- jquery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+        integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="comparison.js"></script>
+</body>
+
+</html>
