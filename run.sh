@@ -2,10 +2,10 @@
 git clone https://github.com/cse364-unist/projects-group11
 # go into git repo and checkout milestone
 cd projects-group11 && git fetch && git checkout -b master 
-cd ../ && mv projects-group11/milestone2 . && mv projects-group11/tomcat_configs . 
+cd ../ && mv projects-group11/milestone3 . && mv projects-group11/tomcat_configs . 
 rm -rf projects-group11
-# go into milestone2 folder
-cd milestone2
+# go into milestone3 folder
+cd milestone3
 # make package first to get target folder
 mvn package
 # create jacoco report
