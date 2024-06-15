@@ -17,14 +17,27 @@ import java.time.format.DateTimeFormatter;
 class GiftController {
 
     private final GiftRepository giftRepository;
+    private final MovieRepository movieRepository;
 
-    GiftController(GiftRepository giftRepository) {
+    GiftController(GiftRepository giftRepository, MovieRepository movieRepository) {
         this.giftRepository = giftRepository;
+        this.movieRepository = movieRepository;
     }
 
     @GetMapping("/gifts")
     List<Gift> all() {
         return giftRepository.findAll();
+    }
+
+    // Input: curl -X GET "http://localhost:8080/gifts/search?keyword=toy"
+    @GetMapping("/gifts/search")
+    public Movie searchMovies(@RequestParam String keyword) {
+        String regexPattern = ".*" + keyword + ".*(?=\\s\\([0-9]{4}\\))";
+        List<Movie> movies = movieRepository.findByTitleRegex(regexPattern);
+        if (movies.isEmpty()) {
+            throw new CannotFoundException("movies with keyword", keyword);
+        }
+        return movies.get(0);
     }
 
     // Input: curl -X POST "http://localhost:8080/gifts?message="영화 선물"&movieId=5"

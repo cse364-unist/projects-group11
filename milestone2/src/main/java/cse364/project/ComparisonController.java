@@ -3,7 +3,6 @@ package cse364.project;
 import java.lang.Math;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,13 +25,13 @@ public class ComparisonController {
 
     // Input: curl -X GET "http://localhost:8080/comparisons/search?keyword=toy"
     @GetMapping("/comparisons/search")
-    public List<Movie> searchMovies(@RequestParam String keyword) {
+    public Movie searchMovies(@RequestParam String keyword) {
         String regexPattern = ".*" + keyword + ".*(?=\\s\\([0-9]{4}\\))";
         List<Movie> movies = movieRepository.findByTitleRegex(regexPattern);
         if (movies.isEmpty()) {
             throw new CannotFoundException("movies with keyword", keyword);
         }
-        return movies;
+        return movies.get(0);
     }
 
     // Input: curl -X POST "http://localhost:8080/comparisons?id1=1&id2=2"
