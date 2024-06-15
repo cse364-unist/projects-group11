@@ -2,8 +2,11 @@ package cse364.project;
 
 import java.lang.Math;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,7 +29,12 @@ public class ComparisonController {
     // Input: curl -X GET "http://localhost:8080/comparisons/search?keyword=toy"
     @GetMapping("/comparisons/search")
     public Movie searchMovies(@RequestParam String keyword) {
-        String regexPattern = ".*" + keyword + ".*(?=\\s\\([0-9]{4}\\))";
+        String[] keywords = keyword.split("\\+");
+        List<String> patterns = Arrays.stream(keywords)
+            .map(k -> "(?=.*" + Pattern.quote(k.trim()) + ")")
+            .collect(Collectors.toList());
+        
+        String regexPattern = String.join("", patterns) + ".*";
         List<Movie> movies = movieRepository.findByTitleRegex(regexPattern);
         if (movies.isEmpty()) {
             throw new CannotFoundException("movies with keyword", keyword);
