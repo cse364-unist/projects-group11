@@ -3,7 +3,7 @@ package cse364.project;
 import java.util.*;
 
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -17,13 +17,38 @@ class RecommendationController {
         this.movieRepository = movieRepository;
     }
 
+    // Input: curl -X POST "http://localhost:8080/recommendations?recomList=0,1,0,3,1,2,-1,3,5,11,14"
     @GetMapping("/recommendations")
-    List<Movie> targetMovie(@RequestBody Recommendation newRecommendation) {
+    List<Movie> targetMovie(@RequestParam List<Integer> recomList) {
         // userList is the member of requested group, stringList is hate genre list.
-
+        
+        String[] genderArr = {"M", "F"};
+        int[] ageArr = {1, 18, 25, 35, 45, 50, 56};
+        String[] genreArr = {"Action", "Adventure", "Animation", "Children's", "Comedy",
+                                "Crime", "Documentary", "Drama", "Fantasy", "Film-Noir", "Horror",
+                                "Musical", "Mystery", "Romance", "Sci-Fi", "Thriller", "War"};
+        int[][] allCases = {{0,0,0,0,0,0}, {0,0,0,0,0,0}};
+        
         List<Movie> movieList = movieRepository.findAll();
-        List<User> userList = newRecommendation.getUserList();
-        List<String> stringList = newRecommendation.getGenreList();
+        List<User> userList = new ArrayList<User>();
+        int jj = 0;
+        while (recomList.get(jj) != -1) {
+            allCases[recomList.get(jj)][recomList.get(jj+1)]++;
+            jj += 2;
+            if (jj >= recomList.size())
+                throw new InvalidUserException("from recommendation", "invalid recomList");
+        }
+        for (int i = 0; i < 12; i++) {
+            if (allCases[i/6][i%6] != 0) {
+                User newUser = new User(genderArr[i/6], ageArr[i/6], allCases[i/6][i%6]);
+                userList.add(newUser);
+            } 
+        }
+        List<String> stringList = new ArrayList<String>();
+        jj++;
+        for (int i = jj; i < recomList.size(); i++) {
+            stringList.add(genreArr[recomList.get(i)]);
+        }
 
         List<Pair<Double, Long>> predicationRatingList = new ArrayList<>();
         List<Movie> recommendation = new ArrayList<>();                          // Each movie's (predication rating, movieId) pair.
