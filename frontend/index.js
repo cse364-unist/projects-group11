@@ -263,7 +263,7 @@ $('#comparison-movie1-search').on('submit', function (event) {
     const encoded = searchInput.replaceAll(/[" "]/gi, "+");
     console.log(searchInput);
 
-    const requestURL = 'http://localhost:8080/url/comparisons/search?keyword=' + encoded;
+    const requestURL = 'http://localhost:8080/api/comparisons/search?keyword=' + encoded;
     console.log(requestURL);
     let movie = {};
     // ajax로 영화 객체 받아오기
@@ -296,7 +296,7 @@ $('#comparison-movie2-search').on('submit', function (event) {
     const encoded = searchInput.replaceAll(/[" "]/gi, "+");
     console.log(searchInput);
 
-    const requestURL = 'http://localhost:8080/url/comparisons/search?keyword=' + encoded;
+    const requestURL = 'http://localhost:8080/api/comparisons/search?keyword=' + encoded;
     console.log(requestURL);
     let movie = {};
     // ajax로 영화 객체 받아오기
