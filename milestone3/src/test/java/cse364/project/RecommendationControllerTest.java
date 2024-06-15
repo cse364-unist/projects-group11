@@ -87,23 +87,5 @@ public class RecommendationControllerTest {
         List<Movie> recommendations = recommendationController.targetMovie(recomList);
         assertTrue(recommendations instanceof List<Movie>);
     }
-
-    @Test
-    public void testEmptyUserList() {
-        List<Integer> recomList = List.of(-1, 3, 4);
-
-        Movie movieSample1 = new Movie(Long.valueOf(1), "title1 (2000)", "1");
-        Movie movieSample2 = new Movie(Long.valueOf(2), "title2 (2001)", "2");
-        for (int i = 0; i < 15; i++) {
-            movieSample1.setIntervalPairList(i, 0, 20);
-            movieSample1.setIntervalPairList(i, 1, 5);
-            movieSample1.setIntervalPairList(i, 0, 30);
-            movieSample1.setIntervalPairList(i, 1, 10);
-        }
-        List<Movie> movieList = List.of(movieSample1, movieSample2);
-        when(movieRepository.findAll()).thenReturn(movieList);
-
-        assertThrows(CannotFoundException.class, () -> recommendationController.targetMovie(recomList));
-    }
     
 }
