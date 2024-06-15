@@ -1,9 +1,8 @@
 # git clone
 git clone https://github.com/cse364-unist/projects-group11
 # go into git repo and checkout milestone
-cd projects-group11 && git fetch && git checkout -b master
-# change folder structure to not have projects-group11 as parent directory
-cd ../ && mv projects-group11/milestone2 . && mv projects-group11/tomcat_configs .
+cd projects-group11 && git fetch && git checkout -b master 
+cd ../ && mv projects-group11/milestone2 . && mv projects-group11/tomcat_configs . 
 rm -rf projects-group11
 # go into milestone2 folder
 cd milestone2
