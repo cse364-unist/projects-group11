@@ -40,7 +40,7 @@ class RecommendationController {
         }
         for (int i = 0; i < 12; i++) {
             if (allCases[i/6][i%6] != 0) {
-                User newUser = new User(genderArr[i/6], ageArr[i/6], allCases[i/6][i%6]);
+                User newUser = new User(genderArr[i/6], ageArr[i%6], allCases[i/6][i%6]);
                 userList.add(newUser);
             } 
         }
