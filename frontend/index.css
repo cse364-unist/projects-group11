@@ -16,6 +16,7 @@
     display: flex;
     justify-content: center;
     gap: 1rem;
+    margin-top: 0.3rem;
 }
 
 ul {
@@ -126,6 +127,6 @@ form {
 .movie-description {
     border: 1px solid lightgray;
     border-radius: 0.8rem;
-    margin: 1rem 2rem;
+    margin: 1rem 2rem 1rem 2rem;
     padding: 1rem 2rem;
 }

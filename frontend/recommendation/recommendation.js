@@ -45,12 +45,13 @@ function createRow(title, genres, rating) {
     titleDiv.setAttribute("class", "result-container");
     genresDiv.setAttribute("class", "result-container");
     ratingDiv.setAttribute("class", "result-container");
+    row.setAttribute("class", "row");
 
-    titleTitle.innerHTML = "Title";
+    titleTitle.innerHTML = "Title :";
     titleData.innerHTML = title;
-    genresTitle.innerHTML = "Genres";
+    genresTitle.innerHTML = "Genre :";
     genresData.innerHTML = genres;
-    ratingTitle.innerHTML = "Rating";
+    ratingTitle.innerHTML = "Rating :";
     ratingData.innerHTML = rating;
 
     return row;

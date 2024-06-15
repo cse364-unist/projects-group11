@@ -103,7 +103,8 @@ $('#recommendation-submit').on('click', function (event) {
 $('#gift-submit').on('submit', function (event) {
     // block refresh
     event.preventDefault();
-    const movie = this.movie.value;
+    // const movie = this.movie.value;
+    const movie = JSON.parse(localStorage.getItem("gift-movie"));
     const message = this.message.value;
 
     const data = {
@@ -117,11 +118,11 @@ $('#gift-submit').on('submit', function (event) {
 });
 
 // comparison submit
-$('#comparison-submit').on('submit', function (event) {
+$('#comparison-submit').on('click', function (event) {
     // block refresh
-    event.preventDefault();
-    const movie1 = this.movie1.value;
-    const movie2 = this.movie2.value;
+    // event.preventDefault();
+    const movie1 = JSON.parse(localStorage.getItem("comparison-movie1"));
+    const movie2 = JSON.parse(localStorage.getItem("comparison-movie2"));
 
     const data = {
         movie1: movie1,
@@ -129,7 +130,7 @@ $('#comparison-submit').on('submit', function (event) {
     }
 
     localStorage.setItem('comparison', JSON.stringify(data));
-    event.target.reset();
+    // event.target.reset();
     window.location.href = 'comparison/comparison.html';
 });
 
@@ -164,6 +165,115 @@ function comparisonMovieData() {
     movie2Title.append(movie2.title);
     movie2Genre.append(movie2.genre);
 }
+
+
+const giftMovieTitle = document.querySelector("#gift_movie_title");
+const giftMovieGenre = document.querySelector("#gift_movie_genre");
+
+// search movie from backend by title
+$('#gift-movie-search').on('submit', function (event) {
+    event.preventDefault();
+    const searchInput = this.movie.value;
+    console.log(searchInput);
+
+    const requestURL = 'http://localhost:8080/gifts/search?keyword=' + searchInput;
+    console.log(requestURL);
+    let movie = {};
+    // ajax로 영화 객체 받아오기
+    $.ajax({
+        type: "GET",
+        url: requestURL, // 요청 url
+        data: {},
+        success: function(response) {
+            console.log(response);
+            movie = response;
+        },
+        fail: function() {
+            console.log('failed');
+        }
+    });
+
+    // 화면에 영화 정보 (제목, 장르) 표시
+    giftMovieTitle.innerHTML = "";
+    giftMovieGenre.innerHTML = "";
+    giftMovieTitle.append(movie.title);
+    giftMovieGenre.append(movie.genres);
+
+    // 영화 정보 localStorgae에 저장 (gift submit 시 데이터 가져갈 수 있도록)
+    localStorage.setItem('gift-movie', JSON.stringify(movie));
+});
+
+
+// movie search for comparison
+const comparisonMovie1Title = document.querySelector("#movie1-title");
+const comparisonMovie1Genre = document.querySelector("#movie1-genre");
+const comparisonMovie2Title = document.querySelector("#movie2-title");
+const comparisonMovie2Genre = document.querySelector("#movie2-genre");
+
+// search movie from backend by title
+$('#comparison-movie1-search').on('submit', function (event) {
+    event.preventDefault();
+    const searchInput = this.movie1.value;
+    console.log(searchInput);
+
+    const requestURL = 'http://localhost:8080/comparisons/search?keyword=' + searchInput;
+    console.log(requestURL);
+    let movie = {};
+    // ajax로 영화 객체 받아오기
+    $.ajax({
+        type: "GET",
+        url: requestURL, // 요청 url
+        data: {},
+        success: function(response) {
+            console.log(response);
+            movie = response;
+        },
+        fail: function() {
+            console.log('failed');
+        }
+    });
+
+    // 화면에 영화 정보 (제목, 장르) 표시
+    comparisonMovie1Title.innerHTML = "";
+    comparisonMovie1Genre.innerHTML = "";
+    comparisonMovie1Title.append(movie.title);
+    comparisonMovie1Genre.append(movie.genres);
+
+    // 영화 정보 localStorgae에 저장 (gift submit 시 데이터 가져갈 수 있도록)
+    localStorage.setItem('comparison-movie1', JSON.stringify(movie));
+});
+
+$('#comparison-movie2-search').on('submit', function (event) {
+    event.preventDefault();
+    const searchInput = this.movie2.value;
+    console.log(searchInput);
+
+    const requestURL = 'http://localhost:8080/comparisons/search?keyword=' + searchInput;
+    console.log(requestURL);
+    let movie = {};
+    // ajax로 영화 객체 받아오기
+    $.ajax({
+        type: "GET",
+        url: requestURL, // 요청 url
+        data: {},
+        success: function(response) {
+            console.log(response);
+            movie = response;
+        },
+        fail: function() {
+            console.log('failed');
+        }
+    });
+
+    // 화면에 영화 정보 (제목, 장르) 표시
+    comparisonMovie2Title.innerHTML = "";
+    comparisonMovie2Genre.innerHTML = "";
+    comparisonMovie2Title.append(movie.title);
+    comparisonMovie2Genre.append(movie.genres);
+
+    // 영화 정보 localStorgae에 저장 (gift submit 시 데이터 가져갈 수 있도록)
+    localStorage.setItem('comparison-movie2', JSON.stringify(movie));
+});
 
 
 

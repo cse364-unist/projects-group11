@@ -1,16 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MISS</title>
     <link rel="stylesheet" type="text/css" href="gift.css">
 </head>
+
 <body>
     <section>
-        movie gift
+        <div>
+            <h1>Your Movie Gifticon is successfully created!</h1>
+        </div>
 
-        <button id="back-button">Back</button>
+        <section style="width: 100%; display: flex; justify-content: center;">
+            <div class="gift-section">
+                <div class="content-container">
+                    <h2 style="font-size: 1.5rem">Your Movie Gift</h2>
+                    <!-- movie title -->
+                    <div class="data">
+                        <p id="movie-title"></p>
+                    </div>
+                    <!-- message -->
+                    <div class="data">
+                        <p id="gift-message"></p>
+                    </div>
+                    <!-- expiration date -->
+                    <div class="data">
+                        <p id="expiration-date"></p>
+                    </div>
+                    <!-- link -->
+                    <div class="data">
+                        <p id="gift-link"></p>
+                    </div>
+                    <!-- buttons -->
+                    <div>
+                        <button>Share to Others</button>
+                        <button>Use Gifticon</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div>
+            <ul id="movie-list"></ul>
+        </div>
+
+        <div style="width: 100%; display: flex; justify-content: center;">
+            <button id="back-button">Back</button>
+        </div>
     </section>
 
     <!-- jquery -->
@@ -19,4 +58,5 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="gift.js"></script>
 </body>
+
 </html>
