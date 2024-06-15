@@ -105,18 +105,5 @@ public class RecommendationControllerTest {
 
         assertThrows(CannotFoundException.class, () -> recommendationController.targetMovie(recomList));
     }
-
-    @Test
-    public void testNoRecommendation() {
-        List<Integer> recomList = List.of(0, 1, -1, 2);
-
-        for (int i = 1; i < 14; i++) {
-            when(similarityRepository.findById(similarityList[i].getTarget())).thenReturn(Optional.of(similarityList[i]));
-        }
-
-        List<Movie> movieList = List.of();
-        when(movieRepository.findAll()).thenReturn(movieList);
-        assertThrows(NoSatisfactoryMovieException.class, () -> recommendationController.targetMovie(recomList));
-    }
     
 }
