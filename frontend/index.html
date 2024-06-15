@@ -27,15 +27,15 @@
                 <!-- input -->
                 <form id="add-person" class="add-person-form">
                     <div class="input-container">
-                        <span>Gender</span>
+                        <span class="data">Gender</span>
                         <select name="gender" required>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
+                            <option value="0">Male</option>
+                            <option value="1">Female</option>
                         </select>
                     </div>
                     <div class="input-container">
-                        <span>Age</span>
-                        <select name="age" required>
+                        <span class="data">Age</span>
+                        <select id="age" name="age" required>
                             <option value="Under 18">Under 18</option>
                             <option value="18-24">18-24</option>
                             <option value="25-34">25-34</option>
@@ -46,7 +46,7 @@
                         </select>
                     </div>
                     <div>
-                        <span>Genre Not Preferred</span>
+                        <span class="data">Genre Not Preferred</span>
                         <select id="genres" name="genres" multiple="multiple" style="width: 300px; height: 1rem">
                             <option value="Action">Action</option>
                             <option value="Adventure">Adventure</option>
@@ -89,7 +89,7 @@
 
                     <!-- movie input -->
                     <div class="input-container" style="margin-bottom: -1rem">
-                        <div>
+                        <div class="data">
                             Movie
                         </div>
                         <!-- movie search -->
@@ -110,7 +110,7 @@
                         </div>
                         <!-- message input -->
                         <div class="input-container">
-                            <div>
+                            <div class="data">
                                 Message
                             </div>
                             <textarea name="message" required style="width: 60%; height: 8rem"></textarea>
@@ -131,7 +131,7 @@
                         <div>
                             <!-- movie input -->
                             <div class="input-container">
-                                <div>
+                                <div class="data">
                                     Movie 1
                                 </div>
                                 <form id="comparison-movie1-search">
@@ -153,7 +153,7 @@
                         <div>
                             <!-- movie input -->
                             <div class="input-container">
-                                <div>
+                                <div class="data">
                                     Movie 2
                                 </div>
                                 <form id="comparison-movie2-search">

@@ -14,18 +14,19 @@
             <h1>Movie Comparison Result</h1>
         </div>
 
+        <h2 style="text-align: center;" id="winner-movie">Winner: </h2>
         <section style="width: 100%; display: flex; justify-content: center;">
             <div class="comparison-section">
                 <div class="content-container">
                     <div style="display: flex; justify-content: center; gap: 1rem;">
                         <!-- first movie result -->
                         <div style="width: 43%">
-                            <h2 id="first-movie-title"></h2>
+                            <h3 id="first-movie-title"></h3>
                             <div id="first-result" class="result-container"></div>
                         </div>
                         <!-- second movie result -->
                         <div style="width: 43%">
-                            <h2 id="second-movie-title"></h2>
+                            <h3 id="second-movie-title"></h3>
                             <div id="second-result" class="result-container"></div>
                         </div>
                     </div>
@@ -33,10 +34,14 @@
             </div>
         </section>
 
-        <div>
-            <ul id="movie-list"></ul>
-        </div>
+        <!-- comparing graphs -->
+        <h3 style="text-align: center;">Chart1 name</h3>
+        <canvas id="gender-chart"></canvas>
 
+        <h3 style="text-align: center;">Chart2 name</h3>
+        <canvas id="age-chart"></canvas>
+
+        <!-- back button -->
         <div style="width: 100%; display: flex; justify-content: center;">
             <button id="back-button">Back</button>
         </div>
@@ -47,6 +52,9 @@
         integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="comparison.js"></script>
+
+    <!-- graph -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
 </body>
 
 </html>

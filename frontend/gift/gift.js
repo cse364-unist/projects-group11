@@ -3,10 +3,15 @@ console.log(data);
 
 let gift = {};
 
-function fetchGift() {
+function uploadGift() {
+    const encodeSpace = data.message.replaceAll(/[" "]/gi, "+");
+    const encoded = encodeSpace.replaceAll(/['\n']/gi, "+");
+    console.log(encoded);
+    const requestURL = 'http://localhost:8080/api/gifts?message=' + encoded + '&movieId=' + data.movie.movie_id;
+    console.log(requestURL);
     $.ajax({
-        type: "GET",
-        url: '', // 요청 url
+        type: "POST",
+        url: requestURL, // 요청 url
         data: {},
         success: function(response) {
             console.log(response);
@@ -18,7 +23,23 @@ function fetchGift() {
     });
 }
 
-fetchGift();
+function fetchGift() {
+    const requestURL = 'http://localhost:8080/api/gifts/' + gift.gift_id;
+    $.ajax({
+        type: "GET",
+        url: requestURL, // 요청 url
+        data: {},
+        success: function(response) {
+            console.log(response);
+            gift = response;
+        },
+        fail: function() {
+            console.log('failed');
+        }
+    });
+}
+
+uploadGift();
 
 // back to main page
 $('#back-button').on('click', function () {
@@ -37,16 +58,30 @@ const DUMMY_DATA = {
     link: "https://movie/b541e319-272f-4c84-bb68-717328806deb"
 }
 
-function loadGift() {
+function showGift() {
     // movieTitle.append(DUMMY_DATA.title);
     // message.append(DUMMY_DATA.message);
     // expirationDate.append("Expires at ", DUMMY_DATA.expirationDate);
     // giftLink.append(DUMMY_DATA.giftLink);
 
-    movieTitle.append(gift.title);
-    message.append(gift.message);
-    expirationDate.append("Expires at ", gift.expirationDate);
-    giftLink.append(gift.giftLink);
+    movieTitle.append(data.movie.title);
+    message.append(data.message);
+    expirationDate.append("Expires at ", gift.expire_date);
+    giftLink.append(gift.gift_id);
 }
 
-loadGift();
+showGift();
+
+
+// share gift button handler]
+$('#share-link').on('click', async function () {
+    console.log('hi');
+    let url = gift.gift_id;
+
+    try {
+        await navigator.clipboard.writeText(data.message);
+        alert('Text copied to clipboard');
+    } catch (err) {
+        console.error('Failed to copy text: ', err);
+    }
+});

@@ -2,6 +2,10 @@ let personId = 0;
 
 const peopleList = [];
 
+let genderList = [];
+let ageList = [];
+let genresList = [];
+
 // people list in recommendation
 const peopleListArea = document.querySelector("#people-list");
 
@@ -17,7 +21,7 @@ function createRow(gender, age, genres) {
     const genresDiv = document.createElement("div");
     const genresTitle = document.createElement("span");
     const genresData = document.createElement("span");
-    const removeBtn = document.createElement("button");
+    // const removeBtn = document.createElement("button");
 
     genderDiv.append(genderTitle);
     genderDiv.append(genderData);
@@ -28,21 +32,34 @@ function createRow(gender, age, genres) {
     row.append(genderDiv);
     row.append(ageDiv);
     row.append(genresDiv);
-    row.append(removeBtn);
+    // row.append(removeBtn);
+
+    genderTitle.setAttribute("class", "data");
+    ageTitle.setAttribute("class", "data");
+    genresTitle.setAttribute("class", "data");
 
     row.setAttribute("class", "row");
     genderDiv.setAttribute("class", "input-container");
+    genderDiv.setAttribute("class", "gender-container");
     ageDiv.setAttribute("class", "input-container");
+    ageDiv.setAttribute("class", "age-container");
     genresDiv.setAttribute("class", "input-container");
-    removeBtn.setAttribute("id", "remove-person");
+    genresDiv.setAttribute("class", "genres-container");
+    // removeBtn.setAttribute("id", "remove-person");
 
-    genderTitle.innerHTML = "Gender : ";
+    genderTitle.innerHTML = "Gender";
     genderData.innerHTML = gender;
-    ageTitle.innerHTML = "Age : ";
+    ageTitle.innerHTML = "Age";
     ageData.innerHTML = age;
-    genresTitle.innerHTML = "Genres Not Preferred : ";
-    genresData.innerHTML = genres;
-    removeBtn.innerHTML = "Remove";
+    genresTitle.innerHTML = "Genres Not Preferred";
+    if (genres === null || genres === "" || genres.length === 0) {
+        console.log('empty');
+        genresData.innerHTML = "None";
+    } else {
+        console.log(genres);
+        genresData.innerHTML = genres;
+    }
+    // removeBtn.innerHTML = "Remove";
 
     return row;
 }
@@ -60,22 +77,47 @@ function listPeople() {
 // add person
 $('#add-person').on('submit', function (event) {
     event.preventDefault();
-    const gender = this.gender.value;
+
+    // get gender
+    const gender = this.gender.value === 0 ? "Male" : "Female";
     const age = this.age.value;
-    const genres = $('#genres').val();
-    console.log(age);
+
+    // get age
+    let selectedAge = document.getElementById("age").selectedIndex;
+    let ageOptions = document.getElementById("age").options;
+    let ageIdx = ageOptions[selectedAge].index;
+    console.log(ageIdx);
+
+    // get genres
+    const selectedGenres = $('#genres').val();
+    var selectedIndexes = [];
+    $('#genres option').each(function(index, option) {
+        if (selectedGenres.includes(option.value)) {
+            selectedIndexes.push(index);
+        }
+    });
+    console.log(selectedIndexes);
+    console.log(selectedGenres);
     const id = personId;
 
     personId++;
+    
+    genderList.push(this.gender.value);
+    ageList.push(ageIdx);
 
+    for (let i = 0; i < selectedIndexes.length; i++) {
+        genresList.push(selectedIndexes[i]); // for result page
+    }
+
+    // add a row
     const person = {
         id: id,
         gender: gender,
         age: age,
-        genres: genres
+        genres: selectedGenres
     }
-
     peopleList.push(person);
+    
     listPeople();
     event.target.reset();
 });
@@ -95,7 +137,10 @@ $('#recommendation-submit').on('click', function (event) {
         return;
     }
 
-    localStorage.setItem('list', JSON.stringify(peopleList));
+    // list 저장
+    localStorage.setItem('genderList', JSON.stringify(genderList));
+    localStorage.setItem('ageList', JSON.stringify(ageList));
+    localStorage.setItem('genresList', JSON.stringify(genresList));
     window.location.href = 'recommendation/recommendation.html';
 });
 
@@ -174,9 +219,10 @@ const giftMovieGenre = document.querySelector("#gift_movie_genre");
 $('#gift-movie-search').on('submit', function (event) {
     event.preventDefault();
     const searchInput = this.movie.value;
+    const encoded = searchInput.replaceAll(/[" "]/gi, "+");
     console.log(searchInput);
 
-    const requestURL = 'http://localhost:8080/gifts/search?keyword=' + searchInput;
+    const requestURL = 'http://localhost:8080/api/gifts/search?keyword=' + encoded;
     console.log(requestURL);
     let movie = {};
     // ajax로 영화 객체 받아오기
@@ -184,11 +230,11 @@ $('#gift-movie-search').on('submit', function (event) {
         type: "GET",
         url: requestURL, // 요청 url
         data: {},
-        success: function(response) {
+        success: function (response) {
             console.log(response);
             movie = response;
         },
-        fail: function() {
+        fail: function () {
             console.log('failed');
         }
     });
@@ -214,9 +260,10 @@ const comparisonMovie2Genre = document.querySelector("#movie2-genre");
 $('#comparison-movie1-search').on('submit', function (event) {
     event.preventDefault();
     const searchInput = this.movie1.value;
+    const encoded = searchInput.replaceAll(/[" "]/gi, "+");
     console.log(searchInput);
 
-    const requestURL = 'http://localhost:8080/comparisons/search?keyword=' + searchInput;
+    const requestURL = 'http://localhost:8080/url/comparisons/search?keyword=' + encoded;
     console.log(requestURL);
     let movie = {};
     // ajax로 영화 객체 받아오기
@@ -224,11 +271,11 @@ $('#comparison-movie1-search').on('submit', function (event) {
         type: "GET",
         url: requestURL, // 요청 url
         data: {},
-        success: function(response) {
+        success: function (response) {
             console.log(response);
             movie = response;
         },
-        fail: function() {
+        fail: function () {
             console.log('failed');
         }
     });
@@ -246,9 +293,10 @@ $('#comparison-movie1-search').on('submit', function (event) {
 $('#comparison-movie2-search').on('submit', function (event) {
     event.preventDefault();
     const searchInput = this.movie2.value;
+    const encoded = searchInput.replaceAll(/[" "]/gi, "+");
     console.log(searchInput);
 
-    const requestURL = 'http://localhost:8080/comparisons/search?keyword=' + searchInput;
+    const requestURL = 'http://localhost:8080/url/comparisons/search?keyword=' + encoded;
     console.log(requestURL);
     let movie = {};
     // ajax로 영화 객체 받아오기
@@ -256,11 +304,11 @@ $('#comparison-movie2-search').on('submit', function (event) {
         type: "GET",
         url: requestURL, // 요청 url
         data: {},
-        success: function(response) {
+        success: function (response) {
             console.log(response);
             movie = response;
         },
-        fail: function() {
+        fail: function () {
             console.log('failed');
         }
     });
