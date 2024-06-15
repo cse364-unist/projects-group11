@@ -1,3 +1,5 @@
+package cse364.project;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
