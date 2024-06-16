@@ -36,7 +36,30 @@ const secondMovieTitle = document.querySelector("#second-movie-title");
 const firstMovieData = document.querySelector("#first-result");
 const secondMovieData = document.querySelector("#second-result");
 
-let firstMovieDescription = "The reason why the movie win/lose";
+const maleRateOne = comparisonResults[2]/comparisonResults[20];
+const femaleRateOne = comparisonResults[3]/comparisonResults[21];
+const maleRateTwo = comparisonResults[2]/comparisonResults[20];
+const femaleRateTwo = comparisonResults[3]/comparisonResults[21];
+
+const age1RateOne = comparisonResults[4]/comparisonResults[22];
+const age25RateOne = comparisonResults[5]/comparisonResults[23];
+const age35RateOne = comparisonResults[6]/comparisonResults[24];
+const age50RateOne = comparisonResults[7]/comparisonResults[25];
+const age1RateTwo = comparisonResults[13]/comparisonResults[22];
+const age25RateTwo = comparisonResults[14]/comparisonResults[23];
+const age35RateTwo = comparisonResults[15]/comparisonResults[24];
+const age50RateTwo = comparisonResults[16]/comparisonResults[25];
+const sumAgeOne = age1RateOne + age25RateOne + age35RateOne + age50RateOne;
+const sumAgeTwo = age1RateTwo + age25RateTwo + age35RateTwo + age50RateTwo;
+
+const ratingOne = comparisonResults[8]/comparisonResults[9];
+const ratingTwo = comparisonResults[17]/comparisonResults[18];
+
+let ratingWinnerTitle = (ratingOne > ratingTwo) ? firstMovieTitle : secondMovieTitle;
+let conjunction = (ratingWinnerTitle == winnerMovieTitle) ? "Also" : "However";
+let reason = (ratingWinnerTitle == winnerMovieTitle) ? "not powerful enough to weaken the rating of" : "much more even for";
+
+let firstMovieDescription = `${winnerMovieTitle} won! The average rating is bigger at ${ratingWinnerTitle}. ${conjunction}, The distribution of users was ${reason} ${winnerMovieTitle}!`;
 let secondMovieDescription = "The reason why the movie win/lose";
 
 function loadResult() {
@@ -52,11 +75,6 @@ function loadResult() {
     firstMovieData.append(firstMovieDescription);
     secondMovieData.append(secondMovieDescription);
 }
-
-const maleRateOne = comparisonResults[2]/comparisonResults[20];
-const femaleRateOne = comparisonResults[3]/comparisonResults[21];
-const maleRateTwo = comparisonResults[2]/comparisonResults[20];
-const femaleRateTwo = comparisonResults[3]/comparisonResults[21];
 
 var genderChartData = {
     labels: ["Male", "Female"],
@@ -76,17 +94,6 @@ var genderChartData = {
         ]
     }]
 };
-
-const age1RateOne = comparisonResults[4]/comparisonResults[22];
-const age25RateOne = comparisonResults[5]/comparisonResults[23];
-const age35RateOne = comparisonResults[6]/comparisonResults[24];
-const age50RateOne = comparisonResults[7]/comparisonResults[25];
-const age1RateTwo = comparisonResults[13]/comparisonResults[22];
-const age25RateTwo = comparisonResults[14]/comparisonResults[23];
-const age35RateTwo = comparisonResults[15]/comparisonResults[24];
-const age50RateTwo = comparisonResults[16]/comparisonResults[25];
-const sumAgeOne = age1RateOne + age25RateOne + age35RateOne + age50RateOne;
-const sumAgeTwo = age1RateTwo + age25RateTwo + age35RateTwo + age50RateTwo;
 
 var ageChartData = {
     labels: ["Under 25", "25~34", "35~49", "Over 50"],
