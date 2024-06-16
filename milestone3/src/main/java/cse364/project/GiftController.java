@@ -80,11 +80,17 @@ class GiftController {
 
     @PutMapping("/gifts")
     Gift replaceGift(@RequestParam("giftId") String giftId) {
-        return giftRepository.findById(giftId)
-            .map(gift -> {
-                gift.setExpireDate("0000-00-00T00:00:00.000000000");
-                return giftRepository.save(gift);
-            });
+        Optional<Gift> canbereturned = giftRepository.findById(giftId)
+                                                        .map(gift -> {
+                                                            gift.setExpireDate("0000-00-00T00:00:00.000000000");
+                                                            return giftRepository.save(gift);
+                                                        });
+        if (canbereturned.isPresent()) {
+            Gift shouldbereturned = canbereturned.get();
+            return shouldbereturned;
+        } else {
+            throw new CannotFoundException("gift", giftId);
+        }
     }
 
     // @DeleteMapping("/gifts/{giftId}")
