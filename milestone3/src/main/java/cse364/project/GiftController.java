@@ -35,6 +35,7 @@ class GiftController {
     // Input: curl -X GET "http://localhost:8080/gifts/search?keyword=toy"
     @GetMapping("/gifts/search")
     public Movie searchMovies(@RequestParam String keyword) {
+        keyword = keyword.trim();
         String[] keywords = keyword.split("\\+");
         List<String> patterns = Arrays.stream(keywords)
             .map(k -> "(?=.*" + Pattern.quote(k.trim()) + ")")
