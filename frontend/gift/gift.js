@@ -17,8 +17,9 @@ function uploadGift() {
             console.log(response);
             gift = response;
         },
-        fail: function() {
-            console.log('failed');
+        error: function (response) {
+            console.log('uploadGift failed');
+            console.log(response);
         }
     });
 }
@@ -33,8 +34,9 @@ function fetchGift() {
             console.log(response);
             gift = response;
         },
-        fail: function() {
-            console.log('failed');
+        error: function (response) {
+            console.log('fetchGift failed');
+            console.log(response);
         }
     });
 }

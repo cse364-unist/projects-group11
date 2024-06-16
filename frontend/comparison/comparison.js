@@ -15,8 +15,9 @@ function fetchComparison() {
             console.log(response);
             comparisonResults = response;
         },
-        fail: function() {
-            console.log('failed');
+        error: function (response) {
+            console.log('fetchComparison failed');
+            console.log(response);
         }
     });
     console.log(requestURL);

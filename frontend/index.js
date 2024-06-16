@@ -234,8 +234,9 @@ $('#gift-movie-search').on('submit', function (event) {
             console.log(response);
             movie = response;
         },
-        fail: function () {
-            console.log('failed');
+        error: function (response) {
+            console.log('gift-movie-search failed');
+            console.log(response);
         }
     });
 
@@ -275,8 +276,9 @@ $('#comparison-movie1-search').on('submit', function (event) {
             console.log(response);
             movie = response;
         },
-        fail: function () {
-            console.log('failed');
+        error: function (response) {
+            console.log('comparison-movie1-search failed');
+            console.log(response);
         }
     });
 
@@ -308,8 +310,9 @@ $('#comparison-movie2-search').on('submit', function (event) {
             console.log(response);
             movie = response;
         },
-        fail: function () {
-            console.log('failed');
+        error: function (response) {
+            console.log('comparison-movie2-search failed');
+            console.log(response);
         }
     });
 

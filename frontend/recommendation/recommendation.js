@@ -47,8 +47,9 @@ function fetchMovieList() {
             console.log(response);
             movieList = response;
         },
-        fail: function() {
-            console.log('failed');
+        error: function (response) {
+            console.log('fetchMovieList failed');
+            console.log(response);
         }
     });
 }
