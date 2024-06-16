@@ -4,9 +4,10 @@
 
 1. Download the files and run the following commands:
 
+```
     $ docker build -t image_name /path/to/Dockerfile
     $ docker run -d -p 8080:8080 image_name
-
+```
 2. Then, in the host machine, you can access our application in a web browser by visiting http://localhost:8080/
 
 
