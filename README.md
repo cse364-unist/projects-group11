@@ -27,17 +27,27 @@
 
 ## /gift
 
-### How to Use gift?
+### How to Create a movie gifticon?
 ```
 - Click "Enter Movie Title" box next to "Movie" to enter the title of the movie.
-  In this part, if you enter a keyword for the movie, the movie containing that keyword comes out.
-  If the movie of containing that keyword is not exist, then system give you error message.
+- In this part, if you enter a keyword for the movie, the movie containing that keyword comes out.
+- If the movie of containing that keyword is not exist, then system give you error message.
 - Click "Type message..." box next to "Message" to enter the message.
 - After that, pressing "Submit" button creates a gifticon containing entered movie title and message.
 
 - Pressing "Share to others!" button on the generated gifticon screen  creates a gifticon link to send to others and copies the link.
 - If the recipient of the gifticon gift presses the link and comes in, the same gifticon screen will be reached.
-- You can use the gifticon by pressing "Use gifticon!" button.
+- Pressing "Back" button on the bottom to return main page.
+```
+
+### How to Search a gifticon link?
+```
+- Click "Enter Gift Link" box next to "Gift Link" to enter the gifticon link which is shared or copied.
+- If the link is invalid, then system give you error message.
+- press "Submit" button to go to the movie recommendation page for the group.
+
+- Pressing "Share to Others" button on the shown gifticon screen copies the gifticon link.
+- If the recipient of the gifticon gift presses the link and comes in, the same gifticon screen will be reached.
 - Pressing "Back" button on the bottom to return main page.
 ```
 
