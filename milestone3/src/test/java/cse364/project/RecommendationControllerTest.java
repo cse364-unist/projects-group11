@@ -55,15 +55,7 @@ public class RecommendationControllerTest {
 
     @Test
     public void testTargetMovie() {
-        
-        User userSample1 = new User(Long.valueOf(1), "M", 1, "1", "40000");
-        List<User> userList = List.of(userSample1);
-
-        String genreSample1 = new String("3");
-        String genreSample2 = new String("4");
-        List<String> genreList = List.of(genreSample1, genreSample2);
-
-        Recommendation newRecommendation = new Recommendation(userList, genreList);
+        List<Integer> recomList = List.of(0, 0, -1, 3, 4);
 
         for (int i = 1; i < 14; i++) {
             when(similarityRepository.findById(similarityList[i].getTarget())).thenReturn(Optional.of(similarityList[i]));
@@ -71,10 +63,10 @@ public class RecommendationControllerTest {
 
         // creating sample Movie List
         List<Movie> movieList = List.of(
-            new Movie(Long.valueOf(1), "title1 (2000)", "1"),
-            new Movie(Long.valueOf(2), "title2 (2001)", "2"),
-            new Movie(Long.valueOf(3), "title3 (2002)", "3"),
-            new Movie(Long.valueOf(4), "title4 (2003)", "2")
+            new Movie(Long.valueOf(1), "title1 (2000)", "Adventure"),
+            new Movie(Long.valueOf(2), "title2 (2001)", "Animation"),
+            new Movie(Long.valueOf(3), "title3 (2002)", "Children's"),
+            new Movie(Long.valueOf(4), "title4 (2003)", "Animation")
         );
         for (int i = 0 ; i < 15 ; i ++) {
             movieList.get(0).setIntervalPairList(i, 0, 18);
@@ -91,7 +83,7 @@ public class RecommendationControllerTest {
         for (int i = 0; i < movieList.size(); i++)
             lenient().when(movieRepository.findById(movieList.get(i).getMovieId())).thenReturn(Optional.of(movieList.get(i)));
 
-        assertTrue(recommendationController.targetMovie(newRecommendation) instanceof List<Movie>);
+        assertTrue(recommendationController.targetMovie(recomList) instanceof List<Movie>);
     }
 
     @Test
@@ -107,24 +99,14 @@ public class RecommendationControllerTest {
         List<Movie> movieList = List.of(movieSample1, movieSample2);
         when(movieRepository.findAll()).thenReturn(movieList);
 
-        List<User> userList = List.of();
+        List<Integer> recomList = List.of(-1);
 
-        String genreSample1 = new String();
-        List<String> genreList = List.of(genreSample1);
-
-        Recommendation newRecommendation = new Recommendation(userList, genreList);
-        assertThrows(CannotFoundException.class ,() -> recommendationController.targetMovie(newRecommendation));
+        assertThrows(CannotFoundException.class ,() -> recommendationController.targetMovie(recomList));
     }
 
     @Test
     public void testNoRecommendation() {
-        User userSample1 = new User(Long.valueOf(1), "M", 1, "1", "40000");
-        List<User> userList = List.of(userSample1);
-
-        String genreSample1 = new String("2");
-        List<String> genreList = List.of(genreSample1);
-
-        Recommendation newRecommendation = new Recommendation(userList, genreList);
+        List<Integer> recomList = List.of(0,0,-1,2);
 
         for (int i = 1; i < 14; i++) {
             when(similarityRepository.findById(Integer.valueOf(i))).thenReturn(Optional.of(similarityList[i]));
@@ -133,7 +115,7 @@ public class RecommendationControllerTest {
         // test empty movie list
         List<Movie> movieList = List.of();
         when(movieRepository.findAll()).thenReturn(movieList);
-        assertThrows(NoSatisfactoryMovieException.class ,() -> recommendationController.targetMovie(newRecommendation));
+        assertThrows(NoSatisfactoryMovieException.class ,() -> recommendationController.targetMovie(recomList));
     }
     
 }
