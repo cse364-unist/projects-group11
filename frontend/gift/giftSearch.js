@@ -34,7 +34,7 @@ function fetchGift() {
         success: function(response) {
             console.log(response);
             gift = response;
-            showGift(gift);
+            fetchMovie(gift);
         },
         error: function (response) {
             console.log('fetchGift failed');
@@ -55,11 +55,24 @@ const message = document.querySelector("#gift-message");
 const expirationDate = document.querySelector("#expiration-date");
 const giftLink = document.querySelector("#gift-link");
 
-const DUMMY_DATA = {
-    title: "movie1",
-    message: "this is a gift",
-    expirationDate: "2024-12-31",
-    link: "https://movie/b541e319-272f-4c84-bb68-717328806deb"
+let movie = {};
+
+function fetchMovie(gift) {
+    const requestURL = 'http://localhost:8080/api/gifts/findmovie?movieId' + gift.movieId;
+    $.ajax({
+        type: "GET",
+        url: requestURL, // 요청 url
+        data: {},
+        success: function(response) {
+            console.log(response);
+            movie = response;
+            showGift(gift);
+        },
+        error: function (response) {
+            console.log('fetchMovie failed');
+            console.log(response);
+        }
+    });
 }
 
 function showGift(gift) {

@@ -31,8 +31,9 @@ function fetchMovieList() {
         requestURL += genderList[i] + ',';
         requestURL += ageList[i] + ',';
     }
-    requestURL += '-1,';
+    requestURL += '-1';
     for (let i = 0; i < genresList.length; i++) {
+        requestURL += ',';
         requestURL += genresList[i];
         if (i + 1 !== genresList.length)
             requestURL += ',';
@@ -43,7 +44,7 @@ function fetchMovieList() {
         type: "GET",
         url: requestURL, // 요청 url
         data: {},
-        success: function(response) {
+        success: function (response) {
             console.log(response);
             movieList = response;
             console.log(movieList);
