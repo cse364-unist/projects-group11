@@ -33,7 +33,7 @@ class GiftController {
         return giftRepository.findAll();
     }
 
-    @GetMapping("/gifts/findmovie")
+    @GetMapping("/movies/findmovie")
     Movie findMovieById(@RequestParam("movieId") Long movieId) {
         Movie shouldbereturned;
         Optional<Movie> canbereturned = movieRepository.findById(movieId);
