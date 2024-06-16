@@ -160,6 +160,7 @@
 
       <Host name="localhost"  appBase="webapps"
             unpackWARs="true" autoDeploy="false" deployOnStartup="false">
+        <Context path="/" docBase="frontend" reloadable="false" />
         <Context path="/api" docBase="cse364-project.war" reloadable="false" />
         <!-- <Context docBase="frontend" path="/static" /> -->
         <!-- SingleSignOn valve, share authentication between web applications
