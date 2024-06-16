@@ -80,12 +80,12 @@
             </div>
         </section>
 
-        <!-- gift & comparison -->
+        <!-- gift create & find -->
         <div class="gift-and-comparison">
             <!-- movie gift -->
             <section class="gift-section">
                 <div class="content-container">
-                    <h2>Movie Gift</h2>
+                    <h2>Create a Movie Gift</h2>
 
                     <!-- movie input -->
                     <div class="input-container" style="margin-bottom: -1rem">
@@ -94,7 +94,7 @@
                         </div>
                         <!-- movie search -->
                         <form id="gift-movie-search">
-                            <input name="movie" required style="width: 40%; margin-bottom: 1rem">
+                            <input name="movie" required style="width: 60%; margin-bottom: 1rem">
                             <button>Search</button>
                         </form>
                     </div>
@@ -121,60 +121,79 @@
                 </div>
             </section>
 
-            <!-- movie comparison -->
-            <section class="comparison-section">
+            <!-- movie gift search -->
+            <section class="gift-section">
                 <div class="content-container">
-                    <h2>Movie Comparison</h2>
+                    <h2>Search a Movie Gift</h2>
 
-                    <div class="below-form">
-                        <!-- first movie -->
-                        <div>
-                            <!-- movie input -->
-                            <div class="input-container">
-                                <div class="data">
-                                    Movie 1
-                                </div>
-                                <form id="comparison-movie1-search">
-                                    <input name="movie1" required>
-                                    <button>Search</button>
-                                </form>
-                            </div>
-                            <!-- movie info -->
-                            <div class="movie-description">
-                                <!-- 선택된 영화 정보 가져오기 -->
-                                <span>Title:</span>
-                                <span id="movie1-title"></span><br>
-                                <span>Genre:</span>
-                                <span id="movie1-genre"></span>
-                            </div>
+                    <!-- movie input -->
+                    <div class="input-container" style="margin-bottom: -1rem;">
+                        <div class="data">
+                            Gift Link
                         </div>
-
-                        <!-- second movie -->
-                        <div>
-                            <!-- movie input -->
-                            <div class="input-container">
-                                <div class="data">
-                                    Movie 2
-                                </div>
-                                <form id="comparison-movie2-search">
-                                    <input name="movie2" required>
-                                    <button>Search</button>
-                                </form>
-                            </div>
-                            <!-- movie info -->
-                            <div class="movie-description">
-                                <!-- 선택된 영화 정보 가져오기 -->
-                                <span>Title:</span>
-                                <span id="movie2-title"></span><br>
-                                <span>Genre:</span>
-                                <span id="movie2-genre"></span>
-                            </div>
-                        </div>
-                        <input type="submit" value="Submit" class="submit-button" id="comparison-submit">
+                        <!-- movie search -->
+                        <form id="gift-link-search">
+                            <input name="giftLink" required style="width: 60%; margin-bottom: 1rem">
+                            <button type="submit">Search</button>
+                        </form>
                     </div>
                 </div>
             </section>
         </div>
+
+        <!-- movie comparison -->
+        <section class="recommendation-section">
+            <div class="content-container">
+                <h2>Movie Comparison</h2>
+
+                <div class="below-form">
+                    <!-- first movie -->
+                    <div>
+                        <!-- movie input -->
+                        <div class="input-container">
+                            <div class="data">
+                                Movie 1
+                            </div>
+                            <form id="comparison-movie1-search">
+                                <input name="movie1" required>
+                                <button>Search</button>
+                            </form>
+                        </div>
+                        <!-- movie info -->
+                        <div class="movie-description">
+                            <!-- 선택된 영화 정보 가져오기 -->
+                            <span>Title:</span>
+                            <span id="movie1-title"></span><br>
+                            <span>Genre:</span>
+                            <span id="movie1-genre"></span>
+                        </div>
+                    </div>
+
+                    <!-- second movie -->
+                    <div>
+                        <!-- movie input -->
+                        <div class="input-container">
+                            <div class="data">
+                                Movie 2
+                            </div>
+                            <form id="comparison-movie2-search">
+                                <input name="movie2" required>
+                                <button>Search</button>
+                            </form>
+                        </div>
+                        <!-- movie info -->
+                        <div class="movie-description">
+                            <!-- 선택된 영화 정보 가져오기 -->
+                            <span>Title:</span>
+                            <span id="movie2-title"></span><br>
+                            <span>Genre:</span>
+                            <span id="movie2-genre"></span>
+                        </div>
+                    </div>
+                    <input type="submit" value="Submit" class="submit-button" id="comparison-submit">
+                </div>
+            </div>
+        </section>
 
     </section>
 

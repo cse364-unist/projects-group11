@@ -91,7 +91,7 @@ $('#add-person').on('submit', function (event) {
     // get genres
     const selectedGenres = $('#genres').val();
     var selectedIndexes = [];
-    $('#genres option').each(function(index, option) {
+    $('#genres option').each(function (index, option) {
         if (selectedGenres.includes(option.value)) {
             selectedIndexes.push(index);
         }
@@ -101,7 +101,7 @@ $('#add-person').on('submit', function (event) {
     const id = personId;
 
     personId++;
-    
+
     genderList.push(this.gender.value);
     ageList.push(ageIdx);
 
@@ -117,7 +117,7 @@ $('#add-person').on('submit', function (event) {
         genres: selectedGenres
     }
     peopleList.push(person);
-    
+
     listPeople();
     event.target.reset();
 });
@@ -150,6 +150,11 @@ $('#gift-submit').on('submit', function (event) {
     event.preventDefault();
     // const movie = this.movie.value;
     const movie = JSON.parse(localStorage.getItem("gift-movie"));
+    if (giftMovieTitle.innerHTML === undefined || giftMovieTitle.innerHTML === null || giftMovieTitle.innerHTML === "") {
+        alert("Please select a valid movie.");
+        return;
+    }
+
     const message = this.message.value;
 
     const data = {
@@ -162,12 +167,33 @@ $('#gift-submit').on('submit', function (event) {
     window.location.href = 'gift/gift.html';
 });
 
+// gift submit
+$('#gift-link-search').on('submit', function (event) {
+    // block refresh
+    event.preventDefault();
+    console.log('submit');
+
+    const giftLink = this.giftLink.value;
+
+    localStorage.setItem('gift-link', JSON.stringify(giftLink));
+    event.target.reset();
+    window.location.href = 'gift/giftSearch.html';
+});
+
 // comparison submit
 $('#comparison-submit').on('click', function (event) {
     // block refresh
     // event.preventDefault();
     const movie1 = JSON.parse(localStorage.getItem("comparison-movie1"));
+    if (comparisonMovie1Title.innerHTML === undefined || comparisonMovie1Title.innerHTML === null || comparisonMovie1Title.innerHTML === "Not selected Yet") {
+        alert("Please select a valid movie.");
+        return;
+    }
     const movie2 = JSON.parse(localStorage.getItem("comparison-movie2"));
+    if (comparisonMovie2Title.innerHTML === undefined || comparisonMovie2Title.innerHTML === null || comparisonMovie2Title.innerHTML === "Not selected Yet") {
+        alert("Please select a valid movie.");
+        return;
+    }
 
     const data = {
         movie1: movie1,
@@ -231,23 +257,25 @@ $('#gift-movie-search').on('submit', function (event) {
         url: requestURL, // 요청 url
         data: {},
         success: function (response) {
+
             console.log(response);
             movie = response;
+
+            // 화면에 영화 정보 (제목, 장르) 표시
+            giftMovieTitle.innerHTML = "";
+            giftMovieGenre.innerHTML = "";
+            giftMovieTitle.append(movie.title);
+            giftMovieGenre.append(movie.genres);
+
+            // 영화 정보 localStorgae에 저장 (gift submit 시 데이터 가져갈 수 있도록)
+            localStorage.setItem('gift-movie', JSON.stringify(movie));
         },
         error: function (response) {
             console.log('gift-movie-search failed');
             console.log(response);
+            alert('No movie found. Please enter a valid name.');
         }
     });
-
-    // 화면에 영화 정보 (제목, 장르) 표시
-    giftMovieTitle.innerHTML = "";
-    giftMovieGenre.innerHTML = "";
-    giftMovieTitle.append(movie.title);
-    giftMovieGenre.append(movie.genres);
-
-    // 영화 정보 localStorgae에 저장 (gift submit 시 데이터 가져갈 수 있도록)
-    localStorage.setItem('gift-movie', JSON.stringify(movie));
 });
 
 
@@ -275,21 +303,25 @@ $('#comparison-movie1-search').on('submit', function (event) {
         success: function (response) {
             console.log(response);
             movie = response;
+            console.log(response);
+
+            // 화면에 영화 정보 (제목, 장르) 표시
+            comparisonMovie1Title.innerHTML = "";
+            comparisonMovie1Genre.innerHTML = "";
+            comparisonMovie1Title.append(movie.title);
+            comparisonMovie1Genre.append(movie.genres);
+
+            // 영화 정보 localStorgae에 저장 (gift submit 시 데이터 가져갈 수 있도록)
+            localStorage.setItem('comparison-movie1', JSON.stringify(movie));
         },
         error: function (response) {
             console.log('comparison-movie1-search failed');
             console.log(response);
+            alert('No movie found. Please enter a valid name.');
         }
     });
 
-    // 화면에 영화 정보 (제목, 장르) 표시
-    comparisonMovie1Title.innerHTML = "";
-    comparisonMovie1Genre.innerHTML = "";
-    comparisonMovie1Title.append(movie.title);
-    comparisonMovie1Genre.append(movie.genres);
 
-    // 영화 정보 localStorgae에 저장 (gift submit 시 데이터 가져갈 수 있도록)
-    localStorage.setItem('comparison-movie1', JSON.stringify(movie));
 });
 
 $('#comparison-movie2-search').on('submit', function (event) {
@@ -309,21 +341,23 @@ $('#comparison-movie2-search').on('submit', function (event) {
         success: function (response) {
             console.log(response);
             movie = response;
+
+            // 화면에 영화 정보 (제목, 장르) 표시
+            comparisonMovie2Title.innerHTML = "";
+            comparisonMovie2Genre.innerHTML = "";
+            comparisonMovie2Title.append(movie.title);
+            comparisonMovie2Genre.append(movie.genres);
+
+            // 영화 정보 localStorgae에 저장 (gift submit 시 데이터 가져갈 수 있도록)
+            localStorage.setItem('comparison-movie2', JSON.stringify(movie));
         },
         error: function (response) {
             console.log('comparison-movie2-search failed');
             console.log(response);
+            alert('No movie found. Please enter a valid name.');
         }
     });
 
-    // 화면에 영화 정보 (제목, 장르) 표시
-    comparisonMovie2Title.innerHTML = "";
-    comparisonMovie2Genre.innerHTML = "";
-    comparisonMovie2Title.append(movie.title);
-    comparisonMovie2Genre.append(movie.genres);
-
-    // 영화 정보 localStorgae에 저장 (gift submit 시 데이터 가져갈 수 있도록)
-    localStorage.setItem('comparison-movie2', JSON.stringify(movie));
 });
 
 

@@ -1,5 +1,5 @@
-const data = JSON.parse(localStorage.getItem("gift"));
-console.log(data);
+const giftId = JSON.parse(localStorage.getItem("gift-link"));
+console.log(giftId);
 
 let gift = {};
 
@@ -26,7 +26,7 @@ function uploadGift() {
 }
 
 function fetchGift() {
-    const requestURL = 'http://localhost:8080/api/gifts/' + gift.gift_id;
+    const requestURL = 'http://localhost:8080/api/gifts/' + giftId;
     $.ajax({
         type: "GET",
         url: requestURL, // 요청 url
@@ -34,6 +34,7 @@ function fetchGift() {
         success: function(response) {
             console.log(response);
             gift = response;
+            showGift(gift);
         },
         error: function (response) {
             console.log('fetchGift failed');
@@ -42,7 +43,7 @@ function fetchGift() {
     });
 }
 
-uploadGift();
+fetchGift();
 
 // back to main page
 $('#back-button').on('click', function () {
@@ -61,14 +62,14 @@ const DUMMY_DATA = {
     link: "https://movie/b541e319-272f-4c84-bb68-717328806deb"
 }
 
-function showGift() {
+function showGift(gift) {
     // movieTitle.append(DUMMY_DATA.title);
     // message.append(DUMMY_DATA.message);
     // expirationDate.append("Expires at ", DUMMY_DATA.expirationDate);
     // giftLink.append(DUMMY_DATA.giftLink);
 
-    movieTitle.append(data.movie.title);
-    message.append(data.message);
+    // movieTitle.append(data.movie.title);
+    message.append(gift.message);
     expirationDate.append("Expires at ", gift.expireDate);
     giftLink.append(gift.giftId);
 }
