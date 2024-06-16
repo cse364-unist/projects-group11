@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MISS</title>
+    <link rel="stylesheet" type="text/css" href="index.css">
+</head>
+
+<body>
+    <section class="background">
+        <!-- title -->
+        <section class="title-section">
+            <h1>M I S S</h1>
+            <h3>Movie Information Service for Social</h3>
+        </section>
+
+        <!-- movie recommendation -->
+        <section class="recommendation-section">
+            <div class="content-container">
+                <h2>Movie Recommendation</h2>
+
+                <!-- data used for recommendation -->
+                <ul id="people-list"></ul>
+
+                <!-- input -->
+                <form id="add-person" class="add-person-form">
+                    <div class="input-container">
+                        <span class="data">Gender</span>
+                        <select name="gender" required>
+                            <option value="0">Male</option>
+                            <option value="1">Female</option>
+                        </select>
+                    </div>
+                    <div class="input-container">
+                        <span class="data">Age</span>
+                        <select id="age" name="age" required>
+                            <option value="Under 18">Under 18</option>
+                            <option value="18-24">18-24</option>
+                            <option value="25-34">25-34</option>
+                            <option value="35-44">35-44</option>
+                            <option value="45-49">45-49</option>
+                            <option value="50-55">50-55</option>
+                            <option value="56+">56+</option>
+                        </select>
+                    </div>
+                    <div>
+                        <span class="data">Genre Not Preferred</span>
+                        <select id="genres" name="genres" multiple="multiple" style="width: 300px; height: 1rem">
+                            <option value="Action">Action</option>
+                            <option value="Adventure">Adventure</option>
+                            <option value="Animation">Animation</option>
+                            <option value="Children's">Children's</option>
+                            <option value="Comedy">Comedy</option>
+                            <option value="Crime">Crime</option>
+                            <option value="Documentary">Documentary</option>
+                            <option value="Drama">Drama</option>
+                            <option value="Fantasy">Fantasy</option>
+                            <option value="Film-Noir">Film-Noir</option>
+                            <option value="Horror">Horror</option>
+                            <option value="Musical">Musical</option>
+                            <option value="Mystery">Mystery</option>
+                            <option value="Romance">Romance</option>
+                            <option value="Sci-Fi">Sci-Fi</option>
+                            <option value="Thriller">Thriller</option>
+                            <option value="War">War</option>
+                        </select>
+                    </div>
+
+                    <input type="submit" value="Add Person">
+                </form>
+
+                <!-- submit button -->
+                <div>
+                    <button id="recommendation-submit" class="submit-button">
+                        Submit
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- gift & comparison -->
+        <div class="gift-and-comparison">
+            <!-- movie gift -->
+            <section class="gift-section">
+                <div class="content-container">
+                    <h2>Movie Gift</h2>
+
+                    <!-- movie input -->
+                    <div class="input-container" style="margin-bottom: -1rem">
+                        <div class="data">
+                            Movie
+                        </div>
+                        <!-- movie search -->
+                        <form id="gift-movie-search">
+                            <input name="movie" required style="width: 40%; margin-bottom: 1rem">
+                            <button>Search</button>
+                        </form>
+                    </div>
+
+                    <form id="gift-submit" class="below-form">
+                        <!-- movie info -->
+                        <div class="movie-description">
+                            <!-- 선택된 영화 정보 가져오기 -->
+                            <span>Title:</span>
+                            <span id="gift_movie_title"></span><br>
+                            <span>Genre:</span>
+                            <span id="gift_movie_genre"></span>
+                        </div>
+                        <!-- message input -->
+                        <div class="input-container">
+                            <div class="data">
+                                Message
+                            </div>
+                            <textarea name="message" required style="width: 60%; height: 8rem"></textarea>
+                        </div>
+                        <!-- submit button -->
+                        <input type="submit" value="Submit" class="submit-button">
+                    </form>
+                </div>
+            </section>
+
+            <!-- movie comparison -->
+            <section class="comparison-section">
+                <div class="content-container">
+                    <h2>Movie Comparison</h2>
+
+                    <div class="below-form">
+                        <!-- first movie -->
+                        <div>
+                            <!-- movie input -->
+                            <div class="input-container">
+                                <div class="data">
+                                    Movie 1
+                                </div>
+                                <form id="comparison-movie1-search">
+                                    <input name="movie1" required>
+                                    <button>Search</button>
+                                </form>
+                            </div>
+                            <!-- movie info -->
+                            <div class="movie-description">
+                                <!-- 선택된 영화 정보 가져오기 -->
+                                <span>Title:</span>
+                                <span id="movie1-title"></span><br>
+                                <span>Genre:</span>
+                                <span id="movie1-genre"></span>
+                            </div>
+                        </div>
+
+                        <!-- second movie -->
+                        <div>
+                            <!-- movie input -->
+                            <div class="input-container">
+                                <div class="data">
+                                    Movie 2
+                                </div>
+                                <form id="comparison-movie2-search">
+                                    <input name="movie2" required>
+                                    <button>Search</button>
+                                </form>
+                            </div>
+                            <!-- movie info -->
+                            <div class="movie-description">
+                                <!-- 선택된 영화 정보 가져오기 -->
+                                <span>Title:</span>
+                                <span id="movie2-title"></span><br>
+                                <span>Genre:</span>
+                                <span id="movie2-genre"></span>
+                            </div>
+                        </div>
+                        <input type="submit" value="Submit" class="submit-button" id="comparison-submit">
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </section>
+
+    <!-- jquery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+        integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="index.js"></script>
+    <!-- select2 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"
+        integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css"
+        integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</body>
+
+</html>

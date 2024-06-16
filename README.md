@@ -1,95 +1,48 @@
-# milestone 2 API
+# milestone 3 Document
+
+## How to access our application?
+```
+1. Download the files and run the following commands:
+
+    $ docker build -t image_name /path/to/Dockerfile
+    $ docker run -d -p 8080:8080 image_name
+
+2. Then, in the host machine, you can access our application in a web browser by visiting http://localhost:8080/
+```
 
 ## /recommendations
 
-### input
+### How to use
 ```
-[ List of the members in group who requested the recommendation : {"gender": "M|F", "age": "1|18|25|35|45|50|56", "numOfPeople": integer},
-List of genres you want to avoid : { one of the 18 genre } ]
-
-Since it is a list, you can enter multiple elements at once.
-```
-### output
-```
-[ List of 10 movies with high predict scores. 
-There are some movies which with 5 points for all ratings
-Their predict score is always 5, so we except these movies.]
-```
-### implemented REST API
-```
-In this recommendation feature, there are only one REST API, GET.
-When a list of users to watch a movie and a list of genres to avoid are inputted, a list of 10 movies with a high prediction score is returned.
-```
-### test
-```
-$ curl -X GET http://localhost:8080/recommendations -H 'Content-type:application/json' -d '{"userList": [{"gender": "M", "age": 25, "numOfPeople": 1}], "genreList": ["Drama"]}'
-
-// Return the list of 10 films in the order of the highest predicted score among films, excluding the "Drama" genre, when the group is one 25-year-old male
-
-expect output :
-[{"title":"Return with Honor (1998)","genres":"Documentary","movieId":2930},{"title":"Seven Chances (1925)","genres":"Comedy","movieId":3232},{"title":"Sanjuro (1962)","genres":"Action|Adventure","movieId":2905},{"title":"Late Bloomers (1996)","genres":"Comedy","movieId":1553},{"title":"Fever Pitch (1997)","genres":"Comedy|Romance","movieId":2962},{"title":"Wrong Trousers, The (1993)","genres":"Animation|Comedy","movieId":1148},{"title":"Close Shave, A (1995)","genres":"Animation|Comedy|Thriller","movieId":745},{"title":"Usual Suspects, The (1995)","genres":"Crime|Thriller","movieId":50},{"title":"Rear Window (1954)","genres":"Mystery|Thriller","movieId":904},{"title":"Butterfly Kiss (1995)","genres":"Thriller","movieId":696}]
+- Select the gender of new person through the box next to "Gender".
+- Select the age of new person through the box next to "Age".
+- Select up to 3 genres which new person want to avoid through the box next to "Genre".
+- After that, pressing "Add Person" button to add that person in your group.
+- Pressing "Remove" button on the right will remove that person's information.
+- After entering the group's information, press "Submit" button to go to the movie recommendation page for the group.
+- On the movie recommendation page, we recommend 10 movies with high expected ratings for the group.
 ```
 
-## /gifts
+## /gift
 
-### input
+### How to Use
 ```
-{"message": "str", "movieId": int}
-```
-### output
-```
-{"message": "string", "movieId": long, "giftId": "string: uuid", "expireDate": "3 months after current datetime, until 11:59:59 pm"}
-```
-### test
-First post gift. Then based on the giftId (uuid) got from the output, if we request a get method, we can get the details of the gift.
-```
-$ curl -X POST http://localhost:8080/gifts -H 'Content-type:application/json' -d '{"message": "영화 선물", "movieId": 5}'
-expected output:
-{"message":"영화 선물","movieId":5,"giftId":"b541e319-272f-4c84-bb68-717328806deb","expireDate":"2024-07-27 23:59:59"}
+- Click "Enter Movie Title" box next to "Movie" to enter the title of the movie.
+- Click "Type message..." box next to "Message" to enter the message.
+- After that, pressing "Submit" button creates a gifticon containing entered movie title and message.
 
-$ curl -X GET http://localhost:8080/gifts/b541e319-272f-4c84-bb68-717328806deb
-expected output
-{"message":"영화 선물","movieId":5,"giftId":"b541e319-272f-4c84-bb68-717328806deb","expireDate":"2024-07-27 23:59:59"}
-```
-Note that the giftId changes every time because it is a uuid generated. 
-
-## /comparisons
-
-### input
-```
-{"id1": (ID of the first movie), "id2": (ID of the second movie)}
-```
-### output
-```
-["winner movie",
--1(just for seperating the informations),
-// informations related to id1
-(number of male rating over 3),(number of female rating over 3),(number of age 1~24 rating over 3),(number of age 25~34 rating over 3),(number of age 1~24 rating over 3),(number of age 50~ rating over 3),(summation of all ratings),(number of all ratings),
--1(just for seperating the informations),
-// informations related to id1
-(number of male rating over 3),(number of female rating over 3),(number of age 1~24 rating over 3),(number of age 25~34 rating over 3),(number of age 1~24 rating over 3),(number of age 50~ rating over 3),(summation of total ratings),(number of total ratings),
--1(just for seperating the informations),
-// information of total users
-(number of male users),(number of female users),(number of age 1~24 users),(number of age 25~34 users),(number of age 35~49 users),(number of age 50~ users)]
-```
-### implemented REST API
-```
-In this comparison feature, there are only one REST API, POST.
-We can input two IDs of movies, which can be chosen by search on frontend.
-We determined the favor of users with the 3 or higher rating.
-And we calculated the weight based on equation 1 + (1 / (1 + x)), such that x is the amount of how much outdated/popular/gender-biased/age-biased
-Then with multiplicating such weights and the original average rating, we can find the better movie from input.
-```
-### test
-```
-$ curl -X POST http://localhost:8080/comparisons -H 'Content-type:application/json' -d '{"id1": 1, "id2": 2}'
-
-// Return the list with format of above output, such that seperated with -1
-expected output:
-[1,-1,1431,569,532,761,554,153,8475,2077,-1,409,142,139,206,162,44,1986,701,-1,4331,1709,1325,2096,1743,876]
+- Pressing "Share to others!" button on the generated gifticon screen  creates a gifticon link to send to others and copies the link.
+- If the recipient of the gifticon gift presses the link and comes in, the same gifticon screen will be reached.
+- You can use the gifticon by pressing "Use gifticon!" button.
 ```
 
+## /comparison
 
-# Runtime Information
-On average, it took 5-10 minutes to build a clean image from the Dockerfile.
-Also, it took around 15-20 minutes to run the `run.sh` file, parse all the `.dat` files, and store in the database.
+### How to Use
+```
+- Click "Enter Movie Title" box next to "Movie" to enter the title of the movie.
+- When two movies on the database are selected, the "Submit" button is activated.
+- Press "Submit" button to go to the movie comparison page.
+
+- It shows the data of the two movies and emphasizes the movies won by the crown.
+```

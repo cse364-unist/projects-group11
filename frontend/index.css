@@ -1,0 +1,153 @@
+* {
+    font-size: 1rem;
+}
+
+.background {
+    background-color: white;
+    text-align: center;
+}
+
+.data {
+    background-color: #d9d9d9; 
+    border-radius: 10px; 
+    padding: 0rem 1rem; 
+    height: 1.5rem;
+    margin-right: 1rem;
+}
+
+.content-container {
+    /* margin: 3% 1%; */
+    height: 100%
+}
+
+.input-container {
+    display: flex;
+    justify-content: center;
+    /* gap: 1rem; */
+    margin-top: 0.3rem;
+}
+
+ul {
+    padding: 0 2rem;
+}
+
+input {
+    font-size: 1rem;
+    padding: 0.3rem 0.2rem;
+}
+
+button, input, select, textarea {
+    border: 1px solid lightgray;
+    border-radius: 0.5rem;
+}
+
+textarea {
+    padding: 0.3rem 0.2rem;
+}
+
+.submit-button {
+    font-size: 1rem;
+    margin-top: 1.5rem;
+    margin-bottom: 2rem;
+    padding: 0.3rem 1rem;
+}
+
+h1 {
+    font-size: 5rem;
+    margin: 0 0 1.5rem 0;
+}
+
+h2 {
+    font-size: 1.8rem;
+    padding: 0rem 0 0.8rem 0;
+    height: 3rem;
+    border-bottom: 1px solid black
+}
+
+h3 {
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+form {
+    align-content: space-around;
+    /* height: 80%; */
+}
+
+/* title section */
+.title-section {
+    text-align: center;
+    margin: 8rem 0;
+}
+
+/* movie-recommendation */
+.recommendation-section {
+    width: 90%;
+    border: 1px solid black;
+    border-radius: 2rem;
+    margin: 0 5% 5rem 5%;
+}
+
+.recommendation-section li {
+    list-style-type: none;
+    display: flex;
+    justify-content: space-around;
+}
+
+.add-person-form {
+    display: flex;
+    justify-content: space-around;
+}
+
+.row {
+    border: 1px solid lightgray;
+    border-radius: 1rem;
+    padding: 0.2rem 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.gender-container {
+    width: 25%;
+}
+
+.age-container {
+    width: 25%;
+}
+
+.genres-container {
+    width: 50%;
+}
+
+/* gift & comparison */
+.gift-and-comparison {
+    display: flex;
+    justify-content: center;
+    gap: 4%;
+    margin-bottom: 5rem;
+    height: 30rem;
+}
+
+.below-form {
+    /* height: 432px; */
+}
+
+/* movie-gift */
+.gift-section {
+    border: 1px solid black;
+    border-radius: 2rem;
+    width: 43%;
+}
+
+/* movie-comparison */
+.comparison-section {
+    border: 1px solid black;
+    border-radius: 2rem;
+    width: 43%;
+}
+
+.movie-description {
+    border: 1px solid lightgray;
+    border-radius: 0.8rem;
+    margin: 1rem 2rem 1rem 2rem;
+    padding: 1rem 2rem;
+}
