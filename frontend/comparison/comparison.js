@@ -57,7 +57,7 @@ const ratingTwo = comparisonResults[17]/comparisonResults[18];
 
 let ratingWinnerTitle = (ratingOne > ratingTwo) ? firstMovieTitle : secondMovieTitle;
 let conjunction = (ratingWinnerTitle == winnerMovieTitle) ? "Also" : "However";
-let reason = (ratingWinnerTitle == winnerMovieTitle) ? "not powerful enough to weaken the rating of" : "much more even for";
+let reason = (ratingWinnerTitle == winnerMovieTitle) ? "not powerful enough to weaken the rating of" : "much more even(means evenly favored) at";
 
 let firstMovieDescription = `${winnerMovieTitle} won! The average rating is bigger at ${ratingWinnerTitle}. ${conjunction}, The distribution of users was ${reason} ${winnerMovieTitle}!`;
 let secondMovieDescription = "The reason why the movie win/lose";
