@@ -12,7 +12,7 @@
 
 
 ## Our Main Page
-!Main page.png
+![Main page](img.png)
 
 ### How to Use recommendation?
 
