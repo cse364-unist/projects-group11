@@ -11,7 +11,7 @@
 2. Then, in the host machine, you can access our application in a web browser by visiting http://localhost:8080/
 
 
-## /recommendations
+## Our Main Page
 
 ### How to Use recommendation?
 
