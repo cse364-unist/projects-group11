@@ -4,13 +4,15 @@
 
 1. Download the files and run the following commands:
 
+```
     $ docker build -t image_name /path/to/Dockerfile
     $ docker run -d -p 8080:8080 image_name
-
+```
 2. Then, in the host machine, you can access our application in a web browser by visiting http://localhost:8080/
 
 
-## /recommendations
+## /recommendation
+
 
 ### How to Use recommendation?
 
@@ -65,3 +67,9 @@
   The second graph is the distribution of the age of the person who gave good rating.
 - Pressing "Back" button on the bottom to return main page.
 
+# Screenshots
+![Main page](Main%20page.png)
+![Comparison page](Comparison%20page.png)
+![Find present](Find%20present.png)
+![Make present](Make%20present.png)
+![Recommendation page](Recommendation%20page.png)
