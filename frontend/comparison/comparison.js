@@ -53,24 +53,40 @@ function loadResult() {
     secondMovieData.append(secondMovieDescription);
 }
 
+const maleRateOne = comparisonResults[2]/comparisonResults[20];
+const femaleRateOne = comparisonResults[3]/comparisonResults[21];
+const maleRateTwo = comparisonResults[2]/comparisonResults[20];
+const femaleRateTwo = comparisonResults[3]/comparisonResults[21];
+
 var genderChartData = {
     labels: ["Male", "Female"],
     datasets: [{
         label: movie1.title,
         backgroundColor: "#1E90FF",
         data: [
-            Math.random() * 90000,
-            Math.random() * 90000
+            100 * maleRateOne / (maleRateOne + femaleRateOne),
+            100 * femaleRateOne / (maleRateOne + femaleRateOne)
         ]
     }, {
         label: movie2.title,
         backgroundColor: "#F7464A",
         data: [
-            Math.random() * 90000,
-            Math.random() * 90000
+            100 * maleRateTwo / (maleRateTwo + femaleRateTwo),
+            100 * femaleRateTwo / (maleRateTwo + femaleRateTwo)
         ]
     }]
 };
+
+const age1RateOne = comparisonResults[4]/comparisonResults[22];
+const age25RateOne = comparisonResults[5]/comparisonResults[23];
+const age35RateOne = comparisonResults[6]/comparisonResults[24];
+const age50RateOne = comparisonResults[7]/comparisonResults[25];
+const age1RateTwo = comparisonResults[13]/comparisonResults[22];
+const age25RateTwo = comparisonResults[14]/comparisonResults[23];
+const age35RateTwo = comparisonResults[15]/comparisonResults[24];
+const age50RateTwo = comparisonResults[16]/comparisonResults[25];
+const sumAgeOne = age1RateOne + age25RateOne + age35RateOne + age50RateOne;
+const sumAgeTwo = age1RateTwo + age25RateTwo + age35RateTwo + age50RateTwo;
 
 var ageChartData = {
     labels: ["Under 25", "25~34", "35~49", "Over 50"],
@@ -78,19 +94,19 @@ var ageChartData = {
         label: movie1.title,
         backgroundColor: "#1E90FF",
         data: [
-            Math.random() * 90000,
-            Math.random() * 90000,
-            Math.random() * 90000,
-            Math.random() * 90000
+            100 * age1RateOne / sumAgeOne,
+            100 * age25RateOne / sumAgeOne,
+            100 * age35RateOne / sumAgeOne,
+            100 * age50RateOne / sumAgeOne
         ]
     }, {
         label: movie2.title,
         backgroundColor: "#F7464A",
         data: [
-            Math.random() * 90000,
-            Math.random() * 90000,
-            Math.random() * 90000,
-            Math.random() * 90000
+            100 * age1RateTwo / sumAgeTwo,
+            100 * age25RateTwo / sumAgeTwo,
+            100 * age35RateTwo / sumAgeTwo,
+            100 * age50RateTwo / sumAgeTwo
         ]
     }]
 };
