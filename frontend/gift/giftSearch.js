@@ -63,8 +63,7 @@ const giftLink = document.querySelector("#gift-link");
 let movie = {};
 
 function fetchMovie(gift) {
-    const requestURL = 'http://localhost:8080/api/movies/findmovie?movieId' + gift.movieId;
-    console.log(requestURL);
+    const requestURL = 'http://localhost:8080/api/movies/findmovie?movieId=' + gift.movieId;
     $.ajax({
         type: "GET",
         url: requestURL, // 요청 url
