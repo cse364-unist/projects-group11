@@ -57,10 +57,10 @@ RUN cd milestone3 && mvn clean package
 
 RUN wget https://dlcdn.apache.org/tomcat/tomcat-10/v10.1.24/bin/apache-tomcat-10.1.24.tar.gz
 RUN mkdir -p tomcat && tar -zvxf apache-tomcat-10.1.24.tar.gz -C tomcat/ --strip-components=1
-RUN cp target/cse364-project.war tomcat/webapps/
-RUN mv ../frontend/ tomcat/webapps/
-RUN mv -f ../tomcat_configs/* tomcat/conf/
-RUN rm -rf ../frontend/ ../tomcat_configs
+RUN cp milestone3/target/cse364-project.war tomcat/webapps/
+RUN mv frontend/ tomcat/webapps/
+RUN mv -f tomcat_configs/* tomcat/conf/
+RUN rm -rf frontend/ tomcat_configs
 RUN sh tomcat/bin/catalina.sh start
 
 # Expose the port your app runs on
