@@ -31,11 +31,12 @@ button {
 }
 
 .result-container {
-    border: 1px solid black;
-    border-radius: 2rem;
+    border: 1px solid lightgray;
+    border-radius: 1rem;
     width: 100%;
     text-align: center;
     margin: 1rem 0;
+    padding: 2rem 2rem;
 }
 
 .data {

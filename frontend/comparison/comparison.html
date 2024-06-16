@@ -19,15 +19,11 @@
             <div class="comparison-section">
                 <div class="content-container">
                     <div style="display: flex; justify-content: center; gap: 1rem;">
-                        <!-- first movie result -->
-                        <div style="width: 43%">
-                            <h3 id="first-movie-title"></h3>
-                            <div id="first-result" class="result-container"></div>
-                        </div>
-                        <!-- second movie result -->
-                        <div style="width: 43%">
-                            <h3 id="second-movie-title"></h3>
-                            <div id="second-result" class="result-container"></div>
+                        <!-- movie result description -->
+                        <div style="width: 80%;" class="result-container">
+                            <div id="first-result1" style="font-size: 1rem"></div>
+                            <div id="first-result2" style="font-size: 1rem"></div>
+                            <div id="first-result3" style="font-size: 1rem"></div>
                         </div>
                     </div>
                 </div>
@@ -35,10 +31,10 @@
         </section>
 
         <!-- comparing graphs -->
-        <h3 style="text-align: center;">Chart1 name</h3>
-        <canvas id="gender-chart"></canvas>
+        <h3 style="text-align: center; margin-top: 3rem;">Gender Distribution</h3>
+        <canvas id="gender-chart" style="margin-bottom: 3rem;"></canvas>
 
-        <h3 style="text-align: center;">Chart2 name</h3>
+        <h3 style="text-align: center;">Age Distribution</h3>
         <canvas id="age-chart"></canvas>
 
         <!-- back button -->
