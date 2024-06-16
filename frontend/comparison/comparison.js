@@ -22,7 +22,9 @@ function loadResult() {
     winnerMovieTitle.append(winner);
     // firstMovieTitle.append(movie1.title);
     // secondMovieTitle.append(movie2.title);
-    firstMovieData.append(firstMovieDescription);
+    firstMovieData1.append(firstMovieDescription1);
+    firstMovieData2.append(firstMovieDescription2);
+    firstMovieData3.append(firstMovieDescription3);
     // secondMovieData.append(secondMovieDescription);
 }
 
@@ -53,7 +55,7 @@ function fetchComparison() {
 fetchComparison();
 
 // dummy data
-// comparisonResults = [1, -1, 1431, 569, 532, 761, 554, 153, 8475, 2077, -1, 409, 142, 139, 206, 162, 44, 1986, 701, -1, 4331, 1709, 1325, 2096, 1743, 876];
+comparisonResults = [1, -1, 1431, 569, 532, 761, 554, 153, 8475, 2077, -1, 409, 142, 139, 206, 162, 44, 1986, 701, -1, 4331, 1709, 1325, 2096, 1743, 876];
 
 
 const winner = movie1.movie_id === comparisonResults[0] ? movie1.title : movie2.title;
@@ -65,7 +67,9 @@ $('#back-button').on('click', function () {
 
 const winnerMovieTitle = document.querySelector("#winner-movie");
 const firstMovieTitle = document.querySelector("#first-movie-title");
-const firstMovieData = document.querySelector("#first-result");
+const firstMovieData1 = document.querySelector("#first-result1");
+const firstMovieData2 = document.querySelector("#first-result2");
+const firstMovieData3 = document.querySelector("#first-result3");
 
 const maleRateOne = comparisonResults[2]/comparisonResults[20];
 const femaleRateOne = comparisonResults[3]/comparisonResults[21];
@@ -90,7 +94,9 @@ let ratingWinnerTitle = (ratingOne > ratingTwo) ? movie1.title : movie2.title;
 let conjunction = (ratingWinnerTitle == winner) ? "Also" : "However";
 let reason = (ratingWinnerTitle == winner) ? "not powerful enough to weaken the rating of" : "much more even(means evenly favored) at";
 
-let firstMovieDescription = `${winner} won! The average rating is bigger at ${ratingWinnerTitle}. ${conjunction}, The distribution of users was ${reason} ${winner}!`;
+let firstMovieDescription1 = `${winner} won!`;
+let firstMovieDescription2 = `The average rating is bigger at ${ratingWinnerTitle}.`;
+let firstMovieDescription3 = `${conjunction}, The distribution of users was ${reason} ${winner}!`;
 
 var genderChartData = {
     labels: [movie1.title, movie2.title],
