@@ -67,7 +67,7 @@
   The second graph is the distribution of the age of the person who gave good rating.
 - Pressing "Back" button on the bottom to return main page.
 
-#@ Screenshots
+# Screenshots
 ![Main page](Main%20page.png)
 ![Comparison page](Comparison%20page.png)
 ![Find present](Find%20present.png)
