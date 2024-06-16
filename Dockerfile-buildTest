@@ -44,7 +44,7 @@ WORKDIR ${HOME}
 # Add your run.sh file under WORKDIR.
 
 RUN git clone https://github.com/cse364-unist/projects-group11
-RUN cd projects-group11 && git fetch && git checkout -b master ; exit 0
+RUN cd projects-group11 && git fetch && git checkout -b milestone3 ; exit 0
 RUN mv projects-group11/milestone3 . && mv projects-group11/frontend . && mv projects-group11/tomcat_configs .
 RUN rm -rf projects-group11
 
