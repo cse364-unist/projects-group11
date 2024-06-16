@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,6 +31,18 @@ class GiftController {
     @GetMapping("/gifts")
     List<Gift> all() {
         return giftRepository.findAll();
+    }
+
+    @GetMapping("/gifts/findmovie")
+    Movie findMovieById(@RequestParam("movieId") Long movieId) {
+        Movie shouldbereturned;
+        Optional<Movie> canbereturned = movieRepository.findById(movieId);
+        if (canbereturned.isPresent()) {
+            shouldbereturned = canbereturned.get();
+            return shouldbereturned;
+        } else {
+            throw new CannotFoundException("movie", movieId);
+        }
     }
 
     // Input: curl -X GET "http://localhost:8080/gifts/search?keyword=toy"
@@ -77,20 +90,20 @@ class GiftController {
     //  The reason for commenting below is that it should not be directly update and delete with gifts' giftId
     //  Instead, when you approach giftId, if you connect the link after expireDate, that giftId should delete.
 
-    // @PutMapping("/gifts/{giftId}")
-    // Gift replaceGift(@RequestBody Gift newGift, @PathVariable String giftId) {
-    //     return giftRepository.findById(giftId)
-    //         .map(gift -> {
-    //             gift.setMovieId(newGift.getMovieId());
-    //             gift.setMessage(newGift.getMessage());
-    //             return giftRepository.save(gift);
-    //         })
-    //         .orElseGet(() -> {
-    //             newGift.setGiftId(giftId);
-    //             newGift.initExpireDate();
-    //             return giftRepository.save(newGift);
-    //         });
-    // }
+    @PutMapping("/gifts")
+    Gift replaceGift(@RequestParam("giftId") String giftId) {
+        Optional<Gift> canbereturned = giftRepository.findById(giftId)
+                                                        .map(gift -> {
+                                                            gift.setExpireDate("0000-00-00T00:00:00.000000000");
+                                                            return giftRepository.save(gift);
+                                                        });
+        if (canbereturned.isPresent()) {
+            Gift shouldbereturned = canbereturned.get();
+            return shouldbereturned;
+        } else {
+            throw new CannotFoundException("gift", giftId);
+        }
+    }
 
     // @DeleteMapping("/gifts/{giftId}")
     // void deleteGift(@PathVariable String giftId) {

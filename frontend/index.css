@@ -1,9 +1,10 @@
 * {
     font-size: 1rem;
+    font-family: 'Palatino Linotype', 'Book Antiqua', serif;
 }
 
 .background {
-    background-color: white;
+    /* background-color: white; */
     text-align: center;
 }
 
@@ -77,7 +78,7 @@ form {
 /* title section */
 .title-section {
     text-align: center;
-    margin: 8rem 0;
+    padding: 8rem 0;
 }
 
 /* movie-recommendation */

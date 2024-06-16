@@ -1,5 +1,5 @@
-const data = JSON.parse(localStorage.getItem("gift"));
-console.log(data);
+const giftId = JSON.parse(localStorage.getItem("gift-link"));
+console.log(giftId);
 
 let gift = {};
 
@@ -13,7 +13,7 @@ function uploadGift() {
         type: "POST",
         url: requestURL, // 요청 url
         data: {},
-        success: function(response) {
+        success: function (response) {
             console.log(response);
             gift = response;
             showGift();
@@ -26,23 +26,29 @@ function uploadGift() {
 }
 
 function fetchGift() {
-    const requestURL = 'http://localhost:8080/api/gifts/' + gift.gift_id;
+    const requestURL = 'http://localhost:8080/api/gifts/' + giftId;
     $.ajax({
         type: "GET",
         url: requestURL, // 요청 url
         data: {},
-        success: function(response) {
+        success: function (response) {
             console.log(response);
             gift = response;
+            fetchMovie(gift);
         },
         error: function (response) {
             console.log('fetchGift failed');
             console.log(response);
+            movieTitle.append("The Gift Link is Invalid");
+            message.append("The Gift Link is Invalid");
+            expirationDate.append("The Gift Link is Invalid");
+            giftLink.append("The Gift Link is Invalid");
+            alert('The Gift Link is Invalid')
         }
     });
 }
 
-uploadGift();
+fetchGift();
 
 // back to main page
 $('#back-button').on('click', function () {
@@ -54,21 +60,34 @@ const message = document.querySelector("#gift-message");
 const expirationDate = document.querySelector("#expiration-date");
 const giftLink = document.querySelector("#gift-link");
 
-const DUMMY_DATA = {
-    title: "movie1",
-    message: "this is a gift",
-    expirationDate: "2024-12-31",
-    link: "https://movie/b541e319-272f-4c84-bb68-717328806deb"
+let movie = {};
+
+function fetchMovie(gift) {
+    const requestURL = 'http://localhost:8080/api/gifts/findmovie?movieId' + gift.movieId;
+    $.ajax({
+        type: "GET",
+        url: requestURL, // 요청 url
+        data: {},
+        success: function (response) {
+            console.log(response);
+            movie = response;
+            showGift(gift, movie);
+        },
+        error: function (response) {
+            console.log('fetchMovie failed');
+            console.log(response);
+        }
+    });
 }
 
-function showGift() {
+function showGift(gift, movie) {
     // movieTitle.append(DUMMY_DATA.title);
     // message.append(DUMMY_DATA.message);
     // expirationDate.append("Expires at ", DUMMY_DATA.expirationDate);
     // giftLink.append(DUMMY_DATA.giftLink);
 
-    movieTitle.append(data.movie.title);
-    message.append(data.message);
+    movieTitle.append(movie.title);
+    message.append(gift.message);
     expirationDate.append("Expires at ", gift.expireDate);
     giftLink.append(gift.giftId);
 }

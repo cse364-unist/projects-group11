@@ -31,8 +31,9 @@ function fetchMovieList() {
         requestURL += genderList[i] + ',';
         requestURL += ageList[i] + ',';
     }
-    requestURL += '-1,';
+    requestURL += '-1';
     for (let i = 0; i < genresList.length; i++) {
+        requestURL += ',';
         requestURL += genresList[i];
         if (i + 1 !== genresList.length)
             requestURL += ',';
@@ -43,9 +44,12 @@ function fetchMovieList() {
         type: "GET",
         url: requestURL, // 요청 url
         data: {},
-        success: function(response) {
+        success: function (response) {
             console.log(response);
             movieList = response;
+            console.log(movieList);
+
+            listMovie(movieList);
         },
         error: function (response) {
             console.log('fetchMovieList failed');
@@ -54,7 +58,7 @@ function fetchMovieList() {
     });
 }
 
-fetchMovieList();
+
 
 // create a row of movie list
 function createRow(title, genres, rating) {
@@ -65,44 +69,45 @@ function createRow(title, genres, rating) {
     const genresDiv = document.createElement("div");
     const genresTitle = document.createElement("span");
     const genresData = document.createElement("span");
-    const ratingDiv = document.createElement("div");
-    const ratingTitle = document.createElement("span");
-    const ratingData = document.createElement("span");
+    // const ratingDiv = document.createElement("div");
+    // const ratingTitle = document.createElement("span");
+    // const ratingData = document.createElement("span");
 
     titleDiv.append(titleTitle);
     titleDiv.append(titleData);
     genresDiv.append(genresTitle);
     genresDiv.append(genresData);
-    ratingDiv.append(ratingTitle);
-    ratingDiv.append(ratingData);
+    // ratingDiv.append(ratingTitle);
+    // ratingDiv.append(ratingData);
     row.append(titleDiv);
     row.append(genresDiv);
-    row.append(ratingDiv);
+    // row.append(ratingDiv);
 
     titleDiv.setAttribute("class", "result-container");
     genresDiv.setAttribute("class", "result-container");
-    ratingDiv.setAttribute("class", "result-container");
+    // ratingDiv.setAttribute("class", "result-container");
 
-    titleDiv.setAttribute("style", "width: 30%");
-    genresDiv.setAttribute("style", "width: 45%");
-    ratingDiv.setAttribute("style", "width: 25%");
+    titleDiv.setAttribute("style", "width: 50%");
+    genresDiv.setAttribute("style", "width: 50%");
+    // ratingDiv.setAttribute("style", "width: 25%");
 
     titleTitle.setAttribute("class", "data");
     genresTitle.setAttribute("class", "data");
-    ratingTitle.setAttribute("class", "data");
+    // ratingTitle.setAttribute("class", "data");
     row.setAttribute("class", "row");
 
     titleTitle.innerHTML = "Title";
     titleData.innerHTML = title;
     genresTitle.innerHTML = "Genre";
     genresData.innerHTML = genres;
-    ratingTitle.innerHTML = "Rating";
-    ratingData.innerHTML = rating;
+    // ratingTitle.innerHTML = "Rating";
+    // ratingData.innerHTML = rating;
 
     return row;
 }
 
-function listMovie() {
+function listMovie(movieList) {
+    // console.log(movieList);
     movieListArea.innerHTML = "";
     for (var i = 0; i < movieList.length; i++) {
         const row = createRow(movieList[i].title, movieList[i].genres, movieList[i].rating);
@@ -116,5 +121,11 @@ $('#back-button').on('click', function () {
 });
 
 
+fetchMovieList();
 
-listMovie();
+// async function run() {
+//     let res = await fetchMovieList();
+//     listMovie();
+// }
+// listMovie();
+// run();
