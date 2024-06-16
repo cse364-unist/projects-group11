@@ -77,20 +77,14 @@ class GiftController {
     //  The reason for commenting below is that it should not be directly update and delete with gifts' giftId
     //  Instead, when you approach giftId, if you connect the link after expireDate, that giftId should delete.
 
-    // @PutMapping("/gifts/{giftId}")
-    // Gift replaceGift(@RequestBody Gift newGift, @PathVariable String giftId) {
-    //     return giftRepository.findById(giftId)
-    //         .map(gift -> {
-    //             gift.setMovieId(newGift.getMovieId());
-    //             gift.setMessage(newGift.getMessage());
-    //             return giftRepository.save(gift);
-    //         })
-    //         .orElseGet(() -> {
-    //             newGift.setGiftId(giftId);
-    //             newGift.initExpireDate();
-    //             return giftRepository.save(newGift);
-    //         });
-    // }
+    @PutMapping("/gifts/{giftId}")
+    Gift replaceGift(@RequestParam("giftId") String giftId) {
+        return giftRepository.findById(giftId)
+            .map(gift -> {
+                gift.setExpireDate("0000-00-00T00:00:00.000000000");
+                return giftRepository.save(gift);
+            });
+    }
 
     // @DeleteMapping("/gifts/{giftId}")
     // void deleteGift(@PathVariable String giftId) {
