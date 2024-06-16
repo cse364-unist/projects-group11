@@ -43,7 +43,8 @@ class GiftController {
         String regexPattern = String.join("", patterns) + ".*";
         List<Movie> movies = movieRepository.findByTitleRegex(regexPattern);
         if (movies.isEmpty()) {
-            throw new CannotFoundException("movies with keyword", keyword);
+            throw new CannotFoundException("something wrong");
+            // throw new CannotFoundException("movies with keyword", keyword);
         }
         return movies.get(0);
     }
