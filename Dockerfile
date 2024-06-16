@@ -53,7 +53,7 @@ RUN cd projects-group11 && git fetch && git checkout -b master ; exit 0
 RUN mv projects-group11/milestone3 . && mv projects-group11/frontend . && mv projects-group11/tomcat_configs .
 RUN rm -rf projects-group11
 RUN cd milestone3
-RUN mvn clean package
+RUN cd milestone3 && mvn clean package
 
 RUN wget https://dlcdn.apache.org/tomcat/tomcat-10/v10.1.24/bin/apache-tomcat-10.1.24.tar.gz
 RUN mkdir -p tomcat && tar -zvxf apache-tomcat-10.1.24.tar.gz -C tomcat/ --strip-components=1
