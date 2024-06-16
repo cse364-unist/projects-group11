@@ -25,14 +25,6 @@ RUN chown -R mongodb:mongodb /data/db /data/configdb
 
 # Add your stuff below:
 
-ENTRYPOINT mongod --fork --logpath /var/log/mongodb/mongod.log \
-    && /bin/bash
-
-
-######################################################################
-
-# Add your stuff below:
-
 # Install all necessary packages to run your program, such as vim, java 17, maven, etc.
 RUN apt-get update && apt-get install -y \
     vim \
@@ -41,27 +33,31 @@ RUN apt-get update && apt-get install -y \
     curl \
     git
 
+
+######################################################################
+
+
 ENV HOME /root/project
 # Create /root/project directory and set it as WORKDIR.
 WORKDIR ${HOME}
 
 # Add your run.sh file under WORKDIR.
-ADD run.sh run.sh
 
 RUN git clone https://github.com/cse364-unist/projects-group11
 RUN cd projects-group11 && git fetch && git checkout -b master ; exit 0
 RUN mv projects-group11/milestone3 . && mv projects-group11/frontend . && mv projects-group11/tomcat_configs .
 RUN rm -rf projects-group11
-RUN cd milestone3
-RUN cd milestone3 && mvn clean package
+
+WORKDIR ${HOME}/milestone3
+
+RUN mvn clean package
 
 RUN wget https://dlcdn.apache.org/tomcat/tomcat-10/v10.1.24/bin/apache-tomcat-10.1.24.tar.gz
 RUN mkdir -p tomcat && tar -zvxf apache-tomcat-10.1.24.tar.gz -C tomcat/ --strip-components=1
-RUN cp milestone3/target/cse364-project.war tomcat/webapps/
-RUN mv frontend/ tomcat/webapps/
-RUN mv -f tomcat_configs/* tomcat/conf/
-RUN rm -rf frontend/ tomcat_configs
-RUN sh tomcat/bin/catalina.sh start
+RUN cp target/cse364-project.war tomcat/webapps/
+RUN mv ../frontend/ tomcat/webapps/
+RUN mv -f ../tomcat_configs/* tomcat/conf/
+RUN rm -rf ../frontend/ ../tomcat_configs
 
 # Expose the port your app runs on
 EXPOSE 8080
@@ -69,5 +65,7 @@ EXPOSE 8080
 # Expose the default MongoDB port
 EXPOSE 27017
 
+ADD run.sh run.sh
+
 # A container should execute a bash shell by default when the built image is launched.
-CMD [ "/bin/bash" ]
+CMD [ "/bin/bash", "run.sh" ]
