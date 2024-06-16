@@ -11,8 +11,7 @@
 2. Then, in the host machine, you can access our application in a web browser by visiting http://localhost:8080/
 
 
-## Our Main Page
-![Main page]("Recommendation page.png")
+## /recommendation
 
 ### How to Use recommendation?
 
