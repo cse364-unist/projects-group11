@@ -32,8 +32,10 @@ function fetchMovieList() {
         requestURL += ageList[i] + ',';
     }
     requestURL += '-1';
-    for (let i = 0; i < genresList.length; i++) {
+    if (genresList.length !== 0) {
         requestURL += ',';
+    }
+    for (let i = 0; i < genresList.length; i++) {
         requestURL += genresList[i];
         if (i + 1 !== genresList.length)
             requestURL += ',';
