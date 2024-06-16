@@ -33,6 +33,18 @@ class GiftController {
         return giftRepository.findAll();
     }
 
+    @GetMapping("/gifts/findmovie")
+    Movie findMovieById(@RequestParam("movieId") Long movieId) {
+        Movie shouldbereturned;
+        Optional<Movie> canbereturned = movieRepository.findById(movieId);
+        if (canbereturned.isPresent()) {
+            shouldbereturned = canbereturned.get();
+            return shouldbereturned;
+        } else {
+            throw new CannotFoundException("movie", movieId);
+        }
+    }
+
     // Input: curl -X GET "http://localhost:8080/gifts/search?keyword=toy"
     @GetMapping("/gifts/search")
     public Movie searchMovies(@RequestParam String keyword) {
