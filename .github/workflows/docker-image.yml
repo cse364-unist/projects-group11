@@ -15,4 +15,4 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag milestone3:$(date +%s)
+      run: docker build . --file Dockerfile-buildTest --tag milestone3:$(date +%s)
