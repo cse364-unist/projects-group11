@@ -13,7 +13,7 @@ function uploadGift() {
         type: "POST",
         url: requestURL, // 요청 url
         data: {},
-        success: function(response) {
+        success: function (response) {
             console.log(response);
             gift = response;
             showGift();
@@ -31,7 +31,7 @@ function fetchGift() {
         type: "GET",
         url: requestURL, // 요청 url
         data: {},
-        success: function(response) {
+        success: function (response) {
             console.log(response);
             gift = response;
             fetchMovie(gift);
@@ -39,6 +39,11 @@ function fetchGift() {
         error: function (response) {
             console.log('fetchGift failed');
             console.log(response);
+            movieTitle.append("The Gift Link is Invalid");
+            message.append("The Gift Link is Invalid");
+            expirationDate.append("The Gift Link is Invalid");
+            giftLink.append("The Gift Link is Invalid");
+            alert('The Gift Link is Invalid')
         }
     });
 }
@@ -63,10 +68,10 @@ function fetchMovie(gift) {
         type: "GET",
         url: requestURL, // 요청 url
         data: {},
-        success: function(response) {
+        success: function (response) {
             console.log(response);
             movie = response;
-            showGift(gift);
+            showGift(gift, movie);
         },
         error: function (response) {
             console.log('fetchMovie failed');
@@ -75,13 +80,13 @@ function fetchMovie(gift) {
     });
 }
 
-function showGift(gift) {
+function showGift(gift, movie) {
     // movieTitle.append(DUMMY_DATA.title);
     // message.append(DUMMY_DATA.message);
     // expirationDate.append("Expires at ", DUMMY_DATA.expirationDate);
     // giftLink.append(DUMMY_DATA.giftLink);
 
-    // movieTitle.append(data.movie.title);
+    movieTitle.append(movie.title);
     message.append(gift.message);
     expirationDate.append("Expires at ", gift.expireDate);
     giftLink.append(gift.giftId);
