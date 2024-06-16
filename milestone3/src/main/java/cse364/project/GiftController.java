@@ -77,7 +77,7 @@ class GiftController {
     //  The reason for commenting below is that it should not be directly update and delete with gifts' giftId
     //  Instead, when you approach giftId, if you connect the link after expireDate, that giftId should delete.
 
-    @PutMapping("/gifts/{giftId}")
+    @PutMapping("/gifts")
     Gift replaceGift(@RequestParam("giftId") String giftId) {
         return giftRepository.findById(giftId)
             .map(gift -> {
