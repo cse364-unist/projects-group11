@@ -26,6 +26,8 @@
 
 ## /comparison
 
+### How to Use
+
 - Click "Enter Movie Title" box next to "Movie" to enter the title of the movie.
 - When two movies on the database are selected, the "Submit" button is activated.
 - Press "Submit" button to go to the movie comparison page.
