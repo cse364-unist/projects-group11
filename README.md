@@ -10,6 +10,7 @@
 ```
 2. Then, in the host machine, you can access our application in a web browser by visiting http://localhost:8080/
 
+![Main page](Recommendation%20page.png)
 
 ## /recommendation
 
