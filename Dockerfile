@@ -68,4 +68,4 @@ EXPOSE 27017
 ADD run.sh run.sh
 
 # A container should execute a bash shell by default when the built image is launched.
-CMD [ "/bin/bash", "run.sh" ]
+ENTRYPOINT [ "/bin/bash", "run.sh" ]
